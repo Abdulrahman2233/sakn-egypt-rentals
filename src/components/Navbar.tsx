@@ -13,6 +13,7 @@ export const Navbar = () => {
     { path: "/properties", label: "العقارات" },
     { path: "/about", label: "من نحن" },
     { path: "/contact", label: "تواصل معنا" },
+    { path: "/admin", label: "لوحة التحكم" },
   ];
 
   return (

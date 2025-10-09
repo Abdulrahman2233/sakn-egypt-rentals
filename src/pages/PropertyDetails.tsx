@@ -107,7 +107,22 @@ const PropertyDetails = () => {
                       >
                         <Heart className={`h-5 w-5 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
                       </Button>
-                      <Button size="icon" variant="outline">
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        onClick={() => {
+                          if (navigator.share) {
+                            navigator.share({
+                              title: property.name,
+                              text: property.description,
+                              url: window.location.href,
+                            });
+                          } else {
+                            navigator.clipboard.writeText(window.location.href);
+                            alert('تم نسخ الرابط');
+                          }
+                        }}
+                      >
                         <Share2 className="h-5 w-5" />
                       </Button>
                     </div>
@@ -173,12 +188,21 @@ const PropertyDetails = () => {
                   </div>
 
                   <div className="space-y-3">
-                    <Button className="w-full gap-2" size="lg">
+                    <Button 
+                      className="w-full gap-2" 
+                      size="lg"
+                      onClick={() => window.location.href = `tel:${property.contact}`}
+                    >
                       <Phone className="h-5 w-5" />
                       اتصل الآن
                     </Button>
                     
-                    <Button variant="outline" className="w-full gap-2" size="lg">
+                    <Button 
+                      variant="outline" 
+                      className="w-full gap-2" 
+                      size="lg"
+                      onClick={() => window.location.href = `mailto:info@sakn-egypt.com?subject=استفسار عن ${property.name}`}
+                    >
                       <Mail className="h-5 w-5" />
                       أرسل رسالة
                     </Button>
