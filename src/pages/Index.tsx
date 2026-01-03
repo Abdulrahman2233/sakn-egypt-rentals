@@ -4,12 +4,22 @@ import { PropertyCard } from "@/components/PropertyCard";
 import { AreaCard } from "@/components/AreaCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Building2, Shield, Clock, Award, ChevronDown, MapPin, Home, Star } from "lucide-react";
+import { 
+  Search, Building2, Shield, Clock, Award, ChevronDown, MapPin, Home, Star,
+  Users, MessageSquare, Phone, CheckCircle2, ArrowLeft, Sparkles, TrendingUp,
+  ThumbsUp, Eye, HeartHandshake, BadgeCheck
+} from "lucide-react";
 import { mockProperties, alexandriaAreas } from "@/data/properties";
 import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Index = () => {
   const featuredProperties = mockProperties.filter(p => p.featured);
@@ -40,6 +50,11 @@ const Index = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
   };
 
+  const slideInRight = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+  };
+
   const features = [
     { icon: Building2, title: "آلاف العقارات", desc: "مجموعة واسعة من العقارات في جميع مناطق الإسكندرية" },
     { icon: Shield, title: "موثوق وآمن", desc: "جميع العقارات معتمدة ومفحوصة من قبل فريقنا" },
@@ -52,6 +67,87 @@ const Index = () => {
     { value: "40+", label: "منطقة" },
     { value: "1000+", label: "عميل سعيد" },
     { value: "200+", label: "وسيط معتمد" },
+  ];
+
+  const howItWorks = [
+    { 
+      step: "01", 
+      icon: Search, 
+      title: "ابحث عن عقارك", 
+      desc: "استخدم البحث المتقدم للعثور على العقار المناسب في المنطقة المفضلة لديك" 
+    },
+    { 
+      step: "02", 
+      icon: Eye, 
+      title: "شاهد التفاصيل", 
+      desc: "اطلع على الصور والمواصفات وتفاصيل الموقع والسعر" 
+    },
+    { 
+      step: "03", 
+      icon: Phone, 
+      title: "تواصل مع الوسيط", 
+      desc: "اتصل مباشرة أو أرسل رسالة للوسيط للترتيب للمعاينة" 
+    },
+    { 
+      step: "04", 
+      icon: HeartHandshake, 
+      title: "أتمم الصفقة", 
+      desc: "عاين العقار وأتمم التعاقد بسهولة وأمان" 
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: "أحمد محمود",
+      role: "مستأجر",
+      content: "وجدت شقتي المثالية في سيدي بشر خلال يومين فقط! الموقع سهل الاستخدام والتواصل مع الوسطاء سريع جداً.",
+      rating: 5,
+      image: "https://randomuser.me/api/portraits/men/32.jpg"
+    },
+    {
+      name: "سارة أحمد",
+      role: "مستأجرة",
+      content: "منصة ممتازة! تنوع كبير في العقارات والأسعار مناسبة. أنصح بها بشدة لكل من يبحث عن سكن في الإسكندرية.",
+      rating: 5,
+      image: "https://randomuser.me/api/portraits/women/44.jpg"
+    },
+    {
+      name: "محمد علي",
+      role: "وسيط عقاري",
+      content: "كوسيط، ساعدتني المنصة في الوصول لعملاء أكثر. نظام سهل ودعم فني ممتاز.",
+      rating: 5,
+      image: "https://randomuser.me/api/portraits/men/67.jpg"
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "هل الموقع مجاني للاستخدام؟",
+      answer: "نعم، البحث والتصفح مجاني تماماً للباحثين عن سكن. نحن نوفر لك تجربة بحث سهلة ومريحة دون أي رسوم."
+    },
+    {
+      question: "كيف أتواصل مع صاحب العقار؟",
+      answer: "يمكنك التواصل مباشرة مع الوسيط أو مالك العقار من خلال أرقام الهاتف المعروضة في صفحة تفاصيل العقار، أو عبر نموذج التواصل المباشر."
+    },
+    {
+      question: "هل العقارات المعروضة حقيقية؟",
+      answer: "نعم، نحرص على التحقق من جميع العقارات المعروضة. فريقنا يتابع ويراجع الإعلانات بشكل دوري لضمان مصداقيتها."
+    },
+    {
+      question: "كيف أضيف عقاري للإيجار؟",
+      answer: "إذا كنت وسيطاً أو مالكاً للعقار، يمكنك التسجيل كوسيط عقاري ثم إضافة عقاراتك بسهولة مع الصور والتفاصيل."
+    },
+    {
+      question: "هل يمكنني البحث بمنطقة محددة؟",
+      answer: "بالتأكيد! يمكنك استخدام البحث المتقدم لتحديد المنطقة، السعر، عدد الغرف، ونوع العقار للحصول على نتائج دقيقة."
+    },
+  ];
+
+  const advantages = [
+    { icon: BadgeCheck, title: "موثوقية عالية", desc: "جميع العقارات مفحوصة ومعتمدة" },
+    { icon: TrendingUp, title: "تحديث مستمر", desc: "عقارات جديدة تضاف يومياً" },
+    { icon: ThumbsUp, title: "سهولة الاستخدام", desc: "واجهة بسيطة ومريحة" },
+    { icon: Users, title: "مجتمع كبير", desc: "آلاف المستخدمين يثقون بنا" },
   ];
 
   return (
@@ -209,8 +305,63 @@ const Index = () => {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section className="py-12 md:py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-10 md:mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-3">
+              <Sparkles className="h-4 w-4" />
+              كيف يعمل الموقع
+            </span>
+            <h2 className="text-2xl md:text-4xl font-bold mb-3">أربع خطوات بسيطة</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">ابحث عن سكنك المثالي بكل سهولة من خلال خطوات بسيطة</p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {howItWorks.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="relative"
+                variants={fadeInUp}
+              >
+                {/* Connector Line */}
+                {index < howItWorks.length - 1 && (
+                  <div className="hidden lg:block absolute top-12 left-0 w-full h-0.5 bg-border -translate-x-1/2" />
+                )}
+                
+                <div className="relative bg-accent/30 rounded-2xl p-6 text-center hover:bg-accent/50 transition-colors">
+                  <div className="absolute -top-4 right-4 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">
+                    {item.step}
+                  </div>
+                  <motion.div 
+                    className="inline-flex p-4 bg-primary/10 rounded-2xl mb-4 mt-2"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <item.icon className="h-8 w-8 text-primary" />
+                  </motion.div>
+                  <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Featured Properties - Mobile Carousel Style */}
-      <section className="py-12 md:py-20">
+      <section className="py-12 md:py-20 bg-accent/30">
         <div className="container mx-auto px-4">
           <motion.div 
             className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
@@ -220,11 +371,18 @@ const Index = () => {
             variants={slideInLeft}
           >
             <div>
+              <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-2">
+                <Star className="h-4 w-4 fill-primary" />
+                عروض حصرية
+              </span>
               <h2 className="text-2xl md:text-3xl font-bold mb-2">عقارات مميزة</h2>
               <p className="text-muted-foreground text-sm md:text-base">أفضل العروض المتاحة الآن</p>
             </div>
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link to="/properties">عرض الكل</Link>
+            <Button asChild variant="outline" className="w-full sm:w-auto gap-2">
+              <Link to="/properties">
+                عرض الكل
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
             </Button>
           </motion.div>
           
@@ -266,8 +424,153 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
+      <section className="py-12 md:py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={slideInRight}
+            >
+              <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-3">
+                <Award className="h-4 w-4" />
+                لماذا تختارنا
+              </span>
+              <h2 className="text-2xl md:text-4xl font-bold mb-4">نحن نجعل البحث عن السكن سهلاً</h2>
+              <p className="text-muted-foreground mb-6">
+                منصة Sakn Egypt هي وجهتك الأولى للعثور على سكنك المثالي في الإسكندرية. نوفر لك تجربة بحث سهلة ومريحة مع ضمان الجودة والمصداقية.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {advantages.map((item, index) => (
+                  <motion.div 
+                    key={index}
+                    className="flex items-start gap-3 p-4 bg-accent/30 rounded-xl"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <item.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="relative"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={slideInLeft}
+            >
+              <div className="relative rounded-2xl overflow-hidden">
+                <img 
+                  src={heroBg} 
+                  alt="Alexandria cityscape" 
+                  className="w-full h-[300px] md:h-[400px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+                <div className="absolute bottom-6 right-6 left-6 text-white">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                      <Building2 className="h-8 w-8" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold">الإسكندرية</div>
+                      <div className="text-white/80 text-sm">أفضل مناطق السكن والإيجار</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Floating Card */}
+              <motion.div 
+                className="absolute -bottom-6 -left-6 bg-background rounded-xl shadow-xl p-4 hidden md:block"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-green-100 rounded-full">
+                    <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg">+200</div>
+                    <div className="text-xs text-muted-foreground">عميل جديد هذا الشهر</div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-12 md:py-20 bg-accent/30">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-10 md:mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-3">
+              <MessageSquare className="h-4 w-4" />
+              آراء العملاء
+            </span>
+            <h2 className="text-2xl md:text-4xl font-bold mb-3">ماذا يقول عملاؤنا</h2>
+            <p className="text-muted-foreground">تجارب حقيقية من مستخدمي المنصة</p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {testimonials.map((testimonial, index) => (
+              <motion.div 
+                key={index}
+                className="bg-background rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                variants={fadeInUp}
+                whileHover={{ y: -5 }}
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 text-secondary fill-secondary" />
+                  ))}
+                </div>
+                
+                <p className="text-muted-foreground mb-6 leading-relaxed">"{testimonial.content}"</p>
+                
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="font-semibold">{testimonial.name}</div>
+                    <div className="text-xs text-muted-foreground">{testimonial.role}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Areas - Mobile Optimized Grid */}
-      <section className="py-12 md:py-20 bg-gradient-to-b from-accent/30 to-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <motion.div 
             className="text-center mb-8 md:mb-12"
@@ -276,6 +579,10 @@ const Index = () => {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
+            <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-3">
+              <MapPin className="h-4 w-4" />
+              المناطق
+            </span>
             <h2 className="text-2xl md:text-3xl font-bold mb-2">استكشف مناطق الإسكندرية</h2>
             <p className="text-muted-foreground text-sm md:text-base">اختر المنطقة المفضلة لديك</p>
           </motion.div>
@@ -308,8 +615,71 @@ const Index = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-              <Link to="/properties">عرض جميع المناطق</Link>
+            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto gap-2">
+              <Link to="/properties">
+                عرض جميع المناطق
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-12 md:py-20 bg-accent/30">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-10 md:mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-3">
+              <MessageSquare className="h-4 w-4" />
+              الأسئلة الشائعة
+            </span>
+            <h2 className="text-2xl md:text-4xl font-bold mb-3">هل لديك سؤال؟</h2>
+            <p className="text-muted-foreground">إليك إجابات لأكثر الأسئلة شيوعاً</p>
+          </motion.div>
+
+          <motion.div 
+            className="max-w-3xl mx-auto"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <Accordion type="single" collapsible className="space-y-3">
+              {faqs.map((faq, index) => (
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`}
+                  className="bg-background rounded-xl px-6 border-0 shadow-sm"
+                >
+                  <AccordionTrigger className="text-right hover:no-underline py-5">
+                    <span className="font-semibold text-base">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-5">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </motion.div>
+
+          <motion.div 
+            className="text-center mt-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-muted-foreground mb-4">لم تجد إجابة لسؤالك؟</p>
+            <Button asChild variant="outline" className="gap-2">
+              <Link to="/contact">
+                <Phone className="h-4 w-4" />
+                تواصل معنا
+              </Link>
             </Button>
           </motion.div>
         </div>
@@ -340,9 +710,13 @@ const Index = () => {
           >
             انضم إلى منصتنا وابدأ في عرض عقاراتك لآلاف المستخدمين
           </motion.p>
-          <motion.div variants={fadeInUp}>
-            <Button size="lg" variant="secondary" className="gap-2 w-full sm:w-auto text-base px-8">
+          <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" variants={fadeInUp}>
+            <Button size="lg" variant="secondary" className="gap-2 text-base px-8">
               سجل كوسيط عقاري
+            </Button>
+            <Button size="lg" variant="outline" className="gap-2 text-base px-8 bg-transparent border-white text-white hover:bg-white/10">
+              <Phone className="h-4 w-4" />
+              اتصل بنا
             </Button>
           </motion.div>
         </motion.div>
