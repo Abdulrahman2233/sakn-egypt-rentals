@@ -1,102 +1,261 @@
-import { Building2, Menu, Phone, Heart, User } from "lucide-react";
+import { Building2, Menu, Phone, Heart, User, X, ChevronDown, Home, Building, Users, Mail, Settings } from "lucide-react";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "./ui/sheet";
 import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Navbar = () => {
   const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   
   const isActive = (path: string) => location.pathname === path;
   
   const navLinks = [
-    { path: "/", label: "الرئيسية" },
-    { path: "/properties", label: "العقارات" },
-    { path: "/about", label: "من نحن" },
-    { path: "/contact", label: "تواصل معنا" },
-    { path: "/admin", label: "لوحة التحكم" },
+    { path: "/", label: "الرئيسية", icon: Home },
+    { path: "/properties", label: "العقارات", icon: Building },
+    { path: "/about", label: "من نحن", icon: Users },
+    { path: "/contact", label: "تواصل معنا", icon: Mail },
+    { path: "/admin", label: "لوحة التحكم", icon: Settings },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Building2 className="h-8 w-8 text-primary" />
-            <div className="flex flex-col">
-              <span className="font-bold text-xl text-primary">Sakn Egypt</span>
-              <span className="text-xs text-muted-foreground">سكن مصر</span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.path) ? "text-primary" : "text-foreground"
-                }`}
+    <>
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled 
+            ? "bg-background/98 backdrop-blur-xl shadow-lg border-b border-border/50" 
+            : "bg-gradient-to-b from-background/80 to-transparent backdrop-blur-sm"
+        }`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <motion.div 
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative"
               >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+                <div className="absolute inset-0 bg-primary/20 rounded-xl blur-xl group-hover:bg-primary/30 transition-all duration-300" />
+                <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2.5 rounded-xl shadow-lg">
+                  <Building2 className="h-7 w-7 text-primary-foreground" />
+                </div>
+              </motion.div>
+              <div className="flex flex-col">
+                <span className="font-bold text-xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                  Sakn Egypt
+                </span>
+                <span className="text-[10px] text-muted-foreground font-medium tracking-wider">
+                  سكن مصر للعقارات
+                </span>
+              </div>
+            </Link>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="icon">
-              <Heart className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
-            <Button size="sm" className="gap-2">
-              <Phone className="h-4 w-4" />
-              <span>اتصل بنا</span>
-            </Button>
-          </div>
-
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px]">
-              <div className="flex flex-col gap-4 mt-8">
-                {navLinks.map((link) => (
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-1">
+              {navLinks.map((link, index) => (
+                <motion.div
+                  key={link.path}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
                   <Link
-                    key={link.path}
                     to={link.path}
-                    className={`text-lg font-medium transition-colors hover:text-primary p-3 rounded-lg ${
-                      isActive(link.path) ? "bg-accent text-primary" : ""
+                    className={`relative px-4 py-2.5 text-sm font-medium transition-all duration-300 rounded-xl group ${
+                      isActive(link.path) 
+                        ? "text-primary" 
+                        : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {link.label}
+                    <span className="relative z-10">{link.label}</span>
+                    {isActive(link.path) && (
+                      <motion.div
+                        layoutId="activeNav"
+                        className="absolute inset-0 bg-primary/10 rounded-xl"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    {!isActive(link.path) && (
+                      <span className="absolute inset-0 bg-accent/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    )}
                   </Link>
-                ))}
-                <div className="flex flex-col gap-2 mt-4">
-                  <Button variant="outline" className="w-full gap-2">
-                    <Heart className="h-4 w-4" />
-                    المفضلة
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center gap-2">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="rounded-xl hover:bg-accent/80 relative group"
+                >
+                  <Heart className="h-5 w-5 transition-colors group-hover:text-red-500" />
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-[10px] text-white rounded-full flex items-center justify-center font-medium">
+                    3
+                  </span>
+                </Button>
+              </motion.div>
+              
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="rounded-xl hover:bg-accent/80"
+                >
+                  <User className="h-5 w-5" />
+                </Button>
+              </motion.div>
+              
+              <motion.div 
+                whileHover={{ scale: 1.02 }} 
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button 
+                  size="sm" 
+                  className="gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/25 px-5"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>اتصل بنا</span>
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild className="lg:hidden">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="rounded-xl hover:bg-accent/80"
+                  >
+                    <Menu className="h-6 w-6" />
                   </Button>
-                  <Button variant="outline" className="w-full gap-2">
-                    <User className="h-4 w-4" />
-                    حسابي
-                  </Button>
-                  <Button className="w-full gap-2">
-                    <Phone className="h-4 w-4" />
-                    اتصل بنا
-                  </Button>
+                </motion.div>
+              </SheetTrigger>
+              <SheetContent 
+                side="right" 
+                className="w-[320px] p-0 bg-gradient-to-b from-background to-accent/20"
+              >
+                <div className="flex flex-col h-full">
+                  {/* Mobile Header */}
+                  <div className="p-6 border-b border-border/50">
+                    <div className="flex items-center justify-between">
+                      <Link to="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
+                        <div className="bg-gradient-to-br from-primary to-primary/80 p-2 rounded-xl">
+                          <Building2 className="h-6 w-6 text-primary-foreground" />
+                        </div>
+                        <div>
+                          <span className="font-bold text-lg text-primary">Sakn Egypt</span>
+                          <p className="text-[10px] text-muted-foreground">سكن مصر للعقارات</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Mobile Navigation */}
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <div className="space-y-1">
+                      {navLinks.map((link, index) => {
+                        const Icon = link.icon;
+                        return (
+                          <motion.div
+                            key={link.path}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                          >
+                            <Link
+                              to={link.path}
+                              onClick={() => setIsOpen(false)}
+                              className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 ${
+                                isActive(link.path) 
+                                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25" 
+                                  : "hover:bg-accent/80 text-foreground"
+                              }`}
+                            >
+                              <div className={`p-2 rounded-xl ${
+                                isActive(link.path) 
+                                  ? "bg-primary-foreground/20" 
+                                  : "bg-accent"
+                              }`}>
+                                <Icon className="h-5 w-5" />
+                              </div>
+                              <span className="font-medium text-base">{link.label}</span>
+                            </Link>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="mt-6 pt-6 border-t border-border/50">
+                      <p className="text-xs text-muted-foreground mb-3 px-2">إجراءات سريعة</p>
+                      <div className="grid grid-cols-2 gap-3">
+                        <motion.div whileTap={{ scale: 0.95 }}>
+                          <Button 
+                            variant="outline" 
+                            className="w-full rounded-xl h-auto py-4 flex-col gap-2 hover:bg-accent/80 border-border/50"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <Heart className="h-5 w-5 text-red-500" />
+                            <span className="text-xs">المفضلة</span>
+                          </Button>
+                        </motion.div>
+                        <motion.div whileTap={{ scale: 0.95 }}>
+                          <Button 
+                            variant="outline" 
+                            className="w-full rounded-xl h-auto py-4 flex-col gap-2 hover:bg-accent/80 border-border/50"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <User className="h-5 w-5 text-primary" />
+                            <span className="text-xs">حسابي</span>
+                          </Button>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mobile Footer */}
+                  <div className="p-4 border-t border-border/50 bg-background/50">
+                    <motion.div whileTap={{ scale: 0.98 }}>
+                      <Button 
+                        className="w-full gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/80 shadow-lg shadow-primary/25 h-12"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <Phone className="h-5 w-5" />
+                        <span className="font-medium">اتصل بنا الآن</span>
+                      </Button>
+                    </motion.div>
+                    <p className="text-center text-xs text-muted-foreground mt-3">
+                      متاحون على مدار الساعة
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </div>
-    </nav>
+      </motion.nav>
+      
+      {/* Spacer to prevent content from going under fixed navbar */}
+      <div className="h-20" />
+    </>
   );
 };
