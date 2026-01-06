@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { mockProperties, alexandriaAreas } from "@/data/properties";
 import { Link } from "react-router-dom";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroBg from "@/assets/hero-home.jpg";
 import { motion } from "framer-motion";
 import {
   Accordion,
