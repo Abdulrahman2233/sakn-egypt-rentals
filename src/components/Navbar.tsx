@@ -36,18 +36,13 @@ export const Navbar = () => {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="fixed top-0 left-0 right-0 z-50"
       >
-        {/* Main navbar background */}
+        {/* Main navbar background with seamless fade */}
         <div 
           className={`absolute inset-0 transition-all duration-500 ${
             isScrolled 
               ? "bg-primary shadow-xl" 
-              : "bg-gradient-to-r from-primary via-primary to-primary/95"
+              : "bg-transparent"
           }`}
-        />
-        
-        {/* Bottom fade overlay */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-b from-transparent to-background/30"
         />
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center justify-between h-20">
@@ -263,8 +258,7 @@ export const Navbar = () => {
         </div>
       </motion.nav>
       
-      {/* Spacer to prevent content from going under fixed navbar */}
-      <div className="h-20" />
+      {/* No spacer - navbar integrates seamlessly with content */}
     </>
   );
 };
