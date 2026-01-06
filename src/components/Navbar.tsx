@@ -34,13 +34,28 @@ export const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled 
-            ? "bg-background/98 backdrop-blur-xl shadow-lg border-b border-border/50" 
-            : "bg-gradient-to-b from-background/80 to-transparent backdrop-blur-sm"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50"
       >
-        <div className="container mx-auto px-4">
+        {/* Main navbar background with curved bottom */}
+        <div 
+          className={`absolute inset-0 transition-all duration-500 ${
+            isScrolled 
+              ? "bg-primary shadow-xl" 
+              : "bg-gradient-to-r from-primary via-primary to-primary/95"
+          }`}
+          style={{
+            clipPath: 'ellipse(75% 100% at 50% 0%)',
+          }}
+        />
+        
+        {/* Curved wave overlay for extra depth */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20"
+          style={{
+            clipPath: 'ellipse(75% 100% at 50% 0%)',
+          }}
+        />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
@@ -49,16 +64,16 @@ export const Navbar = () => {
                 whileTap={{ scale: 0.95 }}
                 className="relative"
               >
-                <div className="absolute inset-0 bg-primary/20 rounded-xl blur-xl group-hover:bg-primary/30 transition-all duration-300" />
-                <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2.5 rounded-xl shadow-lg">
-                  <Building2 className="h-7 w-7 text-primary-foreground" />
+                <div className="absolute inset-0 bg-white/20 rounded-xl blur-xl group-hover:bg-white/30 transition-all duration-300" />
+                <div className="relative bg-white/20 backdrop-blur-sm p-2.5 rounded-xl shadow-lg border border-white/30">
+                  <Building2 className="h-7 w-7 text-white" />
                 </div>
               </motion.div>
               <div className="flex flex-col">
-                <span className="font-bold text-xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                <span className="font-bold text-xl text-white">
                   Sakn Egypt
                 </span>
-                <span className="text-[10px] text-muted-foreground font-medium tracking-wider">
+                <span className="text-[10px] text-white/80 font-medium tracking-wider">
                   سكن مصر للعقارات
                 </span>
               </div>
@@ -77,20 +92,20 @@ export const Navbar = () => {
                     to={link.path}
                     className={`relative px-4 py-2.5 text-sm font-medium transition-all duration-300 rounded-xl group ${
                       isActive(link.path) 
-                        ? "text-primary" 
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "text-white" 
+                        : "text-white/70 hover:text-white"
                     }`}
                   >
                     <span className="relative z-10">{link.label}</span>
                     {isActive(link.path) && (
                       <motion.div
                         layoutId="activeNav"
-                        className="absolute inset-0 bg-primary/10 rounded-xl"
+                        className="absolute inset-0 bg-white/20 rounded-xl backdrop-blur-sm border border-white/30"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
                     {!isActive(link.path) && (
-                      <span className="absolute inset-0 bg-accent/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <span className="absolute inset-0 bg-white/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     )}
                   </Link>
                 </motion.div>
@@ -103,9 +118,9 @@ export const Navbar = () => {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="rounded-xl hover:bg-accent/80 relative group"
+                  className="rounded-xl hover:bg-white/20 relative group text-white"
                 >
-                  <Heart className="h-5 w-5 transition-colors group-hover:text-red-500" />
+                  <Heart className="h-5 w-5 transition-colors group-hover:text-red-400" />
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-[10px] text-white rounded-full flex items-center justify-center font-medium">
                     3
                   </span>
@@ -116,7 +131,7 @@ export const Navbar = () => {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="rounded-xl hover:bg-accent/80"
+                  className="rounded-xl hover:bg-white/20 text-white"
                 >
                   <User className="h-5 w-5" />
                 </Button>
@@ -128,7 +143,7 @@ export const Navbar = () => {
               >
                 <Button 
                   size="sm" 
-                  className="gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/25 px-5"
+                  className="gap-2 rounded-xl bg-white text-primary hover:bg-white/90 shadow-lg px-5 font-medium"
                 >
                   <Phone className="h-4 w-4" />
                   <span>اتصل بنا</span>
@@ -143,7 +158,7 @@ export const Navbar = () => {
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="rounded-xl hover:bg-accent/80"
+                    className="rounded-xl hover:bg-white/20 text-white"
                   >
                     <Menu className="h-6 w-6" />
                   </Button>
