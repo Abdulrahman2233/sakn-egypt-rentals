@@ -117,13 +117,15 @@ export const Navbar = () => {
               </motion.div>
               
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="rounded-xl hover:bg-white/20 text-white"
-                >
-                  <User className="h-5 w-5" />
-                </Button>
+                <Link to="/auth">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="rounded-xl hover:bg-white/20 text-white"
+                  >
+                    <User className="h-5 w-5" />
+                  </Button>
+                </Link>
               </motion.div>
               
               <motion.div 
