@@ -125,9 +125,12 @@ export type Database = {
           area: number | null
           bathrooms: number | null
           bedrooms: number | null
+          contact: string | null
           created_at: string
           description: string | null
           description_ar: string | null
+          floor: number | null
+          furnished: boolean | null
           id: string
           images: string[] | null
           is_featured: boolean | null
@@ -136,11 +139,14 @@ export type Database = {
           location_ar: string | null
           price: number
           property_type: string
+          rejection_reason: string | null
           status: string
           title: string
           title_ar: string | null
           updated_at: string
+          usage_type: string | null
           user_id: string
+          videos: string[] | null
           views_count: number | null
         }
         Insert: {
@@ -150,9 +156,12 @@ export type Database = {
           area?: number | null
           bathrooms?: number | null
           bedrooms?: number | null
+          contact?: string | null
           created_at?: string
           description?: string | null
           description_ar?: string | null
+          floor?: number | null
+          furnished?: boolean | null
           id?: string
           images?: string[] | null
           is_featured?: boolean | null
@@ -161,11 +170,14 @@ export type Database = {
           location_ar?: string | null
           price: number
           property_type?: string
+          rejection_reason?: string | null
           status?: string
           title: string
           title_ar?: string | null
           updated_at?: string
+          usage_type?: string | null
           user_id: string
+          videos?: string[] | null
           views_count?: number | null
         }
         Update: {
@@ -175,9 +187,12 @@ export type Database = {
           area?: number | null
           bathrooms?: number | null
           bedrooms?: number | null
+          contact?: string | null
           created_at?: string
           description?: string | null
           description_ar?: string | null
+          floor?: number | null
+          furnished?: boolean | null
           id?: string
           images?: string[] | null
           is_featured?: boolean | null
@@ -186,11 +201,14 @@ export type Database = {
           location_ar?: string | null
           price?: number
           property_type?: string
+          rejection_reason?: string | null
           status?: string
           title?: string
           title_ar?: string | null
           updated_at?: string
+          usage_type?: string | null
           user_id?: string
+          videos?: string[] | null
           views_count?: number | null
         }
         Relationships: []
