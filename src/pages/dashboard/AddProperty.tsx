@@ -19,9 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DashboardLayout from "@/components/DashboardLayout";
+import { getStoredProperties, saveProperties, type Property } from "@/data/mockData";
 
 const areas = [
   "القاهرة الجديدة",
@@ -108,8 +108,6 @@ const AddProperty = () => {
     const files = e.target.files;
     if (!files) return;
 
-    // For demo, we'll just store placeholder URLs
-    // In production, you'd upload to Supabase Storage
     Array.from(files).forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -142,13 +140,6 @@ const AddProperty = () => {
     setLoading(true);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error("يجب تسجيل الدخول أولاً");
-        navigate("/auth");
-        return;
-      }
-
       // Validate required fields
       if (!formData.title || !formData.location || !formData.price) {
         toast.error("يرجى ملء جميع الحقول المطلوبة");
@@ -156,8 +147,10 @@ const AddProperty = () => {
         return;
       }
 
-      const { error } = await supabase.from("user_properties").insert({
-        user_id: session.user.id,
+      // Create new property object
+      const newProperty: Property = {
+        id: `prop-${Date.now()}`,
+        user_id: "user-1",
         title: formData.title,
         title_ar: formData.title_ar || formData.title,
         location: formData.location,
@@ -165,8 +158,8 @@ const AddProperty = () => {
         price: parseFloat(formData.price),
         bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : 0,
         bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : 0,
-        area: formData.area ? parseFloat(formData.area) : null,
-        floor: formData.floor ? parseInt(formData.floor) : null,
+        area: formData.area ? parseFloat(formData.area) : undefined,
+        floor: formData.floor ? parseInt(formData.floor) : undefined,
         furnished: formData.furnished,
         usage_type: formData.usage_type,
         property_type: formData.property_type,
@@ -176,9 +169,18 @@ const AddProperty = () => {
         images: images,
         videos: videos,
         status: "pending",
-      });
+        views_count: 0,
+        is_featured: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
-      if (error) throw error;
+      // Get existing properties and add new one
+      const existingProperties = getStoredProperties();
+      saveProperties([newProperty, ...existingProperties]);
+
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast.success("تم إضافة العقار بنجاح! سيتم مراجعته قريباً");
       navigate("/dashboard/my-properties");
@@ -498,21 +500,22 @@ const AddProperty = () => {
                 <div className="space-y-2">
                   <Label htmlFor="contact" className="flex items-center gap-2">
                     <Phone className="h-4 w-4" />
-                    وسائل التواصل
+                    رقم التواصل
                   </Label>
                   <Input
                     id="contact"
                     name="contact"
                     value={formData.contact}
                     onChange={handleInputChange}
-                    placeholder="رقم الهاتف أو البريد الإلكتروني"
+                    placeholder="01xxxxxxxxx"
+                    dir="ltr"
                   />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Images */}
+          {/* Media Upload */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -522,79 +525,96 @@ const AddProperty = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <ImagePlus className="h-5 w-5 text-primary" />
-                  الصور
+                  الصور والفيديوهات
                 </CardTitle>
-                <CardDescription>أضف صور للعقار (يفضل صور واضحة وعالية الجودة)</CardDescription>
+                <CardDescription>أضف صوراً وفيديوهات للعقار</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
-                  {images.map((img, index) => (
-                    <div key={index} className="relative aspect-square rounded-xl overflow-hidden group">
-                      <img src={img} alt="" className="w-full h-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 left-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
-                  <label className="aspect-square rounded-xl border-2 border-dashed border-border hover:border-primary/50 cursor-pointer flex flex-col items-center justify-center gap-2 transition-colors">
-                    <Upload className="h-6 w-6 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">إضافة صورة</span>
+              <CardContent className="space-y-6">
+                {/* Images Upload */}
+                <div className="space-y-3">
+                  <Label>الصور</Label>
+                  <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-primary/50 transition-colors">
                     <input
                       type="file"
                       accept="image/*"
                       multiple
-                      className="hidden"
                       onChange={handleImageUpload}
+                      className="hidden"
+                      id="images-upload"
                     />
-                  </label>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Videos */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <Card className="border-border/50">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Video className="h-5 w-5 text-primary" />
-                  الفيديوهات
-                </CardTitle>
-                <CardDescription>أضف فيديوهات للعقار (اختياري)</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-                  {videos.map((vid, index) => (
-                    <div key={index} className="relative aspect-video rounded-xl overflow-hidden group bg-muted">
-                      <video src={vid} className="w-full h-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => removeVideo(index)}
-                        className="absolute top-2 left-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
+                    <label htmlFor="images-upload" className="cursor-pointer">
+                      <Upload className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
+                      <p className="text-muted-foreground">
+                        اضغط لرفع الصور أو اسحبها هنا
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        PNG, JPG حتى 10MB
+                      </p>
+                    </label>
+                  </div>
+                  {images.length > 0 && (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                      {images.map((img, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={img}
+                            alt={`Upload ${index + 1}`}
+                            className="w-full aspect-square object-cover rounded-lg"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeImage(index)}
+                            className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                  <label className="aspect-video rounded-xl border-2 border-dashed border-border hover:border-primary/50 cursor-pointer flex flex-col items-center justify-center gap-2 transition-colors">
-                    <Video className="h-6 w-6 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">إضافة فيديو</span>
+                  )}
+                </div>
+
+                {/* Videos Upload */}
+                <div className="space-y-3">
+                  <Label>الفيديوهات</Label>
+                  <div className="border-2 border-dashed border-border rounded-xl p-6 text-center hover:border-primary/50 transition-colors">
                     <input
                       type="file"
                       accept="video/*"
                       multiple
-                      className="hidden"
                       onChange={handleVideoUpload}
+                      className="hidden"
+                      id="videos-upload"
                     />
-                  </label>
+                    <label htmlFor="videos-upload" className="cursor-pointer">
+                      <Video className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
+                      <p className="text-muted-foreground">
+                        اضغط لرفع الفيديوهات أو اسحبها هنا
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        MP4, MOV حتى 100MB
+                      </p>
+                    </label>
+                  </div>
+                  {videos.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {videos.map((vid, index) => (
+                        <div key={index} className="relative group">
+                          <video
+                            src={vid}
+                            className="w-full aspect-video object-cover rounded-lg"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeVideo(index)}
+                            className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -604,19 +624,18 @@ const AddProperty = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-3"
+            transition={{ delay: 0.7 }}
           >
             <Button
               type="submit"
               size="lg"
-              className="flex-1 gap-2 shadow-lg shadow-primary/20"
+              className="w-full gap-2 shadow-lg shadow-primary/20"
               disabled={loading}
             >
               {loading ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  جاري الإرسال...
+                  جاري الإضافة...
                 </>
               ) : (
                 <>
@@ -624,15 +643,6 @@ const AddProperty = () => {
                   إضافة العقار
                 </>
               )}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              onClick={() => navigate("/dashboard")}
-              disabled={loading}
-            >
-              إلغاء
             </Button>
           </motion.div>
         </form>

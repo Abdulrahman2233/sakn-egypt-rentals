@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -6,10 +6,8 @@ import {
   Settings, LogOut, Menu, X, Home, User, ChevronLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
-import type { Tables } from "@/integrations/supabase/types";
+import { getStoredUser } from "@/data/mockData";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -51,46 +49,15 @@ const menuItems = [
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  
+  // Get mock user data
+  const user = getStoredUser();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-      setUser(session.user);
-      
-      // Fetch profile
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-      
-      if (profileData) setProfile(profileData);
-      setLoading(false);
-    };
-
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        navigate("/auth");
-      } else {
-        setUser(session.user);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    // Clear local storage
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user");
     toast.success("تم تسجيل الخروج بنجاح");
     navigate("/");
   };
@@ -101,14 +68,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     }
     return location.pathname.startsWith(path);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-muted/30" dir="rtl">
@@ -167,10 +126,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     </div>
                     <div>
                       <p className="font-semibold text-foreground text-sm">
-                        {profile?.full_name || user?.email?.split("@")[0]}
+                        {user?.full_name || "مستخدم"}
                       </p>
                       <p className="text-xs text-muted-foreground truncate max-w-[140px]">
-                        {user?.email}
+                        {user?.email || "user@example.com"}
                       </p>
                     </div>
                   </div>
@@ -255,14 +214,14 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <div className="p-4 border-b border-border">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-bold text-lg">
-                {profile?.full_name?.[0] || user?.email?.[0]?.toUpperCase()}
+                {user?.full_name?.[0] || "م"}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-foreground truncate">
-                  {profile?.full_name || "مستخدم"}
+                  {user?.full_name || "مستخدم"}
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {user?.email}
+                  {user?.email || "user@example.com"}
                 </p>
               </div>
             </div>

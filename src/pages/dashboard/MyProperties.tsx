@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Building2, Plus, Clock, CheckCircle2, XCircle,
   Eye, Edit, Trash2, MoreVertical, AlertCircle, Search,
-  Filter, ArrowUpDown
+  Filter
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -34,12 +34,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DashboardLayout from "@/components/DashboardLayout";
-import type { Tables } from "@/integrations/supabase/types";
-
-type Property = Tables<"user_properties">;
+import { getStoredProperties, saveProperties, initMockData, type Property } from "@/data/mockData";
 
 const MyProperties = () => {
   const navigate = useNavigate();
@@ -52,6 +49,7 @@ const MyProperties = () => {
   const [propertyToDelete, setPropertyToDelete] = useState<Property | null>(null);
 
   useEffect(() => {
+    initMockData();
     fetchProperties();
   }, []);
 
@@ -76,24 +74,10 @@ const MyProperties = () => {
   }, [properties, searchQuery, statusFilter]);
 
   const fetchProperties = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate("/auth");
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("user_properties")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      toast.error("حدث خطأ أثناء جلب العقارات");
-      console.error(error);
-    } else {
-      setProperties(data || []);
-    }
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const storedProperties = getStoredProperties();
+    setProperties(storedProperties);
     setLoading(false);
   };
 
@@ -101,14 +85,9 @@ const MyProperties = () => {
     if (!propertyToDelete) return;
 
     try {
-      const { error } = await supabase
-        .from("user_properties")
-        .delete()
-        .eq("id", propertyToDelete.id);
-
-      if (error) throw error;
-
-      setProperties((prev) => prev.filter((p) => p.id !== propertyToDelete.id));
+      const updatedProperties = properties.filter((p) => p.id !== propertyToDelete.id);
+      saveProperties(updatedProperties);
+      setProperties(updatedProperties);
       toast.success("تم حذف العقار بنجاح");
     } catch (error: any) {
       toast.error(error.message || "حدث خطأ أثناء الحذف");
@@ -424,7 +403,7 @@ const MyProperties = () => {
             <AlertDialogHeader>
               <AlertDialogTitle>هل أنت متأكد من الحذف؟</AlertDialogTitle>
               <AlertDialogDescription>
-                سيتم حذف العقار "{propertyToDelete?.title}" نهائياً ولا يمكن التراجع عن هذا الإجراء.
+                سيتم حذف العقار "{propertyToDelete?.title}" نهائياً. هذا الإجراء لا يمكن التراجع عنه.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="gap-2">
@@ -433,7 +412,7 @@ const MyProperties = () => {
                 onClick={handleDelete}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
-                حذف العقار
+                حذف
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
