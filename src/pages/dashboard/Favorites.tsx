@@ -4,54 +4,34 @@ import { Link } from "react-router-dom";
 import {
   Building2, Heart, Trash2, Eye, MapPin, BedDouble, Bath
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DashboardLayout from "@/components/DashboardLayout";
-import type { Tables } from "@/integrations/supabase/types";
-
-type Property = Tables<"user_properties">;
+import { getStoredFavorites, saveFavorites, initMockData, type Favorite, type Property } from "@/data/mockData";
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState<(Tables<"favorites"> & { property: Property })[]>([]);
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    initMockData();
     fetchFavorites();
   }, []);
 
   const fetchFavorites = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
-
-    const { data, error } = await supabase
-      .from("favorites")
-      .select(`
-        *,
-        property:user_properties(*)
-      `)
-      .eq("user_id", session.user.id)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error(error);
-    } else {
-      setFavorites((data as any) || []);
-    }
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const storedFavorites = getStoredFavorites();
+    setFavorites(storedFavorites);
     setLoading(false);
   };
 
-  const removeFavorite = async (favoriteId: string) => {
+  const removeFavorite = (favoriteId: string) => {
     try {
-      const { error } = await supabase
-        .from("favorites")
-        .delete()
-        .eq("id", favoriteId);
-
-      if (error) throw error;
-
-      setFavorites((prev) => prev.filter((f) => f.id !== favoriteId));
+      const updatedFavorites = favorites.filter((f) => f.id !== favoriteId);
+      saveFavorites(updatedFavorites);
+      setFavorites(updatedFavorites);
       toast.success("تم إزالة العقار من المفضلة");
     } catch (error: any) {
       toast.error(error.message || "حدث خطأ");

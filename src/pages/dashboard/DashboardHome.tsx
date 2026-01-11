@@ -8,32 +8,25 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "@/components/DashboardLayout";
-import type { Tables } from "@/integrations/supabase/types";
-
-type Property = Tables<"user_properties">;
+import { getStoredProperties, initMockData, type Property } from "@/data/mockData";
 
 const DashboardHome = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      const { data } = await supabase
-        .from("user_properties")
-        .select("*")
-        .eq("user_id", session.user.id)
-        .order("created_at", { ascending: false });
-
-      if (data) setProperties(data);
+    // Initialize mock data
+    initMockData();
+    
+    // Simulate API call delay
+    const timer = setTimeout(() => {
+      const storedProperties = getStoredProperties();
+      setProperties(storedProperties);
       setLoading(false);
-    };
+    }, 500);
 
-    fetchProperties();
+    return () => clearTimeout(timer);
   }, []);
 
   const stats = [

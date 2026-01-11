@@ -1,22 +1,19 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  User, Mail, Phone, Camera, Save, Loader2
+  User, Mail, Phone, Save, Loader2
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import DashboardLayout from "@/components/DashboardLayout";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
-import type { Tables } from "@/integrations/supabase/types";
+import { getStoredUser, saveUser, initMockData, type User as UserType } from "@/data/mockData";
 
 const Settings = () => {
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -27,31 +24,24 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      setUser(session.user);
-
-      const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      if (data) {
-        setProfile(data);
-        setFormData({
-          full_name: data.full_name || "",
-          phone: data.phone || "",
-          avatar_url: data.avatar_url || "",
-        });
-      }
-      setLoading(false);
-    };
-
+    initMockData();
     fetchProfile();
   }, []);
+
+  const fetchProfile = async () => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const storedUser = getStoredUser();
+    if (storedUser) {
+      setUser(storedUser);
+      setFormData({
+        full_name: storedUser.full_name || "",
+        phone: storedUser.phone || "",
+        avatar_url: storedUser.avatar_url || "",
+      });
+    }
+    setLoading(false);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,20 +53,19 @@ const Settings = () => {
     setSaving(true);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) throw new Error("Not authenticated");
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const { error } = await supabase
-        .from("profiles")
-        .update({
+      if (user) {
+        const updatedUser: UserType = {
+          ...user,
           full_name: formData.full_name,
           phone: formData.phone,
           avatar_url: formData.avatar_url,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", session.user.id);
-
-      if (error) throw error;
+        };
+        saveUser(updatedUser);
+        setUser(updatedUser);
+      }
 
       toast.success("تم حفظ التغييرات بنجاح");
     } catch (error: any) {
