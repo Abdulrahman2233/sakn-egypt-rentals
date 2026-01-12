@@ -44,6 +44,14 @@ export interface User {
   full_name?: string;
   phone?: string;
   avatar_url?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  bio?: string;
+  job_title?: string;
+  company?: string;
+  website?: string;
+  birth_date?: string;
 }
 
 export interface Favorite {
