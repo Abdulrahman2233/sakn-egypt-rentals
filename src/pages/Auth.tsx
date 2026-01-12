@@ -5,8 +5,9 @@ import { Building2, Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, Sparkles, 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { authApi } from "@/services/api";
+import { getStoredUser, saveUser, delay } from "@/data/mockData";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -22,23 +23,11 @@ const Auth = () => {
   });
 
   useEffect(() => {
-    // Check if user is already logged in
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/dashboard");
-      }
-    };
-    checkUser();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        navigate("/dashboard");
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    // Check if user is already logged in (using localStorage)
+    const user = getStoredUser();
+    if (user && authApi.isAuthenticated()) {
+      navigate("/dashboard");
+    }
   }, [navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,47 +42,41 @@ const Auth = () => {
     setLoading(true);
 
     try {
+      // Simulate API delay
+      await delay(1000);
+
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
+        // For demo: accept any credentials and log in with mock user
+        // In production, this will call Django API: authApi.login(email, password)
+        const mockUserData = {
+          id: "user-1",
           email: formData.email,
-          password: formData.password,
-        });
+          full_name: "محمد أحمد",
+          phone: "01012345678",
+        };
         
-        if (error) {
-          if (error.message === "Invalid login credentials") {
-            toast.error("بيانات تسجيل الدخول غير صحيحة");
-          } else {
-            toast.error(error.message);
-          }
-          return;
-        }
+        // Save to localStorage
+        localStorage.setItem("auth_token", "mock_token_" + Date.now());
+        saveUser(mockUserData);
         
         toast.success("تم تسجيل الدخول بنجاح!");
+        navigate("/dashboard");
       } else {
-        const redirectUrl = `${window.location.origin}/`;
-        
-        const { error } = await supabase.auth.signUp({
+        // For demo: create account with provided data
+        // In production, this will call Django API: authApi.signup(data)
+        const newUser = {
+          id: "user-" + Date.now(),
           email: formData.email,
-          password: formData.password,
-          options: {
-            emailRedirectTo: redirectUrl,
-            data: {
-              full_name: formData.fullName,
-              phone: formData.phone,
-            },
-          },
-        });
+          full_name: formData.fullName,
+          phone: formData.phone,
+        };
         
-        if (error) {
-          if (error.message.includes("already registered")) {
-            toast.error("هذا البريد الإلكتروني مسجل بالفعل");
-          } else {
-            toast.error(error.message);
-          }
-          return;
-        }
+        // Save to localStorage
+        localStorage.setItem("auth_token", "mock_token_" + Date.now());
+        saveUser(newUser);
         
         toast.success("تم إنشاء الحساب بنجاح!");
+        navigate("/dashboard");
       }
     } catch (error: any) {
       toast.error("حدث خطأ غير متوقع");
