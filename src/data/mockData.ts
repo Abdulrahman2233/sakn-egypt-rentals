@@ -136,6 +136,9 @@ export const getStoredProperties = (): Property[] => {
   return stored ? JSON.parse(stored) : mockProperties;
 };
 
+// Alias for getMockProperties
+export const getMockProperties = getStoredProperties;
+
 // Save properties to localStorage
 export const saveProperties = (properties: Property[]) => {
   localStorage.setItem(PROPERTIES_KEY, JSON.stringify(properties));
