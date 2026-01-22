@@ -2,7 +2,7 @@ import { Property } from "@/data/properties";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Bed, Bath, Maximize2, MapPin, Heart, Phone } from "lucide-react";
+import { Bed, Bath, Maximize2, MapPin, Heart, Phone, Percent } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -29,9 +29,23 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
           />
           <div className="card-gradient-overlay absolute inset-0" />
           
-          {/* Featured Badge */}
+          {/* Discount Badge */}
+          {property.discount && property.discount > 0 && (
+            <motion.div
+              initial={{ scale: 0, rotate: -15 }}
+              animate={{ scale: 1, rotate: 0 }}
+              className="absolute top-3 left-3 z-10"
+            >
+              <Badge className="bg-gradient-to-r from-red-500 to-rose-600 text-white border-0 shadow-lg px-2 py-1 text-xs font-bold flex items-center gap-1">
+                <Percent className="h-3 w-3" />
+                <span>خصم {property.discount}%</span>
+              </Badge>
+            </motion.div>
+          )}
+          
+          {/* Featured Badge - positioned after discount if exists */}
           {property.featured && (
-            <Badge className="absolute top-3 left-3 bg-secondary text-secondary-foreground text-xs">
+            <Badge className={`absolute ${property.discount ? 'top-10' : 'top-3'} left-3 bg-secondary text-secondary-foreground text-xs`}>
               مميز
             </Badge>
           )}
@@ -52,13 +66,34 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
           {/* Price */}
           <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
             <div className="bg-background/95 backdrop-blur-sm px-3 py-1.5 rounded-lg">
-              <div className="flex items-baseline gap-1">
-                <span className="text-lg sm:text-xl md:text-2xl font-bold text-primary">
-                  {property.price.toLocaleString()}
-                </span>
-                <span className="text-xs text-muted-foreground">جنيه/شهر</span>
+              <div className="flex flex-col">
+                {/* Original Price if discount exists */}
+                {property.originalPrice && property.discount && (
+                  <span className="text-xs text-muted-foreground line-through">
+                    {property.originalPrice.toLocaleString()} جنيه
+                  </span>
+                )}
+                <div className="flex items-baseline gap-1">
+                  <span className={`text-lg sm:text-xl md:text-2xl font-bold ${property.discount ? 'text-red-500' : 'text-primary'}`}>
+                    {property.price.toLocaleString()}
+                  </span>
+                  <span className="text-xs text-muted-foreground">جنيه/شهر</span>
+                </div>
               </div>
             </div>
+            
+            {/* Savings Badge */}
+            {property.originalPrice && property.discount && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="bg-green-500/90 backdrop-blur-sm px-2 py-1 rounded-lg"
+              >
+                <span className="text-xs text-white font-medium">
+                  وفّر {(property.originalPrice - property.price).toLocaleString()} جنيه
+                </span>
+              </motion.div>
+            )}
           </div>
         </div>
 
@@ -91,6 +126,11 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
 
             {/* Tags - Scrollable on mobile */}
             <div className="flex gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide">
+              {property.discount && (
+                <Badge variant="destructive" className="text-xs flex-shrink-0 animate-pulse">
+                  عرض خاص
+                </Badge>
+              )}
               <Badge variant="outline" className="text-xs flex-shrink-0">{property.type}</Badge>
               <Badge variant="outline" className="text-xs flex-shrink-0">
                 {property.furnished ? "مفروشة" : "غير مفروشة"}
