@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PropertyCard } from "@/components/PropertyCard";
+import StudentOfferModal from "@/components/StudentOfferModal";
 import { AreaCard } from "@/components/AreaCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -225,6 +226,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col" dir="rtl">
+      <StudentOfferModal />
       <Navbar />
 
       {/* Hero Section - Enhanced for Mobile */}
