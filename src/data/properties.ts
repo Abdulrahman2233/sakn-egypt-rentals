@@ -5,6 +5,8 @@ export interface Property {
   area: string;
   address: string;
   price: number;
+  originalPrice?: number; // السعر الأصلي قبل الخصم
+  discount?: number; // نسبة الخصم
   rooms: number;
   bathrooms: number;
   size: number;
@@ -38,6 +40,8 @@ export const mockProperties: Property[] = [
     area: "سيدي بشر",
     address: "شارع الجيش، سيدي بشر، الإسكندرية",
     price: 8500,
+    originalPrice: 10000,
+    discount: 15,
     rooms: 3,
     bathrooms: 2,
     size: 150,
@@ -78,6 +82,8 @@ export const mockProperties: Property[] = [
     area: "جليم",
     address: "كورنيش جليم، الإسكندرية",
     price: 15000,
+    originalPrice: 18000,
+    discount: 20,
     rooms: 4,
     bathrooms: 3,
     size: 250,
@@ -118,6 +124,8 @@ export const mockProperties: Property[] = [
     area: "ميامي",
     address: "شارع النصر، ميامي، الإسكندرية",
     price: 12000,
+    originalPrice: 14000,
+    discount: 14,
     rooms: 5,
     bathrooms: 3,
     size: 300,
