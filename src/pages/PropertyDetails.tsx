@@ -22,6 +22,31 @@ const PropertyDetails = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [showAllImages, setShowAllImages] = useState(false);
+
+  const features = [
+    { icon: Bed, label: "غرف", value: property?.rooms || 0 },
+    { icon: Bath, label: "حمامات", value: property?.bathrooms || 0 },
+    { icon: Maximize2, label: "المساحة", value: `${property?.size || 0} م²` },
+    { icon: Building2, label: "الطابق", value: property?.floor || "-" },
+  ];
+
+  const amenities = [
+    "تكييف مركزي",
+    "مطبخ مجهز",
+    "إنترنت فائق السرعة",
+    "موقف سيارات",
+    "أمن 24 ساعة",
+    "مصعد",
+    "غسالة ملابس",
+    "سخان مياه",
+  ];
+
+  const trustBadges = [
+    { icon: Shield, title: "عقار موثق", desc: "تم التحقق من البيانات", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { icon: Clock, title: "استجابة سريعة", desc: "يرد خلال ساعة", color: "text-blue-500", bg: "bg-blue-500/10" },
+    { icon: Star, title: "تقييم ممتاز", desc: "4.8 من 5 نجوم", color: "text-amber-500", bg: "bg-amber-500/10" },
+  ];
 
   if (!property) {
     return (
@@ -47,188 +72,264 @@ const PropertyDetails = () => {
     );
   }
 
-  const features = [
-    { icon: Bed, label: "غرف", value: property.rooms },
-    { icon: Bath, label: "حمامات", value: property.bathrooms },
-    { icon: Maximize2, label: "المساحة", value: `${property.size} م²` },
-    { icon: Building2, label: "الطابق", value: property.floor },
-  ];
-
-  const amenities = [
-    "تكييف مركزي",
-    "مطبخ مجهز",
-    "إنترنت فائق السرعة",
-    "موقف سيارات",
-    "أمن 24 ساعة",
-    "مصعد",
-    "غسالة ملابس",
-    "سخان مياه",
-  ];
-
-  const trustBadges = [
-    { icon: Shield, title: "عقار موثق", desc: "تم التحقق من البيانات", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-    { icon: Clock, title: "استجابة سريعة", desc: "يرد خلال ساعة", color: "text-blue-500", bg: "bg-blue-500/10" },
-    { icon: Star, title: "تقييم ممتاز", desc: "4.8 من 5 نجوم", color: "text-amber-500", bg: "bg-amber-500/10" },
-  ];
-
-  const nextImage = () => {
-    setActiveImage((prev) => (prev + 1) % property.images.length);
-  };
-
-  const prevImage = () => {
-    setActiveImage((prev) => (prev - 1 + property.images.length) % property.images.length);
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <Navbar />
       
       <main className="flex-1">
-        {/* Hero Image Section */}
-        <section className="relative">
-          <div className="relative h-[280px] sm:h-[380px] lg:h-[480px] bg-muted overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={activeImage}
-                initial={{ opacity: 0, scale: 1.05 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                src={property.images[activeImage]}
+        {/* Breadcrumb */}
+        <div className="bg-muted/50 border-b border-border">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center gap-2 text-sm">
+              <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
+                الرئيسية
+              </Link>
+              <ChevronLeft className="h-4 w-4 text-muted-foreground" />
+              <Link to="/properties" className="text-muted-foreground hover:text-primary transition-colors">
+                العقارات
+              </Link>
+              <ChevronLeft className="h-4 w-4 text-muted-foreground" />
+              <span className="text-foreground font-medium truncate max-w-[200px]">{property.name}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Image Gallery Grid */}
+        <section className="container mx-auto px-4 py-4 lg:py-6">
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-4 md:grid-rows-2 gap-2 h-[400px] lg:h-[480px] rounded-2xl overflow-hidden">
+            {/* Main Image */}
+            <motion.div 
+              className="col-span-2 row-span-2 relative cursor-pointer group"
+              onClick={() => setActiveImage(0)}
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img
+                src={property.images[0]}
                 alt={property.name}
                 className="w-full h-full object-cover"
               />
-            </AnimatePresence>
-            
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
-            
-            {/* Top Navigation */}
-            <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="rounded-full bg-white/95 hover:bg-white shadow-lg backdrop-blur-sm h-10 w-10"
-                asChild
-              >
-                <Link to="/properties">
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-
-              <div className="flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full bg-white/95 hover:bg-white shadow-lg backdrop-blur-sm h-10 w-10"
-                  onClick={() => setIsFavorite(!isFavorite)}
-                >
-                  <Heart className={`h-5 w-5 transition-all ${isFavorite ? "fill-red-500 text-red-500 scale-110" : ""}`} />
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full bg-white/95 hover:bg-white shadow-lg backdrop-blur-sm h-10 w-10"
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: property.name,
-                        text: property.description,
-                        url: window.location.href,
-                      });
-                    } else {
-                      navigator.clipboard.writeText(window.location.href);
-                    }
-                  }}
-                >
-                  <Share2 className="h-5 w-5" />
-                </Button>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+              
+              {/* Badges */}
+              <div className="absolute top-4 right-4 flex flex-wrap gap-2">
+                {property.featured && (
+                  <Badge className="bg-primary text-primary-foreground shadow-lg">
+                    <Star className="h-3 w-3 ml-1" />
+                    مميز
+                  </Badge>
+                )}
+                {property.discount && (
+                  <Badge className="bg-destructive text-destructive-foreground shadow-lg">
+                    <Tag className="h-3 w-3 ml-1" />
+                    خصم {property.discount}%
+                  </Badge>
+                )}
               </div>
+            </motion.div>
+
+            {/* Secondary Images */}
+            {property.images.slice(1, 5).map((image, index) => (
+              <motion.div
+                key={index}
+                className="relative cursor-pointer group"
+                onClick={() => setActiveImage(index + 1)}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <img
+                  src={image}
+                  alt={`صورة ${index + 2}`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                
+                {/* Show More Overlay */}
+                {index === 3 && property.images.length > 5 && (
+                  <div 
+                    className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer hover:bg-black/60 transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAllImages(true);
+                    }}
+                  >
+                    <div className="text-center text-white">
+                      <div className="text-2xl font-bold">+{property.images.length - 5}</div>
+                      <div className="text-sm">عرض الكل</div>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mobile Slider */}
+          <div className="md:hidden relative">
+            <div className="relative h-[280px] rounded-xl overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeImage}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  src={property.images[activeImage]}
+                  alt={property.name}
+                  className="w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              {/* Badges */}
+              <div className="absolute top-3 right-3 flex flex-wrap gap-2">
+                {property.featured && (
+                  <Badge className="bg-primary text-primary-foreground shadow-lg text-xs">
+                    <Star className="h-3 w-3 ml-1" />
+                    مميز
+                  </Badge>
+                )}
+                {property.discount && (
+                  <Badge className="bg-destructive text-destructive-foreground shadow-lg text-xs">
+                    خصم {property.discount}%
+                  </Badge>
+                )}
+              </div>
+
+              {/* Image Counter */}
+              <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm rounded-full px-2.5 py-1 text-white text-xs">
+                {activeImage + 1} / {property.images.length}
+              </div>
+
+              {/* Navigation Arrows */}
+              {property.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setActiveImage((prev) => (prev - 1 + property.images.length) % property.images.length)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setActiveImage((prev) => (prev + 1) % property.images.length)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                </>
+              )}
             </div>
 
-            {/* Navigation Arrows */}
-            {property.images.length > 1 && (
-              <>
+            {/* Mobile Thumbnails */}
+            <div className="flex gap-2 mt-3 overflow-x-auto scrollbar-hide pb-1">
+              {property.images.map((image, index) => (
                 <button
-                  onClick={prevImage}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center transition-all z-10 backdrop-blur-sm"
+                  key={index}
+                  onClick={() => setActiveImage(index)}
+                  className={`flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden transition-all ${
+                    activeImage === index
+                      ? "ring-2 ring-primary"
+                      : "opacity-60 hover:opacity-100"
+                  }`}
                 >
-                  <ChevronRight className="h-5 w-5" />
+                  <img
+                    src={image}
+                    alt={`صورة ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white shadow-lg flex items-center justify-center transition-all z-10 backdrop-blur-sm"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-              </>
-            )}
-
-            {/* Bottom Info Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-              <div className="flex items-end justify-between gap-4">
-                {/* Badges & Title */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {property.featured && (
-                      <Badge className="bg-primary text-primary-foreground shadow-lg">
-                        <Star className="h-3 w-3 ml-1" />
-                        مميز
-                      </Badge>
-                    )}
-                    {property.discount && (
-                      <Badge className="bg-red-500 text-white shadow-lg">
-                        <Tag className="h-3 w-3 ml-1" />
-                        خصم {property.discount}%
-                      </Badge>
-                    )}
-                    <Badge className="bg-white/20 text-white backdrop-blur-sm border-0">
-                      {property.type}
-                    </Badge>
-                  </div>
-                  <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 truncate drop-shadow-lg">
-                    {property.name}
-                  </h1>
-                  <div className="flex items-center gap-1.5 text-white/90 text-sm">
-                    <MapPin className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{property.area}</span>
-                  </div>
-                </div>
-
-                {/* Image Counter */}
-                <div className="bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-sm flex-shrink-0">
-                  {activeImage + 1} / {property.images.length}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Thumbnail Strip */}
-          <div className="bg-muted/30 border-b border-border">
-            <div className="container mx-auto px-4">
-              <div className="flex gap-2 overflow-x-auto py-3 scrollbar-hide">
-                {property.images.map((image, index) => (
-                  <motion.button
-                    key={index}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setActiveImage(index)}
-                    className={`relative flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden transition-all ${
-                      activeImage === index 
-                        ? "ring-2 ring-primary ring-offset-2 ring-offset-background" 
-                        : "opacity-60 hover:opacity-100"
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`صورة ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.button>
-                ))}
-              </div>
+          {/* Action Buttons */}
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                onClick={() => setIsFavorite(!isFavorite)}
+              >
+                <Heart className={`h-4 w-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
+                <span className="hidden sm:inline">{isFavorite ? "تم الحفظ" : "حفظ"}</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: property.name,
+                      text: property.description,
+                      url: window.location.href,
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                  }
+                }}
+              >
+                <Share2 className="h-4 w-4" />
+                <span className="hidden sm:inline">مشاركة</span>
+              </Button>
             </div>
+            
+            {property.images.length > 5 && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 hidden md:flex"
+                onClick={() => setShowAllImages(true)}
+              >
+                <Eye className="h-4 w-4" />
+                عرض كل الصور ({property.images.length})
+              </Button>
+            )}
           </div>
         </section>
+
+        {/* Full Gallery Modal */}
+        <AnimatePresence>
+          {showAllImages && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/95 z-50 overflow-y-auto"
+            >
+              <div className="container mx-auto px-4 py-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-white text-lg font-bold">جميع الصور ({property.images.length})</h3>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/20"
+                    onClick={() => setShowAllImages(false)}
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {property.images.map((image, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="aspect-video rounded-xl overflow-hidden"
+                    >
+                      <img
+                        src={image}
+                        alt={`صورة ${index + 1}`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-5 lg:py-8">
