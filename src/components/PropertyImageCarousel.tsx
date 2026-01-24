@@ -74,138 +74,136 @@ export const PropertyImageCarousel = ({
 
   return (
     <>
-      <section className="container mx-auto px-4 py-4 lg:py-6">
-        {/* Main Carousel */}
-        <div className="relative rounded-2xl overflow-hidden bg-muted">
-          <Carousel
-            setApi={setApi}
-            opts={{
-              loop: true,
-              align: "start",
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-0">
-              {images.map((image, index) => (
-                <CarouselItem key={index} className="pl-0">
-                  <motion.div
-                    className="relative h-[300px] sm:h-[400px] lg:h-[500px] cursor-pointer group"
-                    onClick={() => openFullscreen(index)}
-                    whileTap={{ scale: 0.99 }}
-                  >
-                    <img
-                      src={image}
-                      alt={`${propertyName} - صورة ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
-                        <ZoomIn className="h-6 w-6 text-foreground" />
-                      </div>
-                    </div>
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-
-            {/* Navigation Arrows */}
-            {images.length > 1 && (
-              <>
-                <button
-                  onClick={scrollPrev}
-                  className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center hover:bg-white transition-colors z-10"
-                  aria-label="الصورة السابقة"
-                >
-                  <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
-                </button>
-                <button
-                  onClick={scrollNext}
-                  className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center hover:bg-white transition-colors z-10"
-                  aria-label="الصورة التالية"
-                >
-                  <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
-                </button>
-              </>
-            )}
-
-            {/* Badges */}
-            <div className="absolute top-4 right-4 flex flex-wrap gap-2 z-10">
-              {featured && (
-                <Badge className="bg-primary text-primary-foreground shadow-lg">
-                  <Star className="h-3 w-3 ml-1" />
-                  مميز
-                </Badge>
-              )}
-              {discount && (
-                <Badge className="bg-destructive text-destructive-foreground shadow-lg">
-                  <Tag className="h-3 w-3 ml-1" />
-                  خصم {discount}%
-                </Badge>
-              )}
-            </div>
-
-            {/* Image Counter */}
-            <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-sm font-medium z-10">
-              {current + 1} / {images.length}
-            </div>
-
-            {/* View All Button */}
-            <button
-              onClick={() => openFullscreen(0)}
-              className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm font-medium shadow-lg hover:bg-white transition-colors z-10 flex items-center gap-2"
-            >
-              <Eye className="h-4 w-4" />
-              عرض الكل
-            </button>
-          </Carousel>
-        </div>
-
-        {/* Thumbnail Strip */}
-        <div className="mt-3 overflow-hidden">
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+      {/* Main Carousel */}
+      <div className="relative rounded-2xl overflow-hidden bg-muted">
+        <Carousel
+          setApi={setApi}
+          opts={{
+            loop: true,
+            align: "start",
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-0">
             {images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => api?.scrollTo(index)}
-                className={`flex-shrink-0 w-20 h-14 sm:w-24 sm:h-16 rounded-lg overflow-hidden transition-all ${
-                  current === index
-                    ? "ring-2 ring-primary ring-offset-2"
-                    : "opacity-60 hover:opacity-100"
-                }`}
-              >
-                <img
-                  src={image}
-                  alt={`صورة مصغرة ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </button>
+              <CarouselItem key={index} className="pl-0">
+                <motion.div
+                  className="relative h-[280px] sm:h-[320px] lg:h-[400px] cursor-pointer group"
+                  onClick={() => openFullscreen(index)}
+                  whileTap={{ scale: 0.99 }}
+                >
+                  <img
+                    src={image}
+                    alt={`${propertyName} - صورة ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+                      <ZoomIn className="h-6 w-6 text-foreground" />
+                    </div>
+                  </div>
+                </motion.div>
+              </CarouselItem>
             ))}
-          </div>
-        </div>
+          </CarouselContent>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2 mt-4">
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2"
-            onClick={() => setIsFavorite(!isFavorite)}
+          {/* Navigation Arrows */}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={scrollPrev}
+                className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center hover:bg-white transition-colors z-10"
+                aria-label="الصورة السابقة"
+              >
+                <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
+              </button>
+              <button
+                onClick={scrollNext}
+                className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 backdrop-blur-sm shadow-lg flex items-center justify-center hover:bg-white transition-colors z-10"
+                aria-label="الصورة التالية"
+              >
+                <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
+              </button>
+            </>
+          )}
+
+          {/* Badges */}
+          <div className="absolute top-4 right-4 flex flex-wrap gap-2 z-10">
+            {featured && (
+              <Badge className="bg-primary text-primary-foreground shadow-lg">
+                <Star className="h-3 w-3 ml-1" />
+                مميز
+              </Badge>
+            )}
+            {discount && (
+              <Badge className="bg-destructive text-destructive-foreground shadow-lg">
+                <Tag className="h-3 w-3 ml-1" />
+                خصم {discount}%
+              </Badge>
+            )}
+          </div>
+
+          {/* Image Counter */}
+          <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-sm font-medium z-10">
+            {current + 1} / {images.length}
+          </div>
+
+          {/* View All Button */}
+          <button
+            onClick={() => openFullscreen(0)}
+            className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm font-medium shadow-lg hover:bg-white transition-colors z-10 flex items-center gap-2"
           >
-            <Heart className={`h-4 w-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
-            <span className="hidden sm:inline">{isFavorite ? "تم الحفظ" : "حفظ"}</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2"
-            onClick={handleShare}
-          >
-            <Share2 className="h-4 w-4" />
-            <span className="hidden sm:inline">مشاركة</span>
-          </Button>
+            <Eye className="h-4 w-4" />
+            عرض الكل
+          </button>
+        </Carousel>
+      </div>
+
+      {/* Thumbnail Strip */}
+      <div className="mt-3 overflow-hidden">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+          {images.map((image, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={`flex-shrink-0 w-16 h-11 sm:w-20 sm:h-14 rounded-lg overflow-hidden transition-all ${
+                current === index
+                  ? "ring-2 ring-primary ring-offset-2"
+                  : "opacity-60 hover:opacity-100"
+              }`}
+            >
+              <img
+                src={image}
+                alt={`صورة مصغرة ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
         </div>
-      </section>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex items-center gap-2 mt-3">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => setIsFavorite(!isFavorite)}
+        >
+          <Heart className={`h-4 w-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
+          <span className="hidden sm:inline">{isFavorite ? "تم الحفظ" : "حفظ"}</span>
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={handleShare}
+        >
+          <Share2 className="h-4 w-4" />
+          <span className="hidden sm:inline">مشاركة</span>
+        </Button>
+      </div>
 
       {/* Fullscreen Gallery Modal */}
       <AnimatePresence>

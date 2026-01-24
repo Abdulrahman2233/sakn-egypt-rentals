@@ -95,16 +95,104 @@ const PropertyDetails = () => {
           </div>
         </div>
 
-        {/* Professional Image Carousel */}
-        <PropertyImageCarousel 
-          images={property.images}
-          propertyName={property.name}
-          featured={property.featured}
-          discount={property.discount}
-          isFavorite={isFavorite}
-          setIsFavorite={setIsFavorite}
-          description={property.description}
-        />
+        {/* Hero Section - Carousel + Info Card */}
+        <section className="container mx-auto px-4 py-4 lg:py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-6">
+            {/* Carousel - Takes 3/5 on desktop */}
+            <div className="lg:col-span-3">
+              <PropertyImageCarousel 
+                images={property.images}
+                propertyName={property.name}
+                featured={property.featured}
+                discount={property.discount}
+                isFavorite={isFavorite}
+                setIsFavorite={setIsFavorite}
+                description={property.description}
+              />
+            </div>
+            
+            {/* Quick Info Card - Takes 2/5 on desktop, hidden on mobile */}
+            <div className="hidden lg:block lg:col-span-2">
+              <Card className="h-full border-0 shadow-lg overflow-hidden">
+                <div className="h-1.5 bg-gradient-to-r from-primary via-primary/80 to-primary/60" />
+                <CardContent className="p-6 flex flex-col h-full">
+                  {/* Property Title */}
+                  <div className="mb-4">
+                    <h1 className="text-xl font-bold mb-2 line-clamp-2">{property.name}</h1>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      <span className="text-sm">{property.area}</span>
+                    </div>
+                  </div>
+
+                  {/* Price */}
+                  <div className="bg-muted/50 rounded-xl p-4 mb-4">
+                    <div className="text-xs text-muted-foreground mb-1">السعر الشهري</div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-primary">
+                        {property.price.toLocaleString()}
+                      </span>
+                      <span className="text-muted-foreground">جنيه</span>
+                    </div>
+                    {property.originalPrice && (
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className="text-sm text-muted-foreground line-through">
+                          {property.originalPrice.toLocaleString()}
+                        </span>
+                        <Badge variant="destructive" className="text-xs">
+                          وفر {(property.originalPrice - property.price).toLocaleString()}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Quick Features Grid */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/30">
+                      <Bed className="h-5 w-5 text-primary" />
+                      <div>
+                        <div className="text-sm font-medium">{property.rooms} غرف</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/30">
+                      <Bath className="h-5 w-5 text-primary" />
+                      <div>
+                        <div className="text-sm font-medium">{property.bathrooms} حمام</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/30">
+                      <Maximize2 className="h-5 w-5 text-primary" />
+                      <div>
+                        <div className="text-sm font-medium">{property.size} م²</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/30">
+                      <Sofa className="h-5 w-5 text-primary" />
+                      <div>
+                        <div className="text-sm font-medium">{property.furnished ? "مفروش" : "غير مفروش"}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Spacer */}
+                  <div className="flex-1" />
+
+                  {/* CTA Buttons */}
+                  <div className="space-y-2">
+                    <Button className="w-full gap-2" size="lg">
+                      <Phone className="h-5 w-5" />
+                      تواصل الآن
+                    </Button>
+                    <Button variant="outline" className="w-full gap-2" size="lg">
+                      <MessageCircle className="h-5 w-5" />
+                      واتساب
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-5 lg:py-8">
