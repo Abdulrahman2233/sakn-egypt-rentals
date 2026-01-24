@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PropertyImageCarousel } from "@/components/PropertyImageCarousel";
 import { 
   Bed, Bath, Maximize2, MapPin, Phone, 
-  Heart, Share2, ChevronLeft, ChevronRight, Home, Calendar,
+  Heart, Share2, ChevronLeft, Home, Calendar,
   Sofa, Building2, Eye, MessageCircle, CheckCircle2,
-  ArrowRight, Star, Shield, Clock, Sparkles, Tag
+  ArrowRight, Star, Shield, Clock, Sparkles
 } from "lucide-react";
 import { mockProperties } from "@/data/properties";
 
@@ -94,242 +95,16 @@ const PropertyDetails = () => {
           </div>
         </div>
 
-        {/* Image Gallery Grid */}
-        <section className="container mx-auto px-4 py-4 lg:py-6">
-          {/* Desktop Grid */}
-          <div className="hidden md:grid md:grid-cols-4 md:grid-rows-2 gap-2 h-[400px] lg:h-[480px] rounded-2xl overflow-hidden">
-            {/* Main Image */}
-            <motion.div 
-              className="col-span-2 row-span-2 relative cursor-pointer group"
-              onClick={() => setActiveImage(0)}
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-            >
-              <img
-                src={property.images[0]}
-                alt={property.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-              
-              {/* Badges */}
-              <div className="absolute top-4 right-4 flex flex-wrap gap-2">
-                {property.featured && (
-                  <Badge className="bg-primary text-primary-foreground shadow-lg">
-                    <Star className="h-3 w-3 ml-1" />
-                    مميز
-                  </Badge>
-                )}
-                {property.discount && (
-                  <Badge className="bg-destructive text-destructive-foreground shadow-lg">
-                    <Tag className="h-3 w-3 ml-1" />
-                    خصم {property.discount}%
-                  </Badge>
-                )}
-              </div>
-            </motion.div>
-
-            {/* Secondary Images */}
-            {property.images.slice(1, 5).map((image, index) => (
-              <motion.div
-                key={index}
-                className="relative cursor-pointer group"
-                onClick={() => setActiveImage(index + 1)}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <img
-                  src={image}
-                  alt={`صورة ${index + 2}`}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                
-                {/* Show More Overlay */}
-                {index === 3 && property.images.length > 5 && (
-                  <div 
-                    className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer hover:bg-black/60 transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowAllImages(true);
-                    }}
-                  >
-                    <div className="text-center text-white">
-                      <div className="text-2xl font-bold">+{property.images.length - 5}</div>
-                      <div className="text-sm">عرض الكل</div>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Mobile Slider */}
-          <div className="md:hidden relative">
-            <div className="relative h-[280px] rounded-xl overflow-hidden">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeImage}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  src={property.images[activeImage]}
-                  alt={property.name}
-                  className="w-full h-full object-cover"
-                />
-              </AnimatePresence>
-
-              {/* Badges */}
-              <div className="absolute top-3 right-3 flex flex-wrap gap-2">
-                {property.featured && (
-                  <Badge className="bg-primary text-primary-foreground shadow-lg text-xs">
-                    <Star className="h-3 w-3 ml-1" />
-                    مميز
-                  </Badge>
-                )}
-                {property.discount && (
-                  <Badge className="bg-destructive text-destructive-foreground shadow-lg text-xs">
-                    خصم {property.discount}%
-                  </Badge>
-                )}
-              </div>
-
-              {/* Image Counter */}
-              <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm rounded-full px-2.5 py-1 text-white text-xs">
-                {activeImage + 1} / {property.images.length}
-              </div>
-
-              {/* Navigation Arrows */}
-              {property.images.length > 1 && (
-                <>
-                  <button
-                    onClick={() => setActiveImage((prev) => (prev - 1 + property.images.length) % property.images.length)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center"
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => setActiveImage((prev) => (prev + 1) % property.images.length)}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Mobile Thumbnails */}
-            <div className="flex gap-2 mt-3 overflow-x-auto scrollbar-hide pb-1">
-              {property.images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveImage(index)}
-                  className={`flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden transition-all ${
-                    activeImage === index
-                      ? "ring-2 ring-primary"
-                      : "opacity-60 hover:opacity-100"
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={`صورة ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2"
-                onClick={() => setIsFavorite(!isFavorite)}
-              >
-                <Heart className={`h-4 w-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
-                <span className="hidden sm:inline">{isFavorite ? "تم الحفظ" : "حفظ"}</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2"
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: property.name,
-                      text: property.description,
-                      url: window.location.href,
-                    });
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                  }
-                }}
-              >
-                <Share2 className="h-4 w-4" />
-                <span className="hidden sm:inline">مشاركة</span>
-              </Button>
-            </div>
-            
-            {property.images.length > 5 && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2 hidden md:flex"
-                onClick={() => setShowAllImages(true)}
-              >
-                <Eye className="h-4 w-4" />
-                عرض كل الصور ({property.images.length})
-              </Button>
-            )}
-          </div>
-        </section>
-
-        {/* Full Gallery Modal */}
-        <AnimatePresence>
-          {showAllImages && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/95 z-50 overflow-y-auto"
-            >
-              <div className="container mx-auto px-4 py-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-white text-lg font-bold">جميع الصور ({property.images.length})</h3>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-white hover:bg-white/20"
-                    onClick={() => setShowAllImages(false)}
-                  >
-                    <ChevronRight className="h-6 w-6" />
-                  </Button>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {property.images.map((image, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="aspect-video rounded-xl overflow-hidden"
-                    >
-                      <img
-                        src={image}
-                        alt={`صورة ${index + 1}`}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Professional Image Carousel */}
+        <PropertyImageCarousel 
+          images={property.images}
+          propertyName={property.name}
+          featured={property.featured}
+          discount={property.discount}
+          isFavorite={isFavorite}
+          setIsFavorite={setIsFavorite}
+          description={property.description}
+        />
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-5 lg:py-8">
