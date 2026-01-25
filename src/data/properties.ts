@@ -111,7 +111,15 @@ export const mockProperties: Property[] = [
     furnished: false,
     type: "شقة",
     typeEn: "Apartment",
-    images: ["/src/assets/property-1.jpg", "/src/assets/property-2.jpg"],
+    images: [
+      "/src/assets/property-1.jpg", 
+      "/src/assets/property-2.jpg",
+      "/src/assets/property-3.jpg",
+      "/src/assets/property-1.jpg",
+      "/src/assets/property-2.jpg",
+      "/src/assets/property-3.jpg",
+      "/src/assets/property-1.jpg"
+    ],
     description: "شقة واسعة غير مفروشة، مثالية للعائلات، في موقع هادئ ومميز بالمنتزه.",
     descriptionEn: "Spacious unfurnished apartment, perfect for families, in a quiet prime location in Montazah.",
     contact: "01222333444",
