@@ -1,19 +1,15 @@
-import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PropertyCard } from "@/components/PropertyCard";
 import StudentOfferModal from "@/components/StudentOfferModal";
 import { AreaCard } from "@/components/AreaCard";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
-  Search,
   Building2,
   Shield,
   Clock,
   Award,
   ChevronDown,
-  MapPin,
   Home,
   Star,
   Users,
@@ -27,10 +23,10 @@ import {
   Eye,
   HeartHandshake,
   BadgeCheck,
+  Search,
 } from "lucide-react";
 import { mockProperties, alexandriaAreas } from "@/data/properties";
 import { Link } from "react-router-dom";
-import heroBg from "@/assets/hero-home.jpg";
 import { motion } from "framer-motion";
 import {
   Accordion,
@@ -42,7 +38,6 @@ import {
 const Index = () => {
   const featuredProperties = mockProperties.filter((p) => p.featured);
   const displayAreas = alexandriaAreas.slice(0, 8);
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Animation variants
   const fadeInUp = {
@@ -229,132 +224,231 @@ const Index = () => {
       <StudentOfferModal />
       <Navbar />
 
-      {/* Hero Section - Enhanced for Mobile */}
-      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-        {/* Background with Parallax Effect */}
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroBg})` }}
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/70 to-primary/90" />
-
-        {/* Animated Overlay Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
-              backgroundSize: "40px 40px",
+      {/* Hero Section - Modern Geometric Design */}
+      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-primary/95 to-primary/90">
+        {/* Animated Geometric Shapes */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Large Circle */}
+          <motion.div
+            className="absolute -top-40 -right-40 w-80 h-80 md:w-[500px] md:h-[500px] rounded-full bg-secondary/20 blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
             }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
+          
+          {/* Small Circles */}
+          <motion.div
+            className="absolute top-1/4 left-10 w-20 h-20 md:w-32 md:h-32 rounded-full bg-white/10"
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 15, 0],
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-1/4 right-20 w-16 h-16 md:w-24 md:h-24 rounded-full bg-secondary/30"
+            animate={{
+              y: [0, 20, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          {/* Floating Squares */}
+          <motion.div
+            className="absolute top-1/3 right-1/4 w-12 h-12 md:w-20 md:h-20 bg-white/5 rounded-2xl rotate-12"
+            animate={{
+              rotate: [12, 25, 12],
+              y: [0, -20, 0],
+            }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-1/3 left-1/4 w-10 h-10 md:w-16 md:h-16 bg-secondary/20 rounded-xl -rotate-12"
+            animate={{
+              rotate: [-12, -25, -12],
+              y: [0, 15, 0],
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          {/* Gradient Lines */}
+          <div className="absolute top-0 left-0 w-full h-full">
+            <motion.div
+              className="absolute top-20 left-0 w-40 md:w-72 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              animate={{ x: [0, 100, 0] }}
+              transition={{ duration: 10, repeat: Infinity }}
+            />
+            <motion.div
+              className="absolute bottom-40 right-0 w-32 md:w-56 h-px bg-gradient-to-r from-transparent via-secondary/40 to-transparent"
+              animate={{ x: [0, -80, 0] }}
+              transition={{ duration: 8, repeat: Infinity }}
+            />
+          </div>
+          
+          {/* Dot Pattern */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+            backgroundSize: "32px 32px",
+          }} />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 pt-20 pb-8">
+        {/* Main Content */}
+        <div className="container mx-auto px-4 relative z-10 pt-24 pb-12">
           <motion.div
-            className="max-w-4xl mx-auto text-center text-white space-y-6 md:space-y-8"
+            className="max-w-5xl mx-auto"
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
           >
-            {/* Badge */}
-            <motion.div variants={fadeInUp}>
-              <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm md:text-base">
-                <Star className="h-4 w-4 text-secondary fill-secondary" />
-                <span>المنصة الأولى للإيجار في الإسكندرية</span>
-              </span>
-            </motion.div>
-
-            {/* Main Heading */}
-            <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-              variants={fadeInUp}
-            >
-              اعثر على شقتك المثالية
-              <br />
-              <span className="text-secondary">في الإسكندرية</span>
-            </motion.h1>
-
-            <motion.p
-              className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto px-4"
-              variants={fadeInUp}
-            >
-              آلاف العقارات المتاحة للإيجار في أفضل مناطق الإسكندرية بأسعار
-              مناسبة
-            </motion.p>
-
-            {/* Search Box - Mobile Optimized */}
-            <motion.div className="px-2 sm:px-4" variants={fadeInUp}>
-              <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-2xl max-w-2xl mx-auto">
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="relative flex-1">
-                    <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input
-                      placeholder="ابحث عن منطقة أو عقار..."
-                      className="border-0 bg-accent/50 pr-10 h-12 sm:h-14 text-base rounded-xl"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                  <Button
-                    size="lg"
-                    className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl text-base gap-2 w-full sm:w-auto"
-                  >
-                    <Search className="h-5 w-5" />
-                    <span>بحث</span>
-                  </Button>
-                </div>
-
-                {/* Quick Filters - Mobile Scrollable */}
-                <div className="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-hide">
-                  {["سيدي بشر", "سموحة", "العجمي", "المنتزه", "رشدي"].map(
-                    (area) => (
-                      <Link
-                        key={area}
-                        to={`/properties?area=${encodeURIComponent(area)}`}
-                        className="flex-shrink-0 px-4 py-2 bg-accent hover:bg-primary hover:text-white rounded-full text-sm transition-colors"
-                      >
-                        {area}
-                      </Link>
-                    )
-                  )}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Stats - Mobile Grid */}
-            <motion.div
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-6 md:pt-10 px-2"
-              variants={staggerContainer}
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center p-3 sm:p-4 bg-white/10 backdrop-blur-sm rounded-xl"
-                  variants={scaleIn}
-                >
-                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs sm:text-sm text-white/80 mt-1">
-                    {stat.label}
-                  </div>
+            {/* Two Column Layout for Desktop */}
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+              {/* Text Content */}
+              <div className="flex-1 text-center lg:text-right space-y-6">
+                {/* Badge */}
+                <motion.div variants={fadeInUp}>
+                  <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-white text-sm">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Star className="h-4 w-4 text-secondary fill-secondary" />
+                    </motion.div>
+                    <span>المنصة الأولى للإيجار في الإسكندرية</span>
+                  </span>
                 </motion.div>
-              ))}
-            </motion.div>
+
+                {/* Main Heading */}
+                <motion.h1
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1]"
+                  variants={fadeInUp}
+                >
+                  اعثر على
+                  <br />
+                  <span className="relative inline-block">
+                    <span className="text-secondary">شقتك المثالية</span>
+                    <motion.div
+                      className="absolute -bottom-2 left-0 right-0 h-1 bg-secondary/50 rounded-full"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ delay: 0.8, duration: 0.6 }}
+                    />
+                  </span>
+                </motion.h1>
+
+                <motion.p
+                  className="text-lg md:text-xl text-white/80 max-w-lg mx-auto lg:mx-0"
+                  variants={fadeInUp}
+                >
+                  آلاف العقارات المتاحة للإيجار في أفضل مناطق الإسكندرية بأسعار مناسبة وخدمة موثوقة
+                </motion.p>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
+                  variants={fadeInUp}
+                >
+                  <Button
+                    asChild
+                    size="lg"
+                    className="h-14 px-8 text-lg rounded-2xl bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-secondary/30 gap-2"
+                  >
+                    <Link to="/properties">
+                      <Search className="h-5 w-5" />
+                      تصفح العقارات
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="h-14 px-8 text-lg rounded-2xl border-2 border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm gap-2"
+                  >
+                    <Link to="/contact">
+                      <Phone className="h-5 w-5" />
+                      تواصل معنا
+                    </Link>
+                  </Button>
+                </motion.div>
+
+                {/* Quick Areas */}
+                <motion.div
+                  className="flex flex-wrap gap-2 justify-center lg:justify-start pt-4"
+                  variants={fadeInUp}
+                >
+                  <span className="text-white/60 text-sm ml-2">المناطق الشائعة:</span>
+                  {["سيدي بشر", "سموحة", "العجمي", "المنتزه"].map((area) => (
+                    <Link
+                      key={area}
+                      to={`/properties?area=${encodeURIComponent(area)}`}
+                      className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full transition-colors border border-white/10"
+                    >
+                      {area}
+                    </Link>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Stats Cards - Desktop Side */}
+              <motion.div
+                className="w-full lg:w-auto"
+                variants={slideInRight}
+              >
+                <div className="grid grid-cols-2 gap-3 md:gap-4 max-w-sm mx-auto lg:max-w-none">
+                  {stats.map((stat, index) => (
+                    <motion.div
+                      key={index}
+                      className="relative group"
+                      variants={scaleIn}
+                      whileHover={{ scale: 1.05, y: -5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-2xl blur-sm group-hover:blur-md transition-all" />
+                      <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 md:p-6 text-center">
+                        <motion.div
+                          className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-1"
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.5 + index * 0.1, type: "spring" }}
+                        >
+                          {stat.value}
+                        </motion.div>
+                        <div className="text-sm md:text-base text-white/70">{stat.label}</div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
+        </div>
+
+        {/* Bottom Wave */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 120" fill="none" className="w-full h-auto">
+            <path
+              d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+              className="fill-accent/50"
+            />
+            <path
+              d="M0 120L60 115C120 110 240 100 360 95C480 90 600 90 720 92C840 94 960 98 1080 100C1200 102 1320 102 1380 102L1440 102V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+              className="fill-background"
+            />
+          </svg>
         </div>
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2"
+          className="absolute bottom-24 md:bottom-28 left-1/2 -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
-          <ChevronDown className="h-8 w-8 text-white/60" />
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-white/50 text-xs">اكتشف المزيد</span>
+            <ChevronDown className="h-6 w-6 text-white/50" />
+          </div>
         </motion.div>
       </section>
 
@@ -570,12 +664,27 @@ const Index = () => {
               viewport={{ once: true }}
               variants={slideInLeft}
             >
-              <div className="relative rounded-2xl overflow-hidden">
-                <img
-                  src={heroBg}
-                  alt="Alexandria cityscape"
-                  className="w-full h-[300px] md:h-[400px] object-cover"
-                />
+              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary to-primary/80">
+                <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center">
+                  {/* Abstract geometric design instead of image */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    <motion.div
+                      className="absolute top-10 right-10 w-40 h-40 rounded-full bg-secondary/20"
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                    />
+                    <motion.div
+                      className="absolute bottom-10 left-10 w-32 h-32 rounded-2xl bg-white/10 rotate-12"
+                      animate={{ rotate: [12, 20, 12] }}
+                      transition={{ duration: 5, repeat: Infinity }}
+                    />
+                    <motion.div
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full border-4 border-white/20"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+                  </div>
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
                 <div className="absolute bottom-6 right-6 left-6 text-white">
                   <div className="flex items-center gap-4">
@@ -600,8 +709,8 @@ const Index = () => {
                 transition={{ delay: 0.5 }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-100 rounded-full">
-                    <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  <div className="p-2 bg-primary/10 rounded-full">
+                    <CheckCircle2 className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <div className="font-bold text-lg">+200</div>
@@ -694,7 +803,7 @@ const Index = () => {
             variants={fadeInUp}
           >
             <span className="inline-flex items-center gap-2 text-primary text-sm font-medium mb-3">
-              <MapPin className="h-4 w-4" />
+              <Home className="h-4 w-4" />
               المناطق
             </span>
             <h2 className="text-2xl md:text-3xl font-bold mb-2">
