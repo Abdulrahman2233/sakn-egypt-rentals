@@ -367,31 +367,58 @@ const Index = () => {
         <AnimatedCircles />
         <AnimatedLines />
         
-        {/* Floating Geometric Shapes */}
-        <FloatingShape className="top-[15%] right-[5%] hidden md:block" size={60} delay={0} />
-        <FloatingShape className="top-[25%] left-[8%] hidden md:block" size={40} delay={0.5} duration={8} />
-        <FloatingShape className="bottom-[20%] right-[15%] hidden md:block" size={50} delay={1} duration={7} />
-        <FloatingShape className="bottom-[30%] left-[12%] hidden md:block" size={35} delay={1.5} />
-        <FloatingShape className="top-[60%] right-[25%] hidden lg:block" size={45} delay={2} duration={9} />
+        {/* Floating Geometric Shapes - Now visible on mobile too */}
+        <FloatingShape className="top-[10%] right-[3%]" size={40} delay={0} />
+        <FloatingShape className="top-[20%] left-[5%]" size={30} delay={0.5} duration={8} />
+        <FloatingShape className="bottom-[25%] right-[8%]" size={35} delay={1} duration={7} />
+        <FloatingShape className="bottom-[35%] left-[8%]" size={25} delay={1.5} />
+        <FloatingShape className="top-[50%] right-[20%] hidden sm:block" size={45} delay={2} duration={9} />
+        <FloatingShape className="top-[40%] left-[15%] hidden sm:block" size={38} delay={0.8} duration={6} />
+
+        {/* Mobile-specific floating elements */}
+        <motion.div
+          className="absolute top-[30%] right-[50%] w-3 h-3 rounded-full bg-primary/30 sm:hidden"
+          animate={{
+            y: [-10, 10, -10],
+            opacity: [0.3, 0.7, 0.3],
+          }}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute top-[45%] left-[20%] w-2 h-2 rounded-full bg-secondary/40 sm:hidden"
+          animate={{
+            y: [10, -10, 10],
+            opacity: [0.4, 0.8, 0.4],
+          }}
+          transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+        />
+        <motion.div
+          className="absolute bottom-[40%] right-[15%] w-4 h-4 rounded-full bg-primary/20 sm:hidden"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.5, 0.2],
+          }}
+          transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+        />
 
         {/* Animated Buildings Skyline */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 md:h-64 flex items-end justify-center gap-2 md:gap-4 opacity-[0.08] overflow-hidden">
-          <AnimatedBuilding className="w-16 md:w-24 h-32 md:h-48 text-primary" delay={0} />
-          <AnimatedBuilding className="w-12 md:w-20 h-24 md:h-36 text-primary" delay={0.2} />
-          <AnimatedBuilding className="w-20 md:w-28 h-40 md:h-56 text-primary" delay={0.4} />
-          <AnimatedBuilding className="w-14 md:w-22 h-28 md:h-44 text-primary" delay={0.1} />
-          <AnimatedBuilding className="w-18 md:w-26 h-36 md:h-52 text-primary" delay={0.3} />
-          <AnimatedBuilding className="w-12 md:w-18 h-20 md:h-32 text-primary" delay={0.5} />
-          <AnimatedBuilding className="w-16 md:w-24 h-32 md:h-48 text-primary hidden sm:block" delay={0.6} />
-          <AnimatedBuilding className="w-20 md:w-28 h-40 md:h-56 text-primary hidden md:block" delay={0.7} />
+        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 md:h-64 flex items-end justify-center gap-1 sm:gap-2 md:gap-4 opacity-[0.08] overflow-hidden">
+          <AnimatedBuilding className="w-10 sm:w-16 md:w-24 h-20 sm:h-32 md:h-48 text-primary" delay={0} />
+          <AnimatedBuilding className="w-8 sm:w-12 md:w-20 h-16 sm:h-24 md:h-36 text-primary" delay={0.2} />
+          <AnimatedBuilding className="w-12 sm:w-20 md:w-28 h-24 sm:h-40 md:h-56 text-primary" delay={0.4} />
+          <AnimatedBuilding className="w-9 sm:w-14 md:w-22 h-18 sm:h-28 md:h-44 text-primary" delay={0.1} />
+          <AnimatedBuilding className="w-11 sm:w-18 md:w-26 h-22 sm:h-36 md:h-52 text-primary" delay={0.3} />
+          <AnimatedBuilding className="w-8 sm:w-12 md:w-18 h-14 sm:h-20 md:h-32 text-primary" delay={0.5} />
+          <AnimatedBuilding className="w-10 sm:w-16 md:w-24 h-20 sm:h-32 md:h-48 text-primary hidden xs:block" delay={0.6} />
+          <AnimatedBuilding className="w-12 sm:w-20 md:w-28 h-24 sm:h-40 md:h-56 text-primary hidden sm:block" delay={0.7} />
         </div>
 
-        {/* Animated Dots Pattern */}
+        {/* Animated Dots Pattern - More dots on mobile */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 rounded-full bg-primary/20"
+              className="absolute w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-primary/20"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -408,6 +435,24 @@ const Index = () => {
             />
           ))}
         </div>
+
+        {/* Mobile animated rings */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 sm:w-64 sm:h-64 rounded-full border border-primary/10 sm:hidden"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-primary/5 sm:hidden"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.05, 0.15, 0.05],
+          }}
+          transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+        />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
@@ -470,7 +515,7 @@ const Index = () => {
                 بأسعار مناسبة وخدمة موثوقة
               </motion.p>
 
-              {/* Single CTA Button */}
+              {/* Enhanced CTA Button */}
               <motion.div
                 className="flex justify-center mb-12"
                 variants={fadeInUp}
@@ -478,24 +523,53 @@ const Index = () => {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  className="relative group"
                 >
+                  {/* Animated glow effect */}
+                  <motion.div
+                    className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity"
+                    animate={{
+                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    style={{ backgroundSize: "200% auto" }}
+                  />
+                  {/* Pulsing ring */}
+                  <motion.div
+                    className="absolute -inset-2 rounded-2xl border-2 border-primary/30"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                      opacity: [0.5, 0, 0.5],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
                   <Button
                     asChild
                     size="lg"
-                    className="h-14 md:h-16 px-8 md:px-12 text-base md:text-lg rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30 gap-3"
+                    className="relative h-14 md:h-16 px-8 md:px-12 text-base md:text-lg rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary shadow-2xl shadow-primary/40 gap-3 border border-primary-foreground/10"
                   >
-                    <Link to="/properties">
-                      <Search className="h-5 w-5 md:h-6 md:w-6" />
-                      تصفح العقارات
-                      <ArrowLeft className="h-5 w-5 md:h-6 md:w-6" />
+                    <Link to="/properties" className="flex items-center gap-3">
+                      <motion.div
+                        animate={{ rotate: [0, 10, -10, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <Search className="h-5 w-5 md:h-6 md:w-6" />
+                      </motion.div>
+                      <span className="font-bold">تصفح العقارات</span>
+                      <motion.div
+                        animate={{ x: [0, -5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <ArrowLeft className="h-5 w-5 md:h-6 md:w-6" />
+                      </motion.div>
                     </Link>
                   </Button>
                 </motion.div>
               </motion.div>
 
-              {/* Stats Grid - Compact */}
+              {/* Enhanced Stats Grid */}
               <motion.div
-                className="grid grid-cols-4 gap-2 md:gap-4 max-w-2xl mx-auto"
+                className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 max-w-2xl mx-auto"
                 initial="hidden"
                 animate="visible"
                 variants={staggerContainer}
@@ -505,17 +579,39 @@ const Index = () => {
                   return (
                     <motion.div
                       key={index}
-                      className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-3 md:p-4 text-center shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
+                      className="relative group"
                       variants={scaleIn}
-                      whileHover={{ y: -3, scale: 1.02 }}
+                      whileHover={{ y: -5, scale: 1.03 }}
                     >
-                      <div className="hidden md:flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary mb-2 mx-auto">
-                        <Icon className="h-4 w-4" />
+                      {/* Card glow on hover */}
+                      <motion.div
+                        className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity"
+                      />
+                      <div className="relative bg-background/90 backdrop-blur-md border border-border/50 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5 text-center shadow-lg hover:shadow-xl hover:border-primary/40 transition-all overflow-hidden">
+                        {/* Animated background gradient */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                        />
+                        {/* Icon with animation */}
+                        <motion.div 
+                          className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 text-primary mb-2 mx-auto"
+                          whileHover={{ rotate: 10 }}
+                        >
+                          <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </motion.div>
+                        {/* Animated counter effect */}
+                        <motion.div 
+                          className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 + 0.5 }}
+                        >
+                          {stat.value}
+                        </motion.div>
+                        <div className="text-[10px] sm:text-xs text-muted-foreground font-medium mt-1">{stat.label}</div>
+                        {/* Decorative corner accent */}
+                        <div className="absolute top-0 right-0 w-6 h-6 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-xl" />
                       </div>
-                      <div className="text-lg md:text-2xl font-bold text-foreground">
-                        {stat.value}
-                      </div>
-                      <div className="text-[10px] md:text-xs text-muted-foreground">{stat.label}</div>
                     </motion.div>
                   );
                 })}
