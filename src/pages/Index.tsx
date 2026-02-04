@@ -2,22 +2,17 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PropertyCard } from "@/components/PropertyCard";
 import StudentOfferModal from "@/components/StudentOfferModal";
-import { AreaCard } from "@/components/AreaCard";
 import { Button } from "@/components/ui/button";
 import {
   Building2,
   Shield,
   Clock,
   Award,
-  ChevronDown,
   Home,
   Star,
   Users,
-  MessageSquare,
   Phone,
-  CheckCircle2,
   ArrowLeft,
-  Sparkles,
   TrendingUp,
   ThumbsUp,
   Eye,
@@ -25,12 +20,8 @@ import {
   BadgeCheck,
   Search,
   MapPin,
-  BedDouble,
-  Bath,
-  Maximize,
-  ArrowUpRight,
 } from "lucide-react";
-import { mockProperties, alexandriaAreas } from "@/data/properties";
+import { mockProperties } from "@/data/properties";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -40,9 +31,190 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+// Animated Building Component
+const AnimatedBuilding = ({ className, delay = 0 }: { className?: string; delay?: number }) => (
+  <motion.div
+    className={className}
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1, delay, ease: "easeOut" }}
+  >
+    <svg viewBox="0 0 100 140" className="w-full h-full" fill="currentColor">
+      {/* Main building body */}
+      <rect x="10" y="40" width="80" height="100" rx="2" className="fill-current opacity-20" />
+      {/* Windows - animated */}
+      <motion.rect
+        x="20" y="50" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity, delay: delay + 0.2 }}
+      />
+      <motion.rect
+        x="44" y="50" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 2.5, repeat: Infinity, delay: delay + 0.5 }}
+      />
+      <motion.rect
+        x="68" y="50" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 1.8, repeat: Infinity, delay: delay + 0.3 }}
+      />
+      <motion.rect
+        x="20" y="70" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 2.2, repeat: Infinity, delay: delay + 0.7 }}
+      />
+      <motion.rect
+        x="44" y="70" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity, delay: delay + 0.1 }}
+      />
+      <motion.rect
+        x="68" y="70" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 2.3, repeat: Infinity, delay: delay + 0.4 }}
+      />
+      <motion.rect
+        x="20" y="90" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 1.9, repeat: Infinity, delay: delay + 0.6 }}
+      />
+      <motion.rect
+        x="44" y="90" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 2.1, repeat: Infinity, delay: delay + 0.8 }}
+      />
+      <motion.rect
+        x="68" y="90" width="12" height="12" rx="1"
+        className="fill-current opacity-40"
+        animate={{ opacity: [0.4, 0.6, 0.4] }}
+        transition={{ duration: 2.4, repeat: Infinity, delay: delay + 0.2 }}
+      />
+      {/* Door */}
+      <rect x="40" y="115" width="20" height="25" rx="2" className="fill-current opacity-50" />
+      {/* Roof detail */}
+      <rect x="5" y="35" width="90" height="8" rx="1" className="fill-current opacity-30" />
+    </svg>
+  </motion.div>
+);
+
+// Floating Geometric Shapes
+const FloatingShape = ({ 
+  className, 
+  size, 
+  delay = 0,
+  duration = 6 
+}: { 
+  className?: string; 
+  size: number; 
+  delay?: number;
+  duration?: number;
+}) => (
+  <motion.div
+    className={`absolute ${className}`}
+    style={{ width: size, height: size }}
+    animate={{
+      y: [-20, 20, -20],
+      rotate: [0, 180, 360],
+    }}
+    transition={{
+      duration,
+      repeat: Infinity,
+      delay,
+      ease: "easeInOut",
+    }}
+  >
+    <div className="w-full h-full rounded-xl bg-primary/10 backdrop-blur-sm border border-primary/20" />
+  </motion.div>
+);
+
+// Animated Grid Pattern
+const AnimatedGridPattern = () => (
+  <div className="absolute inset-0 overflow-hidden">
+    <svg className="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <motion.path
+            d="M 60 0 L 0 0 0 60"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            className="text-primary/10"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+          />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+    </svg>
+  </div>
+);
+
+// Animated Circles
+const AnimatedCircles = () => (
+  <>
+    <motion.div
+      className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-3xl"
+      animate={{
+        scale: [1, 1.2, 1],
+        opacity: [0.3, 0.5, 0.3],
+      }}
+      transition={{ duration: 8, repeat: Infinity }}
+    />
+    <motion.div
+      className="absolute bottom-20 left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-secondary/20 to-transparent blur-3xl"
+      animate={{
+        scale: [1.2, 1, 1.2],
+        opacity: [0.2, 0.4, 0.2],
+      }}
+      transition={{ duration: 10, repeat: Infinity }}
+    />
+    <motion.div
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-b from-primary/10 to-secondary/10 blur-3xl"
+      animate={{
+        rotate: [0, 360],
+      }}
+      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+    />
+  </>
+);
+
+// Animated Lines
+const AnimatedLines = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    {[...Array(5)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+        style={{
+          top: `${20 + i * 15}%`,
+          width: "100%",
+        }}
+        animate={{
+          x: ["-100%", "100%"],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: 4 + i,
+          repeat: Infinity,
+          delay: i * 0.5,
+          ease: "easeInOut",
+        }}
+      />
+    ))}
+  </div>
+);
+
 const Index = () => {
   const featuredProperties = mockProperties.filter((p) => p.featured);
-  const displayAreas = alexandriaAreas.slice(0, 8);
 
   // Animation variants
   const fadeInUp = {
@@ -71,24 +243,6 @@ const Index = () => {
     },
   };
 
-  const slideInLeft = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
-  const slideInRight = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
   const features = [
     {
       icon: Building2,
@@ -113,10 +267,10 @@ const Index = () => {
   ];
 
   const stats = [
-    { value: "5000+", label: "عقار متاح", icon: Building2 },
+    { value: "5000+", label: "عقار", icon: Building2 },
     { value: "40+", label: "منطقة", icon: MapPin },
-    { value: "1000+", label: "عميل سعيد", icon: Users },
-    { value: "200+", label: "وسيط معتمد", icon: BadgeCheck },
+    { value: "1000+", label: "عميل", icon: Users },
+    { value: "200+", label: "وسيط", icon: BadgeCheck },
   ];
 
   const howItWorks = [
@@ -201,63 +355,85 @@ const Index = () => {
     },
   ];
 
-  const advantages = [
-    {
-      icon: BadgeCheck,
-      title: "موثوقية عالية",
-      desc: "جميع العقارات مفحوصة ومعتمدة",
-    },
-    {
-      icon: TrendingUp,
-      title: "تحديث مستمر",
-      desc: "عقارات جديدة تضاف يومياً",
-    },
-    {
-      icon: ThumbsUp,
-      title: "سهولة الاستخدام",
-      desc: "واجهة بسيطة ومريحة",
-    },
-    {
-      icon: Users,
-      title: "مجتمع كبير",
-      desc: "آلاف المستخدمين يثقون بنا",
-    },
-  ];
-
-  const popularAreas = ["سيدي بشر", "سموحة", "العجمي", "المنتزه", "جليم", "ستانلي"];
-
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <StudentOfferModal />
       <Navbar />
 
-      {/* Hero Section - Clean Professional Design */}
-      <section className="relative pt-20 md:pt-24 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-accent/50 via-background to-background">
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{
-          backgroundImage: "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
-          backgroundSize: "40px 40px",
-        }} />
+      {/* Hero Section - Animated Professional Design */}
+      <section className="relative pt-20 md:pt-24 pb-16 md:pb-24 overflow-hidden min-h-[90vh] md:min-h-[85vh] flex items-center">
+        {/* Animated Background Elements */}
+        <AnimatedGridPattern />
+        <AnimatedCircles />
+        <AnimatedLines />
         
-        {/* Decorative Elements */}
-        <div className="absolute top-20 right-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+        {/* Floating Geometric Shapes */}
+        <FloatingShape className="top-[15%] right-[5%] hidden md:block" size={60} delay={0} />
+        <FloatingShape className="top-[25%] left-[8%] hidden md:block" size={40} delay={0.5} duration={8} />
+        <FloatingShape className="bottom-[20%] right-[15%] hidden md:block" size={50} delay={1} duration={7} />
+        <FloatingShape className="bottom-[30%] left-[12%] hidden md:block" size={35} delay={1.5} />
+        <FloatingShape className="top-[60%] right-[25%] hidden lg:block" size={45} delay={2} duration={9} />
+
+        {/* Animated Buildings Skyline */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 md:h-64 flex items-end justify-center gap-2 md:gap-4 opacity-[0.08] overflow-hidden">
+          <AnimatedBuilding className="w-16 md:w-24 h-32 md:h-48 text-primary" delay={0} />
+          <AnimatedBuilding className="w-12 md:w-20 h-24 md:h-36 text-primary" delay={0.2} />
+          <AnimatedBuilding className="w-20 md:w-28 h-40 md:h-56 text-primary" delay={0.4} />
+          <AnimatedBuilding className="w-14 md:w-22 h-28 md:h-44 text-primary" delay={0.1} />
+          <AnimatedBuilding className="w-18 md:w-26 h-36 md:h-52 text-primary" delay={0.3} />
+          <AnimatedBuilding className="w-12 md:w-18 h-20 md:h-32 text-primary" delay={0.5} />
+          <AnimatedBuilding className="w-16 md:w-24 h-32 md:h-48 text-primary hidden sm:block" delay={0.6} />
+          <AnimatedBuilding className="w-20 md:w-28 h-40 md:h-56 text-primary hidden md:block" delay={0.7} />
+        </div>
+
+        {/* Animated Dots Pattern */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 rounded-full bg-primary/20"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* Main Content */}
             <motion.div
-              className="text-center mb-12"
+              className="text-center"
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
             >
               {/* Badge */}
               <motion.div variants={fadeInUp} className="mb-6">
-                <span className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-4 py-2 rounded-full text-primary text-sm font-medium">
+                <motion.span 
+                  className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-4 py-2 rounded-full text-primary text-sm font-medium backdrop-blur-sm"
+                  animate={{
+                    boxShadow: [
+                      "0 0 0 0 rgba(var(--primary), 0)",
+                      "0 0 0 10px rgba(var(--primary), 0.1)",
+                      "0 0 0 0 rgba(var(--primary), 0)",
+                    ],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
                   <Star className="h-4 w-4 fill-secondary text-secondary" />
                   <span>المنصة الأولى للإيجار في الإسكندرية</span>
-                </span>
+                </motion.span>
               </motion.div>
 
               {/* Main Heading */}
@@ -267,7 +443,22 @@ const Index = () => {
               >
                 اعثر على سكنك المثالي
                 <br />
-                <span className="text-primary">في الإسكندرية</span>
+                <motion.span 
+                  className="text-primary inline-block"
+                  animate={{
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                  style={{
+                    background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--primary)))",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  في الإسكندرية
+                </motion.span>
               </motion.h1>
 
               <motion.p
@@ -279,78 +470,56 @@ const Index = () => {
                 بأسعار مناسبة وخدمة موثوقة
               </motion.p>
 
-              {/* CTA Buttons */}
+              {/* Single CTA Button */}
               <motion.div
-                className="flex flex-col sm:flex-row gap-3 justify-center mb-8"
+                className="flex justify-center mb-12"
                 variants={fadeInUp}
               >
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-12 md:h-14 px-6 md:px-8 text-base rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 gap-2"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Link to="/properties">
-                    <Search className="h-5 w-5" />
-                    تصفح العقارات
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="h-12 md:h-14 px-6 md:px-8 text-base rounded-xl border-2 gap-2"
-                >
-                  <Link to="/contact">
-                    <Phone className="h-5 w-5" />
-                    تواصل معنا
-                  </Link>
-                </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="h-14 md:h-16 px-8 md:px-12 text-base md:text-lg rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30 gap-3"
+                  >
+                    <Link to="/properties">
+                      <Search className="h-5 w-5 md:h-6 md:w-6" />
+                      تصفح العقارات
+                      <ArrowLeft className="h-5 w-5 md:h-6 md:w-6" />
+                    </Link>
+                  </Button>
+                </motion.div>
               </motion.div>
 
-              {/* Popular Areas */}
+              {/* Stats Grid - Compact */}
               <motion.div
-                className="flex flex-wrap gap-2 justify-center"
-                variants={fadeInUp}
+                className="grid grid-cols-4 gap-2 md:gap-4 max-w-2xl mx-auto"
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
               >
-                <span className="text-muted-foreground text-sm">المناطق الشائعة:</span>
-                {popularAreas.map((area) => (
-                  <Link
-                    key={area}
-                    to={`/properties?area=${encodeURIComponent(area)}`}
-                    className="px-3 py-1 bg-background border border-border hover:border-primary/50 hover:bg-accent text-foreground text-sm rounded-full transition-all"
-                  >
-                    {area}
-                  </Link>
-                ))}
+                {stats.map((stat, index) => {
+                  const Icon = stat.icon;
+                  return (
+                    <motion.div
+                      key={index}
+                      className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-3 md:p-4 text-center shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
+                      variants={scaleIn}
+                      whileHover={{ y: -3, scale: 1.02 }}
+                    >
+                      <div className="hidden md:flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary mb-2 mx-auto">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <div className="text-lg md:text-2xl font-bold text-foreground">
+                        {stat.value}
+                      </div>
+                      <div className="text-[10px] md:text-xs text-muted-foreground">{stat.label}</div>
+                    </motion.div>
+                  );
+                })}
               </motion.div>
-            </motion.div>
-
-            {/* Stats Grid */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-3xl mx-auto"
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-            >
-              {stats.map((stat, index) => {
-                const Icon = stat.icon;
-                return (
-                  <motion.div
-                    key={index}
-                    className="bg-background border border-border rounded-2xl p-4 md:p-5 text-center shadow-sm hover:shadow-md hover:border-primary/30 transition-all"
-                    variants={scaleIn}
-                    whileHover={{ y: -3 }}
-                  >
-                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary mb-3">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs md:text-sm text-muted-foreground">{stat.label}</div>
-                  </motion.div>
-                );
-              })}
             </motion.div>
           </div>
         </div>
@@ -492,45 +661,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Areas Section */}
-      <section className="py-12 md:py-20 bg-accent/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-10 md:mb-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-full mb-4">
-              استكشف المناطق
-            </span>
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">
-              أشهر مناطق الإسكندرية
-            </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto text-sm md:text-base">
-              تصفح العقارات حسب المنطقة واختر ما يناسبك
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {displayAreas.map((area, index) => (
-              <motion.div key={index} variants={fadeInUp}>
-                <AreaCard area={area} />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* Testimonials */}
-      <section className="py-12 md:py-20 bg-background">
+      <section className="py-12 md:py-20 bg-accent/30">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-10 md:mb-12"
@@ -557,7 +689,7 @@ const Index = () => {
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                className="bg-accent/50 rounded-2xl p-6 hover:shadow-lg transition-all"
+                className="bg-background rounded-2xl p-6 hover:shadow-lg transition-all border border-border/50"
                 variants={fadeInUp}
               >
                 <div className="flex gap-1 mb-4">
@@ -584,7 +716,7 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-12 md:py-20 bg-accent/30">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-10 md:mb-12"
@@ -613,7 +745,7 @@ const Index = () => {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="bg-background border border-border rounded-xl px-5 overflow-hidden"
+                  className="bg-accent/50 border border-border rounded-xl px-5 overflow-hidden"
                 >
                   <AccordionTrigger className="text-right font-medium py-4 hover:no-underline">
                     {faq.question}
@@ -629,8 +761,22 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 md:py-20 bg-primary">
-        <div className="container mx-auto px-4">
+      <section className="py-12 md:py-20 bg-primary relative overflow-hidden">
+        {/* Animated background for CTA */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute -top-1/2 -right-1/4 w-96 h-96 rounded-full bg-white/5"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute -bottom-1/2 -left-1/4 w-80 h-80 rounded-full bg-white/5"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="text-center max-w-2xl mx-auto"
             initial="hidden"
@@ -644,29 +790,22 @@ const Index = () => {
             <p className="text-primary-foreground/80 mb-8 text-sm md:text-base">
               ابدأ رحلة البحث عن عقارك المثالي اليوم. آلاف العقارات بانتظارك!
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Button
                 asChild
                 size="lg"
-                className="h-12 md:h-14 px-8 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg gap-2"
+                className="h-14 px-10 rounded-2xl bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-xl gap-3"
               >
                 <Link to="/properties">
                   <Search className="h-5 w-5" />
                   ابدأ البحث الآن
+                  <ArrowLeft className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="h-12 md:h-14 px-8 rounded-xl border-2 border-primary-foreground/30 text-primary-foreground bg-primary-foreground/10 hover:bg-primary-foreground/20 gap-2"
-              >
-                <Link to="/contact">
-                  <Phone className="h-5 w-5" />
-                  تواصل معنا
-                </Link>
-              </Button>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
