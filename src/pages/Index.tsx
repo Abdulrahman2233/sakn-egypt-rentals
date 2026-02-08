@@ -31,185 +31,63 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-// Animated Building Component
-const AnimatedBuilding = ({ className, delay = 0 }: { className?: string; delay?: number }) => (
-  <motion.div
-    className={className}
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1, delay, ease: "easeOut" }}
-  >
-    <svg viewBox="0 0 100 140" className="w-full h-full" fill="currentColor">
-      {/* Main building body */}
-      <rect x="10" y="40" width="80" height="100" rx="2" className="fill-current opacity-20" />
-      {/* Windows - animated */}
-      <motion.rect
-        x="20" y="50" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 2, repeat: Infinity, delay: delay + 0.2 }}
-      />
-      <motion.rect
-        x="44" y="50" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 2.5, repeat: Infinity, delay: delay + 0.5 }}
-      />
-      <motion.rect
-        x="68" y="50" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 1.8, repeat: Infinity, delay: delay + 0.3 }}
-      />
-      <motion.rect
-        x="20" y="70" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 2.2, repeat: Infinity, delay: delay + 0.7 }}
-      />
-      <motion.rect
-        x="44" y="70" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 2, repeat: Infinity, delay: delay + 0.1 }}
-      />
-      <motion.rect
-        x="68" y="70" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 2.3, repeat: Infinity, delay: delay + 0.4 }}
-      />
-      <motion.rect
-        x="20" y="90" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 1.9, repeat: Infinity, delay: delay + 0.6 }}
-      />
-      <motion.rect
-        x="44" y="90" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 2.1, repeat: Infinity, delay: delay + 0.8 }}
-      />
-      <motion.rect
-        x="68" y="90" width="12" height="12" rx="1"
-        className="fill-current opacity-40"
-        animate={{ opacity: [0.4, 0.6, 0.4] }}
-        transition={{ duration: 2.4, repeat: Infinity, delay: delay + 0.2 }}
-      />
-      {/* Door */}
-      <rect x="40" y="115" width="20" height="25" rx="2" className="fill-current opacity-50" />
-      {/* Roof detail */}
-      <rect x="5" y="35" width="90" height="8" rx="1" className="fill-current opacity-30" />
-    </svg>
-  </motion.div>
-);
-
-// Floating Geometric Shapes
-const FloatingShape = ({ 
-  className, 
-  size, 
-  delay = 0,
-  duration = 6 
-}: { 
-  className?: string; 
-  size: number; 
-  delay?: number;
-  duration?: number;
-}) => (
-  <motion.div
-    className={`absolute ${className}`}
-    style={{ width: size, height: size }}
-    animate={{
-      y: [-20, 20, -20],
-      rotate: [0, 180, 360],
-    }}
-    transition={{
-      duration,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut",
-    }}
-  >
-    <div className="w-full h-full rounded-xl bg-primary/10 backdrop-blur-sm border border-primary/20" />
-  </motion.div>
-);
-
-// Animated Grid Pattern
-const AnimatedGridPattern = () => (
-  <div className="absolute inset-0 overflow-hidden">
-    <svg className="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
+// Static Professional Background
+const HeroBackground = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    {/* Radial gradient overlay */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.12),transparent)]" />
+    
+    {/* Subtle dot grid pattern */}
+    <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-          <motion.path
-            d="M 60 0 L 0 0 0 60"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            className="text-primary/10"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-          />
+        <pattern id="dotgrid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="hsl(var(--primary))" />
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" />
+      <rect width="100%" height="100%" fill="url(#dotgrid)" />
     </svg>
-  </div>
-);
 
-// Animated Circles
-const AnimatedCircles = () => (
-  <>
-    <motion.div
-      className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-3xl"
-      animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.3, 0.5, 0.3],
-      }}
-      transition={{ duration: 8, repeat: Infinity }}
-    />
-    <motion.div
-      className="absolute bottom-20 left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-secondary/20 to-transparent blur-3xl"
-      animate={{
-        scale: [1.2, 1, 1.2],
-        opacity: [0.2, 0.4, 0.2],
-      }}
-      transition={{ duration: 10, repeat: Infinity }}
-    />
-    <motion.div
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-b from-primary/10 to-secondary/10 blur-3xl"
-      animate={{
-        rotate: [0, 360],
-      }}
-      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-    />
-  </>
-);
+    {/* Decorative gradient blobs - static */}
+    <div className="absolute top-16 right-[8%] w-72 h-72 rounded-full bg-gradient-to-br from-primary/8 to-transparent blur-3xl" />
+    <div className="absolute bottom-24 left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-secondary/8 to-transparent blur-3xl" />
+    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-b from-primary/5 to-transparent blur-3xl" />
 
-// Animated Lines
-const AnimatedLines = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {[...Array(5)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
-        style={{
-          top: `${20 + i * 15}%`,
-          width: "100%",
-        }}
-        animate={{
-          x: ["-100%", "100%"],
-          opacity: [0, 1, 0],
-        }}
-        transition={{
-          duration: 4 + i,
-          repeat: Infinity,
-          delay: i * 0.5,
-          ease: "easeInOut",
-        }}
-      />
-    ))}
+    {/* Static building skyline silhouette */}
+    <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 md:h-56 opacity-[0.04]">
+      <svg viewBox="0 0 1200 200" className="w-full h-full" preserveAspectRatio="xMidYMax slice" fill="hsl(var(--primary))">
+        <rect x="50" y="60" width="80" height="140" rx="2" />
+        <rect x="55" y="55" width="70" height="8" rx="1" />
+        <rect x="160" y="90" width="60" height="110" rx="2" />
+        <rect x="250" y="40" width="100" height="160" rx="2" />
+        <rect x="255" y="33" width="90" height="10" rx="1" />
+        <rect x="380" y="80" width="70" height="120" rx="2" />
+        <rect x="480" y="50" width="90" height="150" rx="2" />
+        <rect x="600" y="70" width="75" height="130" rx="2" />
+        <rect x="700" y="30" width="110" height="170" rx="2" />
+        <rect x="705" y="23" width="100" height="10" rx="1" />
+        <rect x="840" y="85" width="65" height="115" rx="2" />
+        <rect x="930" y="55" width="85" height="145" rx="2" />
+        <rect x="1040" y="75" width="70" height="125" rx="2" />
+        <rect x="1130" y="95" width="55" height="105" rx="2" />
+        {/* Windows */}
+        {[65, 85, 105, 125].map(y => [65, 85, 105].map(x => (
+          <rect key={`${x}-${y}`} x={x} y={y} width="10" height="10" rx="1" opacity="0.5" />
+        )))}
+        {[55, 75, 95, 115, 135].map(y => [265, 290, 315].map(x => (
+          <rect key={`b${x}-${y}`} x={x} y={y} width="12" height="12" rx="1" opacity="0.5" />
+        )))}
+        {[45, 65, 85, 105, 125, 145].map(y => [715, 740, 770].map(x => (
+          <rect key={`c${x}-${y}`} x={x} y={y} width="12" height="12" rx="1" opacity="0.5" />
+        )))}
+      </svg>
+    </div>
+
+    {/* Subtle diagonal lines accent */}
+    <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.02]"
+      style={{
+        backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 20px, hsl(var(--primary)) 20px, hsl(var(--primary)) 21px)",
+      }}
+    />
   </div>
 );
 
@@ -360,99 +238,9 @@ const Index = () => {
       <StudentOfferModal />
       <Navbar />
 
-      {/* Hero Section - Animated Professional Design */}
+      {/* Hero Section - Professional Static Design */}
       <section className="relative pt-20 md:pt-24 pb-16 md:pb-24 overflow-hidden min-h-[90vh] md:min-h-[85vh] flex items-center">
-        {/* Animated Background Elements */}
-        <AnimatedGridPattern />
-        <AnimatedCircles />
-        <AnimatedLines />
-        
-        {/* Floating Geometric Shapes - Now visible on mobile too */}
-        <FloatingShape className="top-[10%] right-[3%]" size={40} delay={0} />
-        <FloatingShape className="top-[20%] left-[5%]" size={30} delay={0.5} duration={8} />
-        <FloatingShape className="bottom-[25%] right-[8%]" size={35} delay={1} duration={7} />
-        <FloatingShape className="bottom-[35%] left-[8%]" size={25} delay={1.5} />
-        <FloatingShape className="top-[50%] right-[20%] hidden sm:block" size={45} delay={2} duration={9} />
-        <FloatingShape className="top-[40%] left-[15%] hidden sm:block" size={38} delay={0.8} duration={6} />
-
-        {/* Mobile-specific floating elements */}
-        <motion.div
-          className="absolute top-[30%] right-[50%] w-3 h-3 rounded-full bg-primary/30 sm:hidden"
-          animate={{
-            y: [-10, 10, -10],
-            opacity: [0.3, 0.7, 0.3],
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute top-[45%] left-[20%] w-2 h-2 rounded-full bg-secondary/40 sm:hidden"
-          animate={{
-            y: [10, -10, 10],
-            opacity: [0.4, 0.8, 0.4],
-          }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-        />
-        <motion.div
-          className="absolute bottom-[40%] right-[15%] w-4 h-4 rounded-full bg-primary/20 sm:hidden"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-        />
-
-        {/* Animated Buildings Skyline */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 md:h-64 flex items-end justify-center gap-1 sm:gap-2 md:gap-4 opacity-[0.08] overflow-hidden">
-          <AnimatedBuilding className="w-10 sm:w-16 md:w-24 h-20 sm:h-32 md:h-48 text-primary" delay={0} />
-          <AnimatedBuilding className="w-8 sm:w-12 md:w-20 h-16 sm:h-24 md:h-36 text-primary" delay={0.2} />
-          <AnimatedBuilding className="w-12 sm:w-20 md:w-28 h-24 sm:h-40 md:h-56 text-primary" delay={0.4} />
-          <AnimatedBuilding className="w-9 sm:w-14 md:w-22 h-18 sm:h-28 md:h-44 text-primary" delay={0.1} />
-          <AnimatedBuilding className="w-11 sm:w-18 md:w-26 h-22 sm:h-36 md:h-52 text-primary" delay={0.3} />
-          <AnimatedBuilding className="w-8 sm:w-12 md:w-18 h-14 sm:h-20 md:h-32 text-primary" delay={0.5} />
-          <AnimatedBuilding className="w-10 sm:w-16 md:w-24 h-20 sm:h-32 md:h-48 text-primary hidden xs:block" delay={0.6} />
-          <AnimatedBuilding className="w-12 sm:w-20 md:w-28 h-24 sm:h-40 md:h-56 text-primary hidden sm:block" delay={0.7} />
-        </div>
-
-        {/* Animated Dots Pattern - More dots on mobile */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-primary/20"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                scale: [1, 1.5, 1],
-                opacity: [0.2, 0.5, 0.2],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Mobile animated rings */}
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 sm:w-64 sm:h-64 rounded-full border border-primary/10 sm:hidden"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-primary/5 sm:hidden"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.05, 0.15, 0.05],
-          }}
-          transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
-        />
+        <HeroBackground />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
