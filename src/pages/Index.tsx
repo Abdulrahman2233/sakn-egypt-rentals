@@ -34,10 +34,13 @@ import {
 // Static Professional Background
 const HeroBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {/* Radial gradient overlay */}
+    {/* Primary radial gradient */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.12),transparent)]" />
     
-    {/* Subtle dot grid pattern */}
+    {/* Secondary warm glow */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_80%,hsl(var(--secondary)/0.06),transparent)]" />
+
+    {/* Dot grid pattern */}
     <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="dotgrid" width="32" height="32" patternUnits="userSpaceOnUse">
@@ -47,10 +50,74 @@ const HeroBackground = () => (
       <rect width="100%" height="100%" fill="url(#dotgrid)" />
     </svg>
 
-    {/* Decorative gradient blobs - static */}
+    {/* Hexagonal mesh pattern - top right */}
+    <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hexgrid" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(1) rotate(30)">
+          <path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66Z" fill="none" stroke="hsl(var(--primary))" strokeWidth="1"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hexgrid)" />
+    </svg>
+
+    {/* Concentric circles - decorative - top left */}
+    <svg className="absolute -top-20 -left-20 w-[400px] h-[400px] opacity-[0.04]" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="60" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <circle cx="200" cy="200" r="100" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <circle cx="200" cy="200" r="140" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <circle cx="200" cy="200" r="180" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.3" />
+      <circle cx="200" cy="200" r="195" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.3" strokeDasharray="4 8" />
+    </svg>
+
+    {/* Cross-hair / blueprint markers */}
+    <svg className="absolute bottom-[30%] right-[12%] w-16 h-16 opacity-[0.06] hidden sm:block" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="0" x2="20" y2="40" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <line x1="0" y1="20" x2="40" y2="20" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <circle cx="20" cy="20" r="8" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <circle cx="20" cy="20" r="2" fill="hsl(var(--primary))" opacity="0.5" />
+    </svg>
+    <svg className="absolute top-[25%] left-[10%] w-12 h-12 opacity-[0.05]" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="5" x2="20" y2="35" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <line x1="5" y1="20" x2="35" y2="20" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <circle cx="20" cy="20" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+    </svg>
+
+    {/* Decorative gradient blobs */}
     <div className="absolute top-16 right-[8%] w-72 h-72 rounded-full bg-gradient-to-br from-primary/8 to-transparent blur-3xl" />
     <div className="absolute bottom-24 left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-secondary/8 to-transparent blur-3xl" />
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-b from-primary/5 to-transparent blur-3xl" />
+
+    {/* Blueprint-style floor plan outline - bottom left */}
+    <svg className="absolute bottom-[15%] left-[5%] w-40 h-32 sm:w-52 sm:h-40 opacity-[0.04]" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.8">
+      <rect x="10" y="10" width="120" height="90" rx="1" />
+      <line x1="70" y1="10" x2="70" y2="100" />
+      <line x1="10" y1="55" x2="70" y2="55" />
+      <rect x="130" y="10" width="60" height="50" rx="1" />
+      <rect x="130" y="60" width="60" height="40" rx="1" />
+      <rect x="40" y="100" width="30" height="5" rx="1" strokeWidth="1.5" />
+      <rect x="145" y="50" width="15" height="4" rx="1" strokeWidth="1.5" />
+      {/* Dimension lines */}
+      <line x1="10" y1="115" x2="130" y2="115" strokeDasharray="3 3" strokeWidth="0.4" />
+      <line x1="10" y1="113" x2="10" y2="117" strokeWidth="0.4" />
+      <line x1="130" y1="113" x2="130" y2="117" strokeWidth="0.4" />
+    </svg>
+
+    {/* Compass / location marker - top right area */}
+    <svg className="absolute top-[15%] right-[15%] w-20 h-20 opacity-[0.05] hidden md:block" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.6">
+      <circle cx="30" cy="30" r="25" />
+      <circle cx="30" cy="30" r="20" strokeDasharray="2 4" />
+      <line x1="30" y1="2" x2="30" y2="12" />
+      <line x1="30" y1="48" x2="30" y2="58" />
+      <line x1="2" y1="30" x2="12" y2="30" />
+      <line x1="48" y1="30" x2="58" y2="30" />
+      <polygon points="30,10 27,20 33,20" fill="hsl(var(--primary))" opacity="0.3" />
+    </svg>
+
+    {/* Small decorative diamonds */}
+    <div className="absolute top-[40%] right-[25%] w-3 h-3 rotate-45 border border-primary/10 hidden sm:block" />
+    <div className="absolute top-[60%] left-[20%] w-2 h-2 rotate-45 bg-primary/8" />
+    <div className="absolute top-[20%] left-[35%] w-2.5 h-2.5 rotate-45 border border-primary/8 hidden sm:block" />
+    <div className="absolute bottom-[45%] right-[35%] w-1.5 h-1.5 rotate-45 bg-secondary/10" />
 
     {/* Static building skyline silhouette */}
     <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 md:h-56 opacity-[0.04]">
@@ -69,7 +136,6 @@ const HeroBackground = () => (
         <rect x="930" y="55" width="85" height="145" rx="2" />
         <rect x="1040" y="75" width="70" height="125" rx="2" />
         <rect x="1130" y="95" width="55" height="105" rx="2" />
-        {/* Windows */}
         {[65, 85, 105, 125].map(y => [65, 85, 105].map(x => (
           <rect key={`${x}-${y}`} x={x} y={y} width="10" height="10" rx="1" opacity="0.5" />
         )))}
@@ -82,12 +148,20 @@ const HeroBackground = () => (
       </svg>
     </div>
 
-    {/* Subtle diagonal lines accent */}
+    {/* Diagonal lines accent */}
     <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.02]"
       style={{
         backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 20px, hsl(var(--primary)) 20px, hsl(var(--primary)) 21px)",
       }}
     />
+
+    {/* Corner decorative brackets */}
+    <svg className="absolute top-24 left-6 w-10 h-10 opacity-[0.06]" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="1">
+      <path d="M0,10 L0,0 L10,0" />
+    </svg>
+    <svg className="absolute bottom-32 right-6 w-10 h-10 opacity-[0.06]" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="1">
+      <path d="M30,20 L30,30 L20,30" />
+    </svg>
   </div>
 );
 
