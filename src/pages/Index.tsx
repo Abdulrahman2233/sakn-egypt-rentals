@@ -31,13 +31,133 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-// Static Professional Background
+// 3D Isometric Building Illustration
+const IsometricBuilding = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
+  <motion.div
+    className={`absolute ${className}`}
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1, delay }}
+  >
+    <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-2xl">
+      {/* Building body - front face */}
+      <path d="M100 40L180 80V240L100 280V120Z" fill="hsl(var(--primary)/0.15)" stroke="hsl(var(--primary)/0.3)" strokeWidth="1"/>
+      {/* Building body - side face */}
+      <path d="M100 40L20 80V240L100 280V120Z" fill="hsl(var(--primary)/0.1)" stroke="hsl(var(--primary)/0.25)" strokeWidth="1"/>
+      {/* Roof */}
+      <path d="M20 80L100 40L180 80L100 120Z" fill="hsl(var(--primary)/0.2)" stroke="hsl(var(--primary)/0.35)" strokeWidth="1"/>
+      {/* Windows - front */}
+      {[100, 140, 180, 220].map((y) => (
+        <g key={`fw-${y}`}>
+          <rect x="115" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.25)" stroke="hsl(var(--primary)/0.2)" strokeWidth="0.5"/>
+          <rect x="145" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.2)" stroke="hsl(var(--primary)/0.2)" strokeWidth="0.5"/>
+        </g>
+      ))}
+      {/* Windows - side */}
+      {[100, 140, 180, 220].map((y) => (
+        <g key={`sw-${y}`}>
+          <rect x="38" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.15)" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
+          <rect x="66" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.12)" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
+        </g>
+      ))}
+      {/* Door */}
+      <rect x="85" y="245" width="30" height="35" rx="3" fill="hsl(var(--primary)/0.25)" stroke="hsl(var(--primary)/0.4)" strokeWidth="1"/>
+      <circle cx="108" cy="262" r="2" fill="hsl(var(--secondary)/0.6)"/>
+      {/* Antenna */}
+      <line x1="100" y1="40" x2="100" y2="15" stroke="hsl(var(--primary)/0.3)" strokeWidth="1.5"/>
+      <circle cx="100" cy="12" r="3" fill="hsl(var(--secondary)/0.4)" stroke="hsl(var(--primary)/0.3)" strokeWidth="0.5"/>
+    </svg>
+  </motion.div>
+);
+
+// 3D Isometric House
+const IsometricHouse = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
+  <motion.div
+    className={`absolute ${className}`}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, delay }}
+  >
+    <svg viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl">
+      {/* Roof */}
+      <path d="M90 10L170 55L90 80L10 55Z" fill="hsl(var(--secondary)/0.2)" stroke="hsl(var(--secondary)/0.4)" strokeWidth="1"/>
+      {/* Front wall */}
+      <path d="M90 80L170 55V120L90 145Z" fill="hsl(var(--primary)/0.12)" stroke="hsl(var(--primary)/0.25)" strokeWidth="1"/>
+      {/* Side wall */}
+      <path d="M90 80L10 55V120L90 145Z" fill="hsl(var(--primary)/0.08)" stroke="hsl(var(--primary)/0.2)" strokeWidth="1"/>
+      {/* Window front */}
+      <rect x="110" y="75" width="22" height="18" rx="2" fill="hsl(var(--secondary)/0.2)" stroke="hsl(var(--primary)/0.2)" strokeWidth="0.5"/>
+      <line x1="121" y1="75" x2="121" y2="93" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
+      {/* Window side */}
+      <rect x="35" y="75" width="22" height="18" rx="2" fill="hsl(var(--secondary)/0.12)" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
+      {/* Door */}
+      <rect x="80" y="110" width="20" height="35" rx="2" fill="hsl(var(--primary)/0.2)" stroke="hsl(var(--primary)/0.35)" strokeWidth="1"/>
+      <circle cx="94" cy="128" r="1.5" fill="hsl(var(--secondary)/0.5)"/>
+      {/* Chimney */}
+      <rect x="40" y="30" width="12" height="25" fill="hsl(var(--primary)/0.15)" stroke="hsl(var(--primary)/0.25)" strokeWidth="0.5"/>
+    </svg>
+  </motion.div>
+);
+
+// 3D Floating Key
+const FloatingKey = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
+  <motion.div
+    className={`absolute ${className}`}
+    initial={{ opacity: 0, scale: 0.5 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.6, delay }}
+  >
+    <motion.div
+      animate={{ y: [0, -8, 0], rotateZ: [0, 5, -5, 0] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-lg">
+        {/* Key ring */}
+        <circle cx="30" cy="30" r="16" fill="hsl(var(--secondary)/0.15)" stroke="hsl(var(--secondary)/0.5)" strokeWidth="2.5"/>
+        <circle cx="30" cy="30" r="8" fill="hsl(var(--background))" stroke="hsl(var(--secondary)/0.3)" strokeWidth="1"/>
+        {/* Key shaft */}
+        <rect x="44" y="27" width="30" height="6" rx="2" fill="hsl(var(--secondary)/0.3)" stroke="hsl(var(--secondary)/0.5)" strokeWidth="1"/>
+        {/* Key teeth */}
+        <rect x="60" y="33" width="5" height="8" rx="1" fill="hsl(var(--secondary)/0.25)" stroke="hsl(var(--secondary)/0.4)" strokeWidth="0.5"/>
+        <rect x="68" y="33" width="5" height="12" rx="1" fill="hsl(var(--secondary)/0.25)" stroke="hsl(var(--secondary)/0.4)" strokeWidth="0.5"/>
+        {/* Shine */}
+        <ellipse cx="25" cy="25" rx="4" ry="2" fill="hsl(var(--secondary)/0.15)" transform="rotate(-30 25 25)"/>
+      </svg>
+    </motion.div>
+  </motion.div>
+);
+
+// 3D Location Pin
+const LocationPin3D = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
+  <motion.div
+    className={`absolute ${className}`}
+    initial={{ opacity: 0, scale: 0.5 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.6, delay }}
+  >
+    <motion.div
+      animate={{ y: [0, -6, 0] }}
+      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-lg">
+        {/* Pin body */}
+        <path d="M30 75L8 38C-2 20 8 2 30 2C52 2 62 20 52 38L30 75Z" fill="hsl(var(--primary)/0.15)" stroke="hsl(var(--primary)/0.4)" strokeWidth="1.5"/>
+        {/* Inner circle */}
+        <circle cx="30" cy="28" r="12" fill="hsl(var(--primary)/0.1)" stroke="hsl(var(--primary)/0.3)" strokeWidth="1"/>
+        {/* Home icon inside */}
+        <path d="M30 20L22 26V34H26V29H34V34H38V26Z" fill="hsl(var(--primary)/0.35)" stroke="hsl(var(--primary)/0.5)" strokeWidth="0.5"/>
+        {/* Shadow ellipse */}
+        <ellipse cx="30" cy="76" rx="10" ry="3" fill="hsl(var(--primary)/0.08)"/>
+      </svg>
+    </motion.div>
+  </motion.div>
+);
+
+// Static Professional Background with 3D Illustrations
 const HeroBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {/* Primary radial gradient */}
+    {/* Radial gradients */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.12),transparent)]" />
-    
-    {/* Secondary warm glow */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_80%,hsl(var(--secondary)/0.06),transparent)]" />
 
     {/* Dot grid pattern */}
@@ -50,112 +170,48 @@ const HeroBackground = () => (
       <rect width="100%" height="100%" fill="url(#dotgrid)" />
     </svg>
 
-    {/* Hexagonal mesh pattern - top right */}
-    <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="hexgrid" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(1) rotate(30)">
-          <path d="M28 66L0 50L0 16L28 0L56 16L56 50L28 66Z" fill="none" stroke="hsl(var(--primary))" strokeWidth="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#hexgrid)" />
-    </svg>
-
-    {/* Concentric circles - decorative - top left */}
-    <svg className="absolute -top-20 -left-20 w-[400px] h-[400px] opacity-[0.04]" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="200" cy="200" r="60" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <circle cx="200" cy="200" r="100" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <circle cx="200" cy="200" r="140" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <circle cx="200" cy="200" r="180" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.3" />
-      <circle cx="200" cy="200" r="195" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.3" strokeDasharray="4 8" />
-    </svg>
-
-    {/* Cross-hair / blueprint markers */}
-    <svg className="absolute bottom-[30%] right-[12%] w-16 h-16 opacity-[0.06] hidden sm:block" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="0" x2="20" y2="40" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <line x1="0" y1="20" x2="40" y2="20" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <circle cx="20" cy="20" r="8" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <circle cx="20" cy="20" r="2" fill="hsl(var(--primary))" opacity="0.5" />
-    </svg>
-    <svg className="absolute top-[25%] left-[10%] w-12 h-12 opacity-[0.05]" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-      <line x1="20" y1="5" x2="20" y2="35" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <line x1="5" y1="20" x2="35" y2="20" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-      <circle cx="20" cy="20" r="6" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
-    </svg>
-
-    {/* Decorative gradient blobs */}
+    {/* Gradient blobs */}
     <div className="absolute top-16 right-[8%] w-72 h-72 rounded-full bg-gradient-to-br from-primary/8 to-transparent blur-3xl" />
     <div className="absolute bottom-24 left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-secondary/8 to-transparent blur-3xl" />
-    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-b from-primary/5 to-transparent blur-3xl" />
 
-    {/* Blueprint-style floor plan outline - bottom left */}
-    <svg className="absolute bottom-[15%] left-[5%] w-40 h-32 sm:w-52 sm:h-40 opacity-[0.04]" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.8">
-      <rect x="10" y="10" width="120" height="90" rx="1" />
-      <line x1="70" y1="10" x2="70" y2="100" />
-      <line x1="10" y1="55" x2="70" y2="55" />
-      <rect x="130" y="10" width="60" height="50" rx="1" />
-      <rect x="130" y="60" width="60" height="40" rx="1" />
-      <rect x="40" y="100" width="30" height="5" rx="1" strokeWidth="1.5" />
-      <rect x="145" y="50" width="15" height="4" rx="1" strokeWidth="1.5" />
-      {/* Dimension lines */}
-      <line x1="10" y1="115" x2="130" y2="115" strokeDasharray="3 3" strokeWidth="0.4" />
-      <line x1="10" y1="113" x2="10" y2="117" strokeWidth="0.4" />
-      <line x1="130" y1="113" x2="130" y2="117" strokeWidth="0.4" />
-    </svg>
+    {/* 3D Isometric Illustrations */}
+    {/* Large building - right side (desktop) */}
+    <IsometricBuilding className="hidden lg:block right-[3%] bottom-[8%] w-36 h-52" delay={0.3} />
+    {/* Small house - left side (desktop) */}
+    <IsometricHouse className="hidden lg:block left-[5%] bottom-[12%] w-32 h-28" delay={0.5} />
+    {/* Second building - left (desktop) */}
+    <IsometricBuilding className="hidden xl:block left-[18%] bottom-[5%] w-28 h-44 opacity-60" delay={0.7} />
+    {/* Key - floating (desktop + tablet) */}
+    <FloatingKey className="hidden md:block right-[15%] top-[20%] w-20 h-20" delay={0.4} />
+    {/* Location pin (desktop + tablet) */}
+    <LocationPin3D className="hidden md:block left-[12%] top-[25%] w-14 h-18" delay={0.6} />
+    {/* Second key - left side */}
+    <FloatingKey className="hidden lg:block left-[25%] bottom-[30%] w-14 h-14 opacity-50" delay={0.9} />
+    {/* Second pin - right */}
+    <LocationPin3D className="hidden xl:block right-[22%] bottom-[35%] w-10 h-14 opacity-50" delay={1.1} />
 
-    {/* Compass / location marker - top right area */}
-    <svg className="absolute top-[15%] right-[15%] w-20 h-20 opacity-[0.05] hidden md:block" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.6">
-      <circle cx="30" cy="30" r="25" />
-      <circle cx="30" cy="30" r="20" strokeDasharray="2 4" />
-      <line x1="30" y1="2" x2="30" y2="12" />
-      <line x1="30" y1="48" x2="30" y2="58" />
-      <line x1="2" y1="30" x2="12" y2="30" />
-      <line x1="48" y1="30" x2="58" y2="30" />
-      <polygon points="30,10 27,20 33,20" fill="hsl(var(--primary))" opacity="0.3" />
-    </svg>
+    {/* Mobile 3D illustrations - smaller and repositioned */}
+    <IsometricHouse className="md:hidden right-[2%] bottom-[3%] w-20 h-18 opacity-70" delay={0.4} />
+    <FloatingKey className="md:hidden left-[5%] top-[15%] w-12 h-12 opacity-60" delay={0.6} />
+    <LocationPin3D className="md:hidden right-[8%] top-[12%] w-8 h-12 opacity-50" delay={0.8} />
 
-    {/* Small decorative diamonds */}
-    <div className="absolute top-[40%] right-[25%] w-3 h-3 rotate-45 border border-primary/10 hidden sm:block" />
-    <div className="absolute top-[60%] left-[20%] w-2 h-2 rotate-45 bg-primary/8" />
-    <div className="absolute top-[20%] left-[35%] w-2.5 h-2.5 rotate-45 border border-primary/8 hidden sm:block" />
-    <div className="absolute bottom-[45%] right-[35%] w-1.5 h-1.5 rotate-45 bg-secondary/10" />
-
-    {/* Static building skyline silhouette */}
-    <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 md:h-56 opacity-[0.04]">
+    {/* Building skyline */}
+    <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-28 md:h-36 opacity-[0.03]">
       <svg viewBox="0 0 1200 200" className="w-full h-full" preserveAspectRatio="xMidYMax slice" fill="hsl(var(--primary))">
         <rect x="50" y="60" width="80" height="140" rx="2" />
-        <rect x="55" y="55" width="70" height="8" rx="1" />
         <rect x="160" y="90" width="60" height="110" rx="2" />
         <rect x="250" y="40" width="100" height="160" rx="2" />
-        <rect x="255" y="33" width="90" height="10" rx="1" />
         <rect x="380" y="80" width="70" height="120" rx="2" />
         <rect x="480" y="50" width="90" height="150" rx="2" />
         <rect x="600" y="70" width="75" height="130" rx="2" />
         <rect x="700" y="30" width="110" height="170" rx="2" />
-        <rect x="705" y="23" width="100" height="10" rx="1" />
         <rect x="840" y="85" width="65" height="115" rx="2" />
         <rect x="930" y="55" width="85" height="145" rx="2" />
         <rect x="1040" y="75" width="70" height="125" rx="2" />
-        <rect x="1130" y="95" width="55" height="105" rx="2" />
-        {[65, 85, 105, 125].map(y => [65, 85, 105].map(x => (
-          <rect key={`${x}-${y}`} x={x} y={y} width="10" height="10" rx="1" opacity="0.5" />
-        )))}
-        {[55, 75, 95, 115, 135].map(y => [265, 290, 315].map(x => (
-          <rect key={`b${x}-${y}`} x={x} y={y} width="12" height="12" rx="1" opacity="0.5" />
-        )))}
-        {[45, 65, 85, 105, 125, 145].map(y => [715, 740, 770].map(x => (
-          <rect key={`c${x}-${y}`} x={x} y={y} width="12" height="12" rx="1" opacity="0.5" />
-        )))}
       </svg>
     </div>
 
-    {/* Diagonal lines accent */}
-    <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.02]"
-      style={{
-        backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 20px, hsl(var(--primary)) 20px, hsl(var(--primary)) 21px)",
-      }}
-    />
-
-    {/* Corner decorative brackets */}
+    {/* Corner brackets */}
     <svg className="absolute top-24 left-6 w-10 h-10 opacity-[0.06]" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="hsl(var(--primary))" strokeWidth="1">
       <path d="M0,10 L0,0 L10,0" />
     </svg>
