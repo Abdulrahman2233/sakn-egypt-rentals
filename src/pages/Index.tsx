@@ -30,128 +30,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-// 3D Isometric Building Illustration
-const IsometricBuilding = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
-  <motion.div
-    className={`absolute ${className}`}
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1, delay }}
-  >
-    <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-2xl">
-      {/* Building body - front face */}
-      <path d="M100 40L180 80V240L100 280V120Z" fill="hsl(var(--primary)/0.15)" stroke="hsl(var(--primary)/0.3)" strokeWidth="1"/>
-      {/* Building body - side face */}
-      <path d="M100 40L20 80V240L100 280V120Z" fill="hsl(var(--primary)/0.1)" stroke="hsl(var(--primary)/0.25)" strokeWidth="1"/>
-      {/* Roof */}
-      <path d="M20 80L100 40L180 80L100 120Z" fill="hsl(var(--primary)/0.2)" stroke="hsl(var(--primary)/0.35)" strokeWidth="1"/>
-      {/* Windows - front */}
-      {[100, 140, 180, 220].map((y) => (
-        <g key={`fw-${y}`}>
-          <rect x="115" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.25)" stroke="hsl(var(--primary)/0.2)" strokeWidth="0.5"/>
-          <rect x="145" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.2)" stroke="hsl(var(--primary)/0.2)" strokeWidth="0.5"/>
-        </g>
-      ))}
-      {/* Windows - side */}
-      {[100, 140, 180, 220].map((y) => (
-        <g key={`sw-${y}`}>
-          <rect x="38" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.15)" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
-          <rect x="66" y={y} width="18" height="14" rx="2" fill="hsl(var(--secondary)/0.12)" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
-        </g>
-      ))}
-      {/* Door */}
-      <rect x="85" y="245" width="30" height="35" rx="3" fill="hsl(var(--primary)/0.25)" stroke="hsl(var(--primary)/0.4)" strokeWidth="1"/>
-      <circle cx="108" cy="262" r="2" fill="hsl(var(--secondary)/0.6)"/>
-      {/* Antenna */}
-      <line x1="100" y1="40" x2="100" y2="15" stroke="hsl(var(--primary)/0.3)" strokeWidth="1.5"/>
-      <circle cx="100" cy="12" r="3" fill="hsl(var(--secondary)/0.4)" stroke="hsl(var(--primary)/0.3)" strokeWidth="0.5"/>
-    </svg>
-  </motion.div>
-);
-
-// 3D Isometric House
-const IsometricHouse = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
-  <motion.div
-    className={`absolute ${className}`}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay }}
-  >
-    <svg viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-xl">
-      {/* Roof */}
-      <path d="M90 10L170 55L90 80L10 55Z" fill="hsl(var(--secondary)/0.2)" stroke="hsl(var(--secondary)/0.4)" strokeWidth="1"/>
-      {/* Front wall */}
-      <path d="M90 80L170 55V120L90 145Z" fill="hsl(var(--primary)/0.12)" stroke="hsl(var(--primary)/0.25)" strokeWidth="1"/>
-      {/* Side wall */}
-      <path d="M90 80L10 55V120L90 145Z" fill="hsl(var(--primary)/0.08)" stroke="hsl(var(--primary)/0.2)" strokeWidth="1"/>
-      {/* Window front */}
-      <rect x="110" y="75" width="22" height="18" rx="2" fill="hsl(var(--secondary)/0.2)" stroke="hsl(var(--primary)/0.2)" strokeWidth="0.5"/>
-      <line x1="121" y1="75" x2="121" y2="93" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
-      {/* Window side */}
-      <rect x="35" y="75" width="22" height="18" rx="2" fill="hsl(var(--secondary)/0.12)" stroke="hsl(var(--primary)/0.15)" strokeWidth="0.5"/>
-      {/* Door */}
-      <rect x="80" y="110" width="20" height="35" rx="2" fill="hsl(var(--primary)/0.2)" stroke="hsl(var(--primary)/0.35)" strokeWidth="1"/>
-      <circle cx="94" cy="128" r="1.5" fill="hsl(var(--secondary)/0.5)"/>
-      {/* Chimney */}
-      <rect x="40" y="30" width="12" height="25" fill="hsl(var(--primary)/0.15)" stroke="hsl(var(--primary)/0.25)" strokeWidth="0.5"/>
-    </svg>
-  </motion.div>
-);
-
-// 3D Floating Key
-const FloatingKey = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
-  <motion.div
-    className={`absolute ${className}`}
-    initial={{ opacity: 0, scale: 0.5 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.6, delay }}
-  >
-    <motion.div
-      animate={{ y: [0, -8, 0], rotateZ: [0, 5, -5, 0] }}
-      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-lg">
-        {/* Key ring */}
-        <circle cx="30" cy="30" r="16" fill="hsl(var(--secondary)/0.15)" stroke="hsl(var(--secondary)/0.5)" strokeWidth="2.5"/>
-        <circle cx="30" cy="30" r="8" fill="hsl(var(--background))" stroke="hsl(var(--secondary)/0.3)" strokeWidth="1"/>
-        {/* Key shaft */}
-        <rect x="44" y="27" width="30" height="6" rx="2" fill="hsl(var(--secondary)/0.3)" stroke="hsl(var(--secondary)/0.5)" strokeWidth="1"/>
-        {/* Key teeth */}
-        <rect x="60" y="33" width="5" height="8" rx="1" fill="hsl(var(--secondary)/0.25)" stroke="hsl(var(--secondary)/0.4)" strokeWidth="0.5"/>
-        <rect x="68" y="33" width="5" height="12" rx="1" fill="hsl(var(--secondary)/0.25)" stroke="hsl(var(--secondary)/0.4)" strokeWidth="0.5"/>
-        {/* Shine */}
-        <ellipse cx="25" cy="25" rx="4" ry="2" fill="hsl(var(--secondary)/0.15)" transform="rotate(-30 25 25)"/>
-      </svg>
-    </motion.div>
-  </motion.div>
-);
-
-// 3D Location Pin
-const LocationPin3D = ({ className = "", delay = 0 }: { className?: string; delay?: number }) => (
-  <motion.div
-    className={`absolute ${className}`}
-    initial={{ opacity: 0, scale: 0.5 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.6, delay }}
-  >
-    <motion.div
-      animate={{ y: [0, -6, 0] }}
-      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-lg">
-        {/* Pin body */}
-        <path d="M30 75L8 38C-2 20 8 2 30 2C52 2 62 20 52 38L30 75Z" fill="hsl(var(--primary)/0.15)" stroke="hsl(var(--primary)/0.4)" strokeWidth="1.5"/>
-        {/* Inner circle */}
-        <circle cx="30" cy="28" r="12" fill="hsl(var(--primary)/0.1)" stroke="hsl(var(--primary)/0.3)" strokeWidth="1"/>
-        {/* Home icon inside */}
-        <path d="M30 20L22 26V34H26V29H34V34H38V26Z" fill="hsl(var(--primary)/0.35)" stroke="hsl(var(--primary)/0.5)" strokeWidth="0.5"/>
-        {/* Shadow ellipse */}
-        <ellipse cx="30" cy="76" rx="10" ry="3" fill="hsl(var(--primary)/0.08)"/>
-      </svg>
-    </motion.div>
-  </motion.div>
-);
+import img3dAgent from "@/assets/3d-agent.png";
+import img3dHouse from "@/assets/3d-house.png";
+import img3dSearch from "@/assets/3d-search.png";
 
 // Static Professional Background with 3D Illustrations
 const HeroBackground = () => (
@@ -174,29 +55,72 @@ const HeroBackground = () => (
     <div className="absolute top-16 right-[8%] w-72 h-72 rounded-full bg-gradient-to-br from-primary/8 to-transparent blur-3xl" />
     <div className="absolute bottom-24 left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-secondary/8 to-transparent blur-3xl" />
 
-    {/* 3D Isometric Illustrations */}
-    {/* Large building - right side (desktop) */}
-    <IsometricBuilding className="hidden lg:block right-[3%] bottom-[8%] w-36 h-52" delay={0.3} />
-    {/* Small house - left side (desktop) */}
-    <IsometricHouse className="hidden lg:block left-[5%] bottom-[12%] w-32 h-28" delay={0.5} />
-    {/* Second building - left (desktop) */}
-    <IsometricBuilding className="hidden xl:block left-[18%] bottom-[5%] w-28 h-44 opacity-60" delay={0.7} />
-    {/* Key - floating (desktop + tablet) */}
-    <FloatingKey className="hidden md:block right-[15%] top-[20%] w-20 h-20" delay={0.4} />
-    {/* Location pin (desktop + tablet) */}
-    <LocationPin3D className="hidden md:block left-[12%] top-[25%] w-14 h-18" delay={0.6} />
-    {/* Second key - left side */}
-    <FloatingKey className="hidden lg:block left-[25%] bottom-[30%] w-14 h-14 opacity-50" delay={0.9} />
-    {/* Second pin - right */}
-    <LocationPin3D className="hidden xl:block right-[22%] bottom-[35%] w-10 h-14 opacity-50" delay={1.1} />
+    {/* 3D Agent illustration - right side (desktop) */}
+    <motion.div
+      className="absolute hidden lg:block right-[2%] bottom-[5%] w-56 xl:w-72"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+    >
+      <motion.img
+        src={img3dAgent}
+        alt="3D Agent"
+        className="w-full h-auto drop-shadow-2xl"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </motion.div>
 
-    {/* Mobile 3D illustrations - smaller and repositioned */}
-    <IsometricHouse className="md:hidden right-[2%] bottom-[3%] w-20 h-18 opacity-70" delay={0.4} />
-    <FloatingKey className="md:hidden left-[5%] top-[15%] w-12 h-12 opacity-60" delay={0.6} />
-    <LocationPin3D className="md:hidden right-[8%] top-[12%] w-8 h-12 opacity-50" delay={0.8} />
+    {/* 3D House illustration - left side (desktop) */}
+    <motion.div
+      className="absolute hidden lg:block left-[3%] bottom-[8%] w-48 xl:w-60"
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, delay: 0.5 }}
+    >
+      <motion.img
+        src={img3dHouse}
+        alt="3D House"
+        className="w-full h-auto drop-shadow-2xl"
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </motion.div>
+
+    {/* 3D Search illustration - tablet */}
+    <motion.div
+      className="absolute hidden md:block lg:hidden right-[3%] bottom-[5%] w-44"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.4 }}
+    >
+      <motion.img
+        src={img3dSearch}
+        alt="3D Search"
+        className="w-full h-auto drop-shadow-2xl"
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </motion.div>
+
+    {/* Mobile 3D illustration - centered below content */}
+    <motion.div
+      className="absolute md:hidden left-1/2 -translate-x-1/2 bottom-[2%] w-28 opacity-80"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 0.8, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.5 }}
+    >
+      <motion.img
+        src={img3dHouse}
+        alt="3D House"
+        className="w-full h-auto drop-shadow-xl"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </motion.div>
 
     {/* Building skyline */}
-    <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-28 md:h-36 opacity-[0.03]">
+    <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-24 md:h-28 opacity-[0.03]">
       <svg viewBox="0 0 1200 200" className="w-full h-full" preserveAspectRatio="xMidYMax slice" fill="hsl(var(--primary))">
         <rect x="50" y="60" width="80" height="140" rx="2" />
         <rect x="160" y="90" width="60" height="110" rx="2" />
@@ -625,23 +549,34 @@ const Index = () => {
       {/* How It Works */}
       <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-10 md:mb-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <span className="inline-block px-4 py-1.5 bg-secondary/20 text-secondary-foreground text-sm font-medium rounded-full mb-4">
-              كيف يعمل؟
-            </span>
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">
-              خطوات بسيطة للعثور على سكنك
-            </h2>
-            <p className="text-muted-foreground max-w-lg mx-auto text-sm md:text-base">
-              اتبع هذه الخطوات السهلة للعثور على العقار المناسب
-            </p>
-          </motion.div>
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-10 md:mb-12">
+            <motion.img
+              src={img3dSearch}
+              alt="3D Search Illustration"
+              className="w-32 md:w-44 h-auto drop-shadow-xl"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            />
+            <motion.div
+              className="text-center md:text-right flex-1"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <span className="inline-block px-4 py-1.5 bg-secondary/20 text-secondary-foreground text-sm font-medium rounded-full mb-4">
+                كيف يعمل؟
+              </span>
+              <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-3">
+                خطوات بسيطة للعثور على سكنك
+              </h2>
+              <p className="text-muted-foreground max-w-lg mx-auto md:mx-0 text-sm md:text-base">
+                اتبع هذه الخطوات السهلة للعثور على العقار المناسب
+              </p>
+            </motion.div>
+          </div>
 
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
