@@ -203,39 +203,46 @@ const PropertyDetails = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
-                className="space-y-4"
+                className="space-y-5"
               >
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <div className="w-1 h-5 bg-primary rounded-full" />
-                  المميزات والخدمات
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-bold flex items-center gap-2">
+                    <div className="w-1 h-5 bg-primary rounded-full" />
+                    المميزات والخدمات
+                  </h2>
+                  <Badge variant="outline" className="text-xs gap-1">
+                    <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                    {amenities.length} مميزات
+                  </Badge>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   <AnimatePresence>
                     {displayedAmenities.map((amenity, index) => (
                       <motion.div
                         key={amenity.label}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.05 * index }}
-                        className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.04 * index, type: "spring", stiffness: 200 }}
+                        className="group relative flex flex-col items-center text-center gap-3 p-5 rounded-2xl border border-border/60 bg-gradient-to-b from-muted/40 to-background hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-default"
                       >
-                        <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <amenity.icon className="h-4 w-4 text-primary" />
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center group-hover:from-primary/25 group-hover:to-primary/10 transition-colors duration-300">
+                          <amenity.icon className="h-5 w-5 text-primary" />
                         </div>
-                        <span className="text-sm font-medium">{amenity.label}</span>
+                        <span className="text-sm font-semibold leading-tight">{amenity.label}</span>
+                        <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </motion.div>
                     ))}
                   </AnimatePresence>
                 </div>
                 {amenities.length > 6 && (
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     size="sm"
-                    className="gap-2"
+                    className="gap-2 rounded-xl w-full border-dashed"
                     onClick={() => setShowAllAmenities(!showAllAmenities)}
                   >
-                    <span>{showAllAmenities ? 'عرض أقل' : `عرض الكل (${amenities.length})`}</span>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${showAllAmenities ? 'rotate-180' : ''}`} />
+                    <span>{showAllAmenities ? 'عرض أقل' : `عرض جميع المميزات (${amenities.length})`}</span>
+                    <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${showAllAmenities ? 'rotate-180' : ''}`} />
                   </Button>
                 )}
               </motion.div>
