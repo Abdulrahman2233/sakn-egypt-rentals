@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Building2, Plus, Clock, CheckCircle2, XCircle,
   Eye, Edit, Trash2, MoreVertical, AlertCircle, Search,
-  Filter
+  Filter, MapPin, Bed, Bath, Maximize, TrendingUp,
+  Sparkles, ArrowUpRight
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -55,8 +56,6 @@ const MyProperties = () => {
 
   useEffect(() => {
     let filtered = properties;
-
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(
         (p) =>
@@ -64,17 +63,13 @@ const MyProperties = () => {
           p.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-
-    // Filter by status
     if (statusFilter !== "all") {
       filtered = filtered.filter((p) => p.status === statusFilter);
     }
-
     setFilteredProperties(filtered);
   }, [properties, searchQuery, statusFilter]);
 
   const fetchProperties = async () => {
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500));
     const storedProperties = getStoredProperties();
     setProperties(storedProperties);
@@ -83,7 +78,6 @@ const MyProperties = () => {
 
   const handleDelete = async () => {
     if (!propertyToDelete) return;
-
     try {
       const updatedProperties = properties.filter((p) => p.id !== propertyToDelete.id);
       saveProperties(updatedProperties);
@@ -102,14 +96,16 @@ const MyProperties = () => {
       case "approved":
         return {
           label: "موافق عليه",
-          color: "bg-green-500/10 text-green-600 border-green-500/20",
+          color: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+          dotColor: "bg-emerald-500",
           icon: CheckCircle2,
           message: "تم الموافقة على العقار وهو معروض الآن"
         };
       case "pending":
         return {
           label: "قيد المراجعة",
-          color: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
+          color: "bg-amber-500/10 text-amber-600 border-amber-500/20",
+          dotColor: "bg-amber-500",
           icon: Clock,
           message: "العقار قيد المراجعة من الإدارة"
         };
@@ -117,6 +113,7 @@ const MyProperties = () => {
         return {
           label: "مرفوض",
           color: "bg-red-500/10 text-red-600 border-red-500/20",
+          dotColor: "bg-red-500",
           icon: XCircle,
           message: "تم رفض العقار"
         };
@@ -124,6 +121,7 @@ const MyProperties = () => {
         return {
           label: status,
           color: "bg-muted text-muted-foreground",
+          dotColor: "bg-muted-foreground",
           icon: AlertCircle,
           message: ""
         };
@@ -131,64 +129,91 @@ const MyProperties = () => {
   };
 
   const stats = [
-    { status: "all", label: "الكل", count: properties.length, color: "text-foreground" },
-    { status: "pending", label: "قيد المراجعة", count: properties.filter(p => p.status === "pending").length, color: "text-yellow-600" },
-    { status: "approved", label: "موافق عليها", count: properties.filter(p => p.status === "approved").length, color: "text-green-600" },
-    { status: "rejected", label: "مرفوضة", count: properties.filter(p => p.status === "rejected").length, color: "text-red-600" },
+    { status: "all", label: "الكل", count: properties.length, icon: Building2, gradient: "from-primary/10 to-primary/5" },
+    { status: "pending", label: "قيد المراجعة", count: properties.filter(p => p.status === "pending").length, icon: Clock, gradient: "from-amber-500/10 to-amber-500/5" },
+    { status: "approved", label: "موافق عليها", count: properties.filter(p => p.status === "approved").length, icon: CheckCircle2, gradient: "from-emerald-500/10 to-emerald-500/5" },
+    { status: "rejected", label: "مرفوضة", count: properties.filter(p => p.status === "rejected").length, icon: XCircle, gradient: "from-red-500/10 to-red-500/5" },
   ];
 
   return (
     <DashboardLayout>
-      <div className="p-4 lg:p-8">
-        {/* Page Header */}
+      <div className="p-4 lg:p-8 max-w-7xl mx-auto">
+        {/* Hero Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
+          className="mb-8"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-foreground mb-2">
-                عقاراتي
-              </h1>
-              <p className="text-muted-foreground">
-                إدارة ومتابعة حالة العقارات التي أضفتها
-              </p>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary/90 to-primary/70 p-6 lg:p-8 text-primary-foreground">
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 left-0 w-40 h-40 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
+              <div className="absolute bottom-0 right-0 w-60 h-60 bg-white rounded-full translate-x-1/3 translate-y-1/3" />
+              <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <Button className="gap-2 shadow-lg shadow-primary/20" asChild>
-              <Link to="/dashboard/add-property">
-                <Plus className="h-5 w-5" />
-                إضافة عقار جديد
-              </Link>
-            </Button>
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                    <Building2 className="h-5 w-5" />
+                  </div>
+                  <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                    <Sparkles className="h-3 w-3 ml-1" />
+                    إدارة العقارات
+                  </Badge>
+                </div>
+                <h1 className="text-2xl lg:text-3xl font-bold mb-1">
+                  عقاراتي
+                </h1>
+                <p className="text-white/70 text-sm lg:text-base">
+                  إدارة ومتابعة حالة العقارات التي أضفتها
+                </p>
+              </div>
+              <Button 
+                className="bg-white text-primary hover:bg-white/90 shadow-xl gap-2 rounded-xl font-semibold" 
+                asChild
+              >
+                <Link to="/dashboard/add-property">
+                  <Plus className="h-5 w-5" />
+                  إضافة عقار جديد
+                </Link>
+              </Button>
+            </div>
           </div>
         </motion.div>
 
-        {/* Status Tabs */}
+        {/* Stats Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex flex-wrap gap-2 mb-6"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-6"
         >
-          {stats.map((stat) => (
-            <button
-              key={stat.status}
-              onClick={() => setStatusFilter(stat.status)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                statusFilter === stat.status
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                  : "bg-card border border-border hover:border-primary/30"
-              }`}
-            >
-              <span className={statusFilter !== stat.status ? stat.color : ""}>
-                {stat.label}
-              </span>
-              <span className={`mr-2 ${statusFilter === stat.status ? "bg-white/20" : "bg-muted"} px-2 py-0.5 rounded-full text-xs`}>
-                {stat.count}
-              </span>
-            </button>
-          ))}
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
+            const isActive = statusFilter === stat.status;
+            return (
+              <motion.button
+                key={stat.status}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 + i * 0.05 }}
+                onClick={() => setStatusFilter(stat.status)}
+                className={`relative group p-4 rounded-2xl border text-right transition-all duration-300 ${
+                  isActive
+                    ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20 scale-[1.02]"
+                    : "bg-card border-border/60 hover:border-primary/30 hover:shadow-md"
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${
+                  isActive ? "bg-white/20" : `bg-gradient-to-br ${stat.gradient}`
+                }`}>
+                  <Icon className={`h-5 w-5 ${isActive ? "text-white" : ""}`} />
+                </div>
+                <p className={`text-2xl font-bold ${isActive ? "" : "text-foreground"}`}>{stat.count}</p>
+                <p className={`text-xs font-medium mt-0.5 ${isActive ? "text-white/70" : "text-muted-foreground"}`}>{stat.label}</p>
+              </motion.button>
+            );
+          })}
         </motion.div>
 
         {/* Search & Filters */}
@@ -204,11 +229,11 @@ const MyProperties = () => {
               placeholder="البحث في العقارات..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pr-10"
+              className="pr-10 rounded-xl border-border/60 bg-card"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full sm:w-48">
+            <SelectTrigger className="w-full sm:w-48 rounded-xl border-border/60 bg-card">
               <Filter className="h-4 w-4 ml-2" />
               <SelectValue placeholder="فلترة حسب الحالة" />
             </SelectTrigger>
@@ -222,45 +247,59 @@ const MyProperties = () => {
         </motion.div>
 
         {/* Properties List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
+        <AnimatePresence mode="wait">
           {loading ? (
-            <Card className="border-border/50">
-              <CardContent className="p-8 text-center">
-                <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
-              </CardContent>
-            </Card>
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center justify-center py-20"
+            >
+              <div className="w-14 h-14 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
+              <p className="text-muted-foreground text-sm">جاري تحميل العقارات...</p>
+            </motion.div>
           ) : filteredProperties.length === 0 ? (
-            <Card className="border-border/50">
-              <CardContent className="py-16 text-center">
-                <div className="w-20 h-20 bg-muted rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                  <Building2 className="h-10 w-10 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {searchQuery || statusFilter !== "all"
-                    ? "لا توجد نتائج"
-                    : "لا توجد عقارات بعد"}
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  {searchQuery || statusFilter !== "all"
-                    ? "جرب تغيير معايير البحث"
-                    : "ابدأ بإضافة عقارك الأول الآن"}
-                </p>
-                {!searchQuery && statusFilter === "all" && (
-                  <Button asChild>
-                    <Link to="/dashboard/add-property">
-                      <Plus className="h-4 w-4 ml-2" />
-                      إضافة عقار
-                    </Link>
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Card className="border-border/50 border-dashed rounded-2xl">
+                <CardContent className="py-20 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-3xl mx-auto mb-5 flex items-center justify-center">
+                    <Building2 className="h-10 w-10 text-primary/50" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">
+                    {searchQuery || statusFilter !== "all"
+                      ? "لا توجد نتائج"
+                      : "لا توجد عقارات بعد"}
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-sm mx-auto text-sm">
+                    {searchQuery || statusFilter !== "all"
+                      ? "جرب تغيير معايير البحث أو الفلتر"
+                      : "ابدأ بإضافة عقارك الأول وسيظهر هنا فوراً"}
+                  </p>
+                  {!searchQuery && statusFilter === "all" && (
+                    <Button className="gap-2 rounded-xl" asChild>
+                      <Link to="/dashboard/add-property">
+                        <Plus className="h-4 w-4" />
+                        إضافة عقار جديد
+                      </Link>
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           ) : (
-            <div className="grid gap-4">
+            <motion.div
+              key="list"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-4"
+            >
               {filteredProperties.map((property, index) => {
                 const statusInfo = getStatusInfo(property.status);
                 const StatusIcon = statusInfo.icon;
@@ -272,73 +311,93 @@ const MyProperties = () => {
                     key={property.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + index * 0.05 }}
+                    transition={{ delay: index * 0.05 }}
                   >
-                    <Card className="border-border/50 hover:shadow-lg transition-shadow overflow-hidden">
+                    <Card className="group border-border/50 hover:border-primary/20 rounded-2xl hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden">
                       <CardContent className="p-0">
                         <div className="flex flex-col sm:flex-row">
                           {/* Image */}
-                          <div className="sm:w-48 lg:w-56 h-40 sm:h-auto flex-shrink-0">
+                          <div className="relative sm:w-52 lg:w-64 h-48 sm:h-auto flex-shrink-0 overflow-hidden">
                             {property.images && property.images[0] ? (
                               <img
                                 src={property.images[0]}
                                 alt={property.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             ) : (
-                              <div className="w-full h-full bg-muted flex items-center justify-center">
-                                <Building2 className="h-12 w-12 text-muted-foreground" />
+                              <div className="w-full h-full bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
+                                <Building2 className="h-12 w-12 text-muted-foreground/40" />
+                              </div>
+                            )}
+                            {/* Price overlay on image */}
+                            <div className="absolute bottom-3 right-3 bg-primary/90 backdrop-blur-sm text-primary-foreground px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg">
+                              {property.price.toLocaleString()} ج.م
+                            </div>
+                            {property.is_featured && (
+                              <div className="absolute top-3 right-3">
+                                <Badge className="bg-secondary text-secondary-foreground shadow-lg gap-1">
+                                  <Sparkles className="h-3 w-3" />
+                                  مميز
+                                </Badge>
                               </div>
                             )}
                           </div>
 
                           {/* Content */}
-                          <div className="flex-1 p-4 lg:p-6">
-                            <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 p-4 lg:p-5">
+                            <div className="flex items-start justify-between gap-3">
                               <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-3 mb-2">
+                                {/* Status Badge */}
+                                <div className="flex items-center gap-2 mb-3">
                                   <Badge
                                     variant="outline"
-                                    className={`${statusInfo.color} flex items-center gap-1.5`}
+                                    className={`${statusInfo.color} flex items-center gap-1.5 rounded-lg text-xs`}
                                   >
-                                    <StatusIcon className="h-3.5 w-3.5" />
+                                    <span className={`w-1.5 h-1.5 rounded-full ${statusInfo.dotColor} animate-pulse`} />
                                     {statusInfo.label}
                                   </Badge>
-                                  {property.is_featured && (
-                                    <Badge className="bg-secondary text-secondary-foreground">
-                                      مميز
-                                    </Badge>
-                                  )}
                                 </div>
-                                <h3 className="font-bold text-lg text-foreground mb-1 truncate">
+
+                                {/* Title */}
+                                <h3 className="font-bold text-base lg:text-lg text-foreground mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
                                   {property.title}
                                 </h3>
-                                <p className="text-muted-foreground text-sm mb-3">
-                                  {property.location} {property.address && `• ${property.address}`}
+
+                                {/* Location */}
+                                <p className="flex items-center gap-1.5 text-muted-foreground text-sm mb-4">
+                                  <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
+                                  <span className="truncate">{property.location} {property.address && `• ${property.address}`}</span>
                                 </p>
 
-                                {/* Property Details */}
-                                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground mb-3">
-                                  <span className="font-bold text-primary text-lg">
-                                    {property.price.toLocaleString()} ج.م
-                                  </span>
+                                {/* Property Details Pills */}
+                                <div className="flex flex-wrap items-center gap-2 mb-4">
                                   {property.bedrooms && property.bedrooms > 0 && (
-                                    <span>{property.bedrooms} غرف</span>
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-muted/60 text-muted-foreground px-2.5 py-1.5 rounded-lg">
+                                      <Bed className="h-3.5 w-3.5" />
+                                      {property.bedrooms} غرف
+                                    </span>
                                   )}
                                   {property.bathrooms && property.bathrooms > 0 && (
-                                    <span>{property.bathrooms} حمام</span>
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-muted/60 text-muted-foreground px-2.5 py-1.5 rounded-lg">
+                                      <Bath className="h-3.5 w-3.5" />
+                                      {property.bathrooms} حمام
+                                    </span>
                                   )}
                                   {property.area && (
-                                    <span>{property.area} م²</span>
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-muted/60 text-muted-foreground px-2.5 py-1.5 rounded-lg">
+                                      <Maximize className="h-3.5 w-3.5" />
+                                      {property.area} م²
+                                    </span>
                                   )}
-                                  <span className="flex items-center gap-1">
-                                    <Eye className="h-4 w-4" />
+                                  <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-muted/60 text-muted-foreground px-2.5 py-1.5 rounded-lg">
+                                    <Eye className="h-3.5 w-3.5" />
                                     {property.views_count || 0} مشاهدة
                                   </span>
                                 </div>
 
                                 {/* Status Message */}
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-muted-foreground/80 flex items-center gap-1.5">
+                                  <StatusIcon className="h-3.5 w-3.5" />
                                   {statusInfo.message}
                                 </p>
 
@@ -353,38 +412,50 @@ const MyProperties = () => {
                               </div>
 
                               {/* Actions */}
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="shrink-0">
-                                    <MoreVertical className="h-5 w-5" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuItem onClick={() => navigate(`/property/${property.id}`)}>
-                                    <Eye className="h-4 w-4 ml-2" />
-                                    عرض التفاصيل
-                                  </DropdownMenuItem>
-                                  {canEdit && (
-                                    <DropdownMenuItem onClick={() => navigate(`/dashboard/edit-property/${property.id}`)}>
-                                      <Edit className="h-4 w-4 ml-2" />
-                                      تعديل
+                              <div className="flex flex-col items-end gap-2">
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="shrink-0 rounded-xl hover:bg-muted">
+                                      <MoreVertical className="h-5 w-5" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end" className="rounded-xl">
+                                    <DropdownMenuItem onClick={() => navigate(`/property/${property.id}`)} className="gap-2">
+                                      <Eye className="h-4 w-4" />
+                                      عرض التفاصيل
                                     </DropdownMenuItem>
-                                  )}
-                                  <DropdownMenuSeparator />
-                                  {canDelete && (
-                                    <DropdownMenuItem
-                                      className="text-destructive focus:text-destructive"
-                                      onClick={() => {
-                                        setPropertyToDelete(property);
-                                        setDeleteDialogOpen(true);
-                                      }}
-                                    >
-                                      <Trash2 className="h-4 w-4 ml-2" />
-                                      حذف
-                                    </DropdownMenuItem>
-                                  )}
-                                </DropdownMenuContent>
-                              </DropdownMenu>
+                                    {canEdit && (
+                                      <DropdownMenuItem onClick={() => navigate(`/dashboard/edit-property/${property.id}`)} className="gap-2">
+                                        <Edit className="h-4 w-4" />
+                                        تعديل
+                                      </DropdownMenuItem>
+                                    )}
+                                    <DropdownMenuSeparator />
+                                    {canDelete && (
+                                      <DropdownMenuItem
+                                        className="text-destructive focus:text-destructive gap-2"
+                                        onClick={() => {
+                                          setPropertyToDelete(property);
+                                          setDeleteDialogOpen(true);
+                                        }}
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                        حذف
+                                      </DropdownMenuItem>
+                                    )}
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {/* Quick view button */}
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="shrink-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/10 hover:text-primary"
+                                  onClick={() => navigate(`/property/${property.id}`)}
+                                >
+                                  <ArrowUpRight className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -393,26 +464,29 @@ const MyProperties = () => {
                   </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           )}
-        </motion.div>
+        </AnimatePresence>
 
         {/* Delete Confirmation Dialog */}
         <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-          <AlertDialogContent>
+          <AlertDialogContent className="rounded-2xl">
             <AlertDialogHeader>
-              <AlertDialogTitle>هل أنت متأكد من الحذف؟</AlertDialogTitle>
-              <AlertDialogDescription>
+              <div className="w-14 h-14 rounded-2xl bg-destructive/10 flex items-center justify-center mx-auto mb-3">
+                <Trash2 className="h-7 w-7 text-destructive" />
+              </div>
+              <AlertDialogTitle className="text-center">هل أنت متأكد من الحذف؟</AlertDialogTitle>
+              <AlertDialogDescription className="text-center">
                 سيتم حذف العقار "{propertyToDelete?.title}" نهائياً. هذا الإجراء لا يمكن التراجع عنه.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="gap-2">
-              <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogFooter className="gap-2 sm:gap-2">
+              <AlertDialogCancel className="rounded-xl">إلغاء</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDelete}
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-xl"
               >
-                حذف
+                نعم، حذف العقار
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
