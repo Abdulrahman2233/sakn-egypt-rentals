@@ -18,6 +18,7 @@ import AddProperty from "./pages/dashboard/AddProperty";
 import MyProperties from "./pages/dashboard/MyProperties";
 import Favorites from "./pages/dashboard/Favorites";
 import Settings from "./pages/dashboard/Settings";
+import Earnings from "./pages/dashboard/Earnings";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/dashboard/my-properties" element={<MyProperties />} />
           <Route path="/dashboard/favorites" element={<Favorites />} />
           <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/dashboard/earnings" element={<Earnings />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

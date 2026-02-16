@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      deals: {
+        Row: {
+          area: string
+          created_at: string
+          deal_date: string
+          earnings: number
+          id: string
+          notes: string | null
+          property_name: string
+          property_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          area: string
+          created_at?: string
+          deal_date?: string
+          earnings?: number
+          id?: string
+          notes?: string | null
+          property_name: string
+          property_type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          area?: string
+          created_at?: string
+          deal_date?: string
+          earnings?: number
+          id?: string
+          notes?: string | null
+          property_name?: string
+          property_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           created_at: string

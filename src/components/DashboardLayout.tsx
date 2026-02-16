@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Building2, Plus, LayoutDashboard, List, Heart,
-  Settings, LogOut, Menu, X, Home, User, ChevronLeft
+  Settings, LogOut, Menu, X, Home, User, ChevronLeft, DollarSign
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -37,6 +37,12 @@ const menuItems = [
     label: "المفضلة", 
     icon: Heart,
     description: "العقارات المحفوظة"
+  },
+  { 
+    path: "/dashboard/earnings", 
+    label: "إدارة الأرباح", 
+    icon: DollarSign,
+    description: "تتبع أرباحك وصفقاتك"
   },
   { 
     path: "/dashboard/settings", 
