@@ -184,7 +184,8 @@ export const mockProperties: Property[] = [
     description: "شقة واسعة غير مفروشة، مثالية للعائلات، في موقع هادئ ومميز بالمنتزه.",
     descriptionEn: "Spacious unfurnished apartment, perfect for families, in a quiet prime location in Montazah.",
     contact: "01222333444",
-    featured: false
+    featured: false,
+    owner: mockOwners[0]
   },
   {
     id: "5",
