@@ -17,7 +17,8 @@ import {
   Wifi, Car, Droplets, Wind, Tv, Coffee,
   ChevronDown
 } from "lucide-react";
-import { mockProperties } from "@/data/properties";
+import { mockProperties, ownerTypeLabels } from "@/data/properties";
+import type { OwnerType } from "@/data/properties";
 
 const PropertyDetails = () => {
   const { id } = useParams();
