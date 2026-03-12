@@ -1,3 +1,18 @@
+export type OwnerType = 'owner' | 'broker' | 'office';
+
+export interface PropertyOwner {
+  id: string;
+  name: string;
+  type: OwnerType;
+  avatar?: string;
+  phone: string;
+  propertiesCount: number;
+  rating: number;
+  memberSince: string;
+  responseTime: string;
+  verified: boolean;
+}
+
 export interface Property {
   id: string;
   name: string;
@@ -5,8 +20,8 @@ export interface Property {
   area: string;
   address: string;
   price: number;
-  originalPrice?: number; // السعر الأصلي قبل الخصم
-  discount?: number; // نسبة الخصم
+  originalPrice?: number;
+  discount?: number;
   rooms: number;
   bathrooms: number;
   size: number;
@@ -19,7 +34,50 @@ export interface Property {
   descriptionEn: string;
   contact: string;
   featured?: boolean;
+  owner: PropertyOwner;
 }
+
+export const ownerTypeLabels: Record<OwnerType, string> = {
+  owner: 'مالك',
+  broker: 'وسيط',
+  office: 'مكتب عقاري',
+};
+
+export const mockOwners: PropertyOwner[] = [
+  {
+    id: "owner-1",
+    name: "أحمد محمود",
+    type: "owner",
+    phone: "01234567890",
+    propertiesCount: 3,
+    rating: 4.8,
+    memberSince: "2023",
+    responseTime: "خلال ساعة",
+    verified: true,
+  },
+  {
+    id: "owner-2",
+    name: "مكتب النور العقاري",
+    type: "office",
+    phone: "01098765432",
+    propertiesCount: 12,
+    rating: 4.9,
+    memberSince: "2021",
+    responseTime: "خلال 30 دقيقة",
+    verified: true,
+  },
+  {
+    id: "owner-3",
+    name: "محمد السيد",
+    type: "broker",
+    phone: "01555444333",
+    propertiesCount: 8,
+    rating: 4.6,
+    memberSince: "2022",
+    responseTime: "خلال ساعتين",
+    verified: true,
+  },
+];
 
 export const alexandriaAreas = [
   "المنتزه", "ميامي", "سيدي بشر", "العصافرة", "خالد ابن الوليد", "المندرة", 
