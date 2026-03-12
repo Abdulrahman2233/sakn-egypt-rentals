@@ -1,3 +1,18 @@
+export type OwnerType = 'owner' | 'broker' | 'office';
+
+export interface PropertyOwner {
+  id: string;
+  name: string;
+  type: OwnerType;
+  avatar?: string;
+  phone: string;
+  propertiesCount: number;
+  rating: number;
+  memberSince: string;
+  responseTime: string;
+  verified: boolean;
+}
+
 export interface Property {
   id: string;
   name: string;
@@ -5,8 +20,8 @@ export interface Property {
   area: string;
   address: string;
   price: number;
-  originalPrice?: number; // السعر الأصلي قبل الخصم
-  discount?: number; // نسبة الخصم
+  originalPrice?: number;
+  discount?: number;
   rooms: number;
   bathrooms: number;
   size: number;
@@ -19,7 +34,50 @@ export interface Property {
   descriptionEn: string;
   contact: string;
   featured?: boolean;
+  owner: PropertyOwner;
 }
+
+export const ownerTypeLabels: Record<OwnerType, string> = {
+  owner: 'مالك',
+  broker: 'وسيط',
+  office: 'مكتب عقاري',
+};
+
+export const mockOwners: PropertyOwner[] = [
+  {
+    id: "owner-1",
+    name: "أحمد محمود",
+    type: "owner",
+    phone: "01234567890",
+    propertiesCount: 3,
+    rating: 4.8,
+    memberSince: "2023",
+    responseTime: "خلال ساعة",
+    verified: true,
+  },
+  {
+    id: "owner-2",
+    name: "مكتب النور العقاري",
+    type: "office",
+    phone: "01098765432",
+    propertiesCount: 12,
+    rating: 4.9,
+    memberSince: "2021",
+    responseTime: "خلال 30 دقيقة",
+    verified: true,
+  },
+  {
+    id: "owner-3",
+    name: "محمد السيد",
+    type: "broker",
+    phone: "01555444333",
+    propertiesCount: 8,
+    rating: 4.6,
+    memberSince: "2022",
+    responseTime: "خلال ساعتين",
+    verified: true,
+  },
+];
 
 export const alexandriaAreas = [
   "المنتزه", "ميامي", "سيدي بشر", "العصافرة", "خالد ابن الوليد", "المندرة", 
@@ -53,7 +111,8 @@ export const mockProperties: Property[] = [
     description: "شقة فاخرة مفروشة بالكامل بأثاث عصري، إطلالة بحرية رائعة، قريبة من جميع الخدمات والمواصلات. تشطيب سوبر لوكس.",
     descriptionEn: "Luxury fully furnished apartment with modern furniture, stunning sea view, close to all services and transportation. Super lux finishing.",
     contact: "01234567890",
-    featured: true
+    featured: true,
+    owner: mockOwners[0]
   },
   {
     id: "2",
@@ -73,7 +132,8 @@ export const mockProperties: Property[] = [
     description: "استوديو عصري مفروش، مساحة مثالية للأفراد أو الأزواج الجدد، في قلب سموحة بالقرب من الخدمات.",
     descriptionEn: "Modern furnished studio, perfect size for individuals or newlyweds, in the heart of Smouha near services.",
     contact: "01098765432",
-    featured: false
+    featured: false,
+    owner: mockOwners[1]
   },
   {
     id: "3",
@@ -95,7 +155,8 @@ export const mockProperties: Property[] = [
     description: "بنتهاوس فاخر على كورنيش جليم، إطلالة بانورامية على البحر، تراس واسع، تشطيب ديلوكس.",
     descriptionEn: "Luxury penthouse on Gleem Corniche, panoramic sea view, spacious terrace, deluxe finishing.",
     contact: "01555444333",
-    featured: true
+    featured: true,
+    owner: mockOwners[2]
   },
   {
     id: "4",
@@ -123,7 +184,8 @@ export const mockProperties: Property[] = [
     description: "شقة واسعة غير مفروشة، مثالية للعائلات، في موقع هادئ ومميز بالمنتزه.",
     descriptionEn: "Spacious unfurnished apartment, perfect for families, in a quiet prime location in Montazah.",
     contact: "01222333444",
-    featured: false
+    featured: false,
+    owner: mockOwners[0]
   },
   {
     id: "5",
@@ -145,7 +207,8 @@ export const mockProperties: Property[] = [
     description: "دوبلكس فاخر على مستويين، تصميم عصري، إطلالة بحرية، جميع الغرف ماستر.",
     descriptionEn: "Luxury duplex on two levels, modern design, sea view, all master bedrooms.",
     contact: "01777888999",
-    featured: true
+    featured: true,
+    owner: mockOwners[2]
   },
   {
     id: "6",
@@ -165,6 +228,7 @@ export const mockProperties: Property[] = [
     description: "شقة بسعر مناسب، قريبة من الشاطئ والخدمات، مثالية للميزانيات المحدودة.",
     descriptionEn: "Affordable apartment, close to beach and services, perfect for limited budgets.",
     contact: "01333222111",
-    featured: false
+    featured: false,
+    owner: mockOwners[1]
   }
 ];
