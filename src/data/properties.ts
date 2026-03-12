@@ -228,6 +228,7 @@ export const mockProperties: Property[] = [
     description: "شقة بسعر مناسب، قريبة من الشاطئ والخدمات، مثالية للميزانيات المحدودة.",
     descriptionEn: "Affordable apartment, close to beach and services, perfect for limited budgets.",
     contact: "01333222111",
-    featured: false
+    featured: false,
+    owner: mockOwners[1]
   }
 ];
