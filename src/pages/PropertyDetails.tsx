@@ -15,7 +15,7 @@ import {
   ArrowRight, Shield, Clock, Sparkles,
   User, Share2, Eye, Ruler, DoorOpen,
   Wifi, Car, Droplets, Wind, Tv, Coffee,
-  ChevronDown
+  ChevronDown, Star
 } from "lucide-react";
 import { mockProperties, ownerTypeLabels } from "@/data/properties";
 import type { OwnerType } from "@/data/properties";
