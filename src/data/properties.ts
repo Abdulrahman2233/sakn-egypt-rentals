@@ -155,7 +155,8 @@ export const mockProperties: Property[] = [
     description: "بنتهاوس فاخر على كورنيش جليم، إطلالة بانورامية على البحر، تراس واسع، تشطيب ديلوكس.",
     descriptionEn: "Luxury penthouse on Gleem Corniche, panoramic sea view, spacious terrace, deluxe finishing.",
     contact: "01555444333",
-    featured: true
+    featured: true,
+    owner: mockOwners[2]
   },
   {
     id: "4",
