@@ -207,7 +207,8 @@ export const mockProperties: Property[] = [
     description: "دوبلكس فاخر على مستويين، تصميم عصري، إطلالة بحرية، جميع الغرف ماستر.",
     descriptionEn: "Luxury duplex on two levels, modern design, sea view, all master bedrooms.",
     contact: "01777888999",
-    featured: true
+    featured: true,
+    owner: mockOwners[2]
   },
   {
     id: "6",
