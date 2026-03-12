@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import OwnerProfile from "./pages/OwnerProfile";
 
 // Dashboard Pages
 import DashboardHome from "./pages/dashboard/DashboardHome";
