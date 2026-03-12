@@ -250,6 +250,56 @@ const PropertyDetails = () => {
 
               <Separator />
 
+              {/* Owner Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.28 }}
+                className="space-y-4"
+              >
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <div className="w-1 h-5 bg-primary rounded-full" />
+                  صاحب العقار
+                </h2>
+                <Link to={`/owner/${property.owner.id}`} className="block group/owner">
+                  <Card className="border-0 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center flex-shrink-0 shadow-md group-hover/owner:shadow-lg transition-shadow">
+                          <span className="text-xl font-bold text-primary-foreground">
+                            {property.owner.name.charAt(0)}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-bold text-base group-hover/owner:text-primary transition-colors">{property.owner.name}</span>
+                            {property.owner.verified && (
+                              <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Badge variant="outline" className="text-xs py-0.5 px-2 gap-1">
+                              {ownerTypeLabels[property.owner.type as OwnerType]}
+                            </Badge>
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <Building2 className="h-3 w-3" />
+                              {property.owner.propertiesCount} عقار
+                            </span>
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                              {property.owner.rating}
+                            </span>
+                          </div>
+                        </div>
+                        <ChevronLeft className="h-5 w-5 text-muted-foreground group-hover/owner:text-primary group-hover/owner:-translate-x-1 transition-all flex-shrink-0" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
+
+              <Separator />
+
               {/* Location */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
