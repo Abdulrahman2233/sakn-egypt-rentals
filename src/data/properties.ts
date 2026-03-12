@@ -132,7 +132,8 @@ export const mockProperties: Property[] = [
     description: "استوديو عصري مفروش، مساحة مثالية للأفراد أو الأزواج الجدد، في قلب سموحة بالقرب من الخدمات.",
     descriptionEn: "Modern furnished studio, perfect size for individuals or newlyweds, in the heart of Smouha near services.",
     contact: "01098765432",
-    featured: false
+    featured: false,
+    owner: mockOwners[1]
   },
   {
     id: "3",
