@@ -262,36 +262,109 @@ const PropertyDetails = () => {
                   صاحب العقار
                 </h2>
                 <Link to={`/owner/${property.owner.id}`} className="block group/owner">
-                  <Card className="border-0 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                    <CardContent className="p-4">
+                  <Card className="border-0 shadow-md hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 overflow-hidden relative">
+                    {/* Top accent bar */}
+                    <div className="h-1 bg-gradient-to-r from-primary via-primary/70 to-transparent" />
+                    
+                    {/* Decorative background pattern */}
+                    <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
+                      <svg width="100%" height="100%"><pattern id="owner-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="currentColor"/></pattern><rect width="100%" height="100%" fill="url(#owner-dots)"/></svg>
+                    </div>
+
+                    <CardContent className="p-5 relative">
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center flex-shrink-0 shadow-md group-hover/owner:shadow-lg transition-shadow">
-                          <span className="text-xl font-bold text-primary-foreground">
-                            {property.owner.name.charAt(0)}
-                          </span>
+                        {/* Avatar with ring */}
+                        <div className="relative flex-shrink-0">
+                          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20 group-hover/owner:shadow-xl group-hover/owner:shadow-primary/30 group-hover/owner:scale-105 transition-all duration-500">
+                            <span className="text-2xl font-bold text-primary-foreground">
+                              {property.owner.name.charAt(0)}
+                            </span>
+                          </div>
+                          {/* Verified badge on avatar */}
+                          {property.owner.verified && (
+                            <div className="absolute -bottom-1 -left-1 w-6 h-6 rounded-full bg-background border-2 border-background shadow-sm flex items-center justify-center">
+                              <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                                <CheckCircle2 className="h-3 w-3 text-white" />
+                              </div>
+                            </div>
+                          )}
+                          {/* Type icon on avatar */}
+                          <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-background border-2 border-background shadow-sm flex items-center justify-center">
+                            <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+                              {property.owner.type === 'office' ? (
+                                <Building2 className="h-3 w-3 text-primary" />
+                              ) : property.owner.type === 'broker' ? (
+                                <User className="h-3 w-3 text-primary" />
+                              ) : (
+                                <Home className="h-3 w-3 text-primary" />
+                              )}
+                            </div>
+                          </div>
                         </div>
+
+                        {/* Info */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-bold text-base group-hover/owner:text-primary transition-colors">{property.owner.name}</span>
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <span className="font-bold text-base group-hover/owner:text-primary transition-colors duration-300">{property.owner.name}</span>
                             {property.owner.verified && (
-                              <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                              <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[10px] py-0 px-1.5 gap-0.5 font-semibold">
+                                <Shield className="h-2.5 w-2.5" />
+                                موثّق
+                              </Badge>
                             )}
                           </div>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <Badge variant="outline" className="text-xs py-0.5 px-2 gap-1">
+                          
+                          {/* Owner type badge - styled by type */}
+                          <div className="flex items-center gap-2 flex-wrap mb-2">
+                            <Badge 
+                              className={`text-[11px] py-0.5 px-2.5 gap-1 font-semibold border ${
+                                property.owner.type === 'office' 
+                                  ? 'bg-blue-500/10 text-blue-600 border-blue-500/20' 
+                                  : property.owner.type === 'broker' 
+                                    ? 'bg-amber-500/10 text-amber-600 border-amber-500/20' 
+                                    : 'bg-primary/10 text-primary border-primary/20'
+                              }`}
+                            >
+                              {property.owner.type === 'office' ? <Building2 className="h-3 w-3" /> : property.owner.type === 'broker' ? <User className="h-3 w-3" /> : <Home className="h-3 w-3" />}
                               {ownerTypeLabels[property.owner.type as OwnerType]}
                             </Badge>
-                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          </div>
+
+                          {/* Stats row */}
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                            <span className="flex items-center gap-1">
+                              <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                              <span className="font-semibold text-foreground">{property.owner.rating}</span>
+                            </span>
+                            <span className="w-px h-3 bg-border" />
+                            <span className="flex items-center gap-1">
                               <Building2 className="h-3 w-3" />
                               {property.owner.propertiesCount} عقار
                             </span>
-                            <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
-                              {property.owner.rating}
+                            <span className="w-px h-3 bg-border" />
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {property.owner.responseTime}
                             </span>
                           </div>
                         </div>
-                        <ChevronLeft className="h-5 w-5 text-muted-foreground group-hover/owner:text-primary group-hover/owner:-translate-x-1 transition-all flex-shrink-0" />
+
+                        {/* Arrow */}
+                        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-muted/50 group-hover/owner:bg-primary/10 flex items-center justify-center transition-all duration-300">
+                          <ChevronLeft className="h-5 w-5 text-muted-foreground group-hover/owner:text-primary group-hover/owner:-translate-x-0.5 transition-all duration-300" />
+                        </div>
+                      </div>
+
+                      {/* Bottom trust bar */}
+                      <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between">
+                        <span className="text-[11px] text-muted-foreground flex items-center gap-1.5">
+                          <Calendar className="h-3 w-3" />
+                          عضو منذ {property.owner.memberSince}
+                        </span>
+                        <span className="text-[11px] text-primary font-semibold group-hover/owner:underline flex items-center gap-1">
+                          عرض الملف الشخصي
+                          <ArrowRight className="h-3 w-3 rotate-180" />
+                        </span>
                       </div>
                     </CardContent>
                   </Card>
