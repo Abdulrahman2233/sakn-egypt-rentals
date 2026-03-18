@@ -12,6 +12,7 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import OwnerProfile from "./pages/OwnerProfile";
+import PublishProperty from "./pages/PublishProperty";
 
 // Dashboard Pages
 import DashboardHome from "./pages/dashboard/DashboardHome";
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/publish" element={<PublishProperty />} />
           
           {/* Dashboard Routes */}
           <Route path="/dashboard" element={<DashboardHome />} />
