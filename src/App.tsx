@@ -12,6 +12,7 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import OwnerProfile from "./pages/OwnerProfile";
+import PublishProperty from "./pages/PublishProperty";
 
 // Dashboard Pages
 import DashboardHome from "./pages/dashboard/DashboardHome";
