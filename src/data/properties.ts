@@ -34,6 +34,7 @@ export interface Property {
   descriptionEn: string;
   contact: string;
   featured?: boolean;
+  isBooked?: boolean;
   owner: PropertyOwner;
 }
 
