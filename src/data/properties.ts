@@ -35,6 +35,7 @@ export interface Property {
   contact: string;
   featured?: boolean;
   isBooked?: boolean;
+  availableUntil?: string;
   owner: PropertyOwner;
 }
 
@@ -113,7 +114,8 @@ export const mockProperties: Property[] = [
     descriptionEn: "Luxury fully furnished apartment with modern furniture, stunning sea view, close to all services and transportation. Super lux finishing.",
     contact: "01234567890",
     featured: true,
-    isBooked: true,
+    isBooked: false,
+    availableUntil: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
     owner: mockOwners[0]
   },
   {
