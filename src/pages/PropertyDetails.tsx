@@ -46,7 +46,6 @@ const PropertyDetails = () => {
     return () => clearInterval(interval);
   }, [property?.availableUntil]);
 
-  const property = mockProperties.find(p => p.id === id);
 
   const amenities = [
     { icon: Wind, label: "تكييف مركزي" },
