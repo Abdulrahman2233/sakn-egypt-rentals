@@ -2,7 +2,7 @@ import { Property } from "@/data/properties";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Bed, Bath, Maximize2, MapPin, Heart, Phone, Percent, Eye, Calendar, ChevronLeft, Sparkles } from "lucide-react";
+import { Bed, Bath, Maximize2, MapPin, Heart, Phone, Percent, Eye, Calendar, ChevronLeft, Sparkles, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
