@@ -222,6 +222,39 @@ const PropertyDetails = () => {
                 </Badge>
               </motion.div>
 
+              {/* Availability Countdown */}
+              {property.availableUntil && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.18 }}
+                >
+                  <Card className="border-0 shadow-sm overflow-hidden bg-gradient-to-r from-primary/5 via-background to-primary/5">
+                    <div className="h-1 bg-gradient-to-r from-primary via-primary/60 to-primary" />
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <Timer className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-sm font-bold">متاح لمدة محدودة</span>
+                        <div className="mr-auto">
+                          <span className="relative flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                          </span>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-4 gap-2">
+                        <CountdownUnit value={countdown.days} label="يوم" />
+                        <CountdownUnit value={countdown.hours} label="ساعة" />
+                        <CountdownUnit value={countdown.minutes} label="دقيقة" />
+                        <CountdownUnit value={countdown.seconds} label="ثانية" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+
               <Separator />
 
               {/* Description */}
