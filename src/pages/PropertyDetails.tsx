@@ -25,6 +25,26 @@ const PropertyDetails = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  const property = mockProperties.find(p => p.id === id);
+
+  useEffect(() => {
+    if (!property?.availableUntil) return;
+    const target = new Date(property.availableUntil).getTime();
+    const update = () => {
+      const diff = Math.max(0, target - Date.now());
+      setCountdown({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [property?.availableUntil]);
 
   const property = mockProperties.find(p => p.id === id);
 
