@@ -15,7 +15,7 @@ import {
   ArrowRight, Shield, Clock, Sparkles,
   User, Share2, Eye, Ruler, DoorOpen,
   Wifi, Car, Droplets, Wind, Tv, Coffee,
-  ChevronDown, Star
+  ChevronDown, Star, Lock, Ban
 } from "lucide-react";
 import { mockProperties, ownerTypeLabels } from "@/data/properties";
 import type { OwnerType } from "@/data/properties";
@@ -91,6 +91,30 @@ const PropertyDetails = () => {
             </nav>
           </div>
         </div>
+
+        {/* Booked/Unavailable Banner */}
+        {property.isBooked && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-destructive/10 border-b border-destructive/20"
+          >
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-destructive/15 flex items-center justify-center flex-shrink-0">
+                  <Ban className="h-6 w-6 text-destructive" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-destructive text-base">هذا العقار تم حجزه</h3>
+                  <p className="text-sm text-muted-foreground">هذا العقار غير متاح حالياً للإيجار. يمكنك تصفح عقارات مشابهة.</p>
+                </div>
+                <Button asChild variant="outline" size="sm" className="mr-auto border-destructive/30 text-destructive hover:bg-destructive hover:text-destructive-foreground flex-shrink-0">
+                  <Link to="/properties">تصفح العقارات</Link>
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Image Gallery Section */}
         <section className="container mx-auto px-4 py-6">

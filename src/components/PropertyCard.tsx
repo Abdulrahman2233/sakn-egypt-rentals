@@ -2,7 +2,7 @@ import { Property } from "@/data/properties";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Bed, Bath, Maximize2, MapPin, Heart, Phone, Percent, Eye, Calendar, ChevronLeft, Sparkles } from "lucide-react";
+import { Bed, Bath, Maximize2, MapPin, Heart, Phone, Percent, Eye, Calendar, ChevronLeft, Sparkles, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -49,6 +49,24 @@ export const PropertyCard = ({ property, variant = "grid" }: PropertyCardProps) 
             loading="lazy"
             onLoad={() => setIsImageLoaded(true)}
           />
+          
+          {/* Booked/Unavailable Overlay */}
+          {property.isBooked && (
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                  <Lock className="h-6 w-6 text-white" />
+                </div>
+                <span className="text-white font-bold text-lg tracking-wide">تم الحجز</span>
+                <span className="text-white/70 text-xs">هذا العقار غير متاح حالياً</span>
+              </motion.div>
+            </div>
+          )}
           
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
