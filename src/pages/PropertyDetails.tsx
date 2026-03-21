@@ -595,4 +595,13 @@ const TrustItem = ({
   );
 };
 
+const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
+  <div className="text-center p-2.5 rounded-xl bg-background border border-border shadow-sm">
+    <div className="text-2xl md:text-3xl font-bold font-mono text-primary tabular-nums">
+      {String(value).padStart(2, '0')}
+    </div>
+    <div className="text-[10px] md:text-xs text-muted-foreground mt-0.5 font-medium">{label}</div>
+  </div>
+);
+
 export default PropertyDetails;
