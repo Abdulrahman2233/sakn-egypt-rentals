@@ -113,6 +113,7 @@ export const mockProperties: Property[] = [
     descriptionEn: "Luxury fully furnished apartment with modern furniture, stunning sea view, close to all services and transportation. Super lux finishing.",
     contact: "01234567890",
     featured: true,
+    isBooked: true,
     owner: mockOwners[0]
   },
   {
