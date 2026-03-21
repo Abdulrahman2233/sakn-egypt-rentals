@@ -14,7 +14,7 @@ import {
   Sofa, Building2, MessageCircle, CheckCircle2,
   ArrowRight, Shield, Clock, Sparkles,
   User, Share2, Eye, Ruler, DoorOpen,
-  Wifi, Car, Droplets, Wind, Tv, Coffee,
+  Wifi, Car, Droplets, Wind, Tv, Coffee, Timer,
   ChevronDown, Star, Lock, Ban
 } from "lucide-react";
 import { mockProperties, ownerTypeLabels } from "@/data/properties";
