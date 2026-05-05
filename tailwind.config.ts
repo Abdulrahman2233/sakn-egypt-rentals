@@ -13,7 +13,17 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Epilogue", "Cairo", "Segoe UI", "sans-serif"],
+        display: ["Urbanist", "Cairo", "Segoe UI", "sans-serif"],
+        arabic: ["Cairo", "sans-serif"],
+      },
       colors: {
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          soft: "hsl(var(--gold-soft))",
+          deep: "hsl(var(--gold-deep))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
