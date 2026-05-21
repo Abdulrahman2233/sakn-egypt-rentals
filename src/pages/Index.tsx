@@ -307,160 +307,130 @@ const Index = () => {
       <Navbar />
 
       {/* ═══════════════════════════════════════════════════════════
-          HERO SECTION
+          HERO SECTION — Split layout (form + image)
       ═══════════════════════════════════════════════════════════ */}
       <motion.section
         ref={heroRef}
-        style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative pt-24 md:pt-28 pb-20 md:pb-32 overflow-hidden min-h-[92vh] md:min-h-[88vh] flex items-center"
+        style={{ opacity: heroOpacity }}
+        className="relative pt-24 md:pt-28 pb-12 md:pb-20 overflow-hidden bg-primary"
       >
-        <HeroBackground />
+        {/* Background image with overlay */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80"
+            alt="منزل فاخر"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-primary/40 via-primary/70 to-primary/95" />
+        </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto">
-            <motion.div className="text-center" initial="hidden" animate="visible" variants={staggerContainer}>
-              {/* Trust badge */}
-              <motion.div variants={fadeInUp} className="mb-8">
-                <span className="inline-flex items-center gap-2.5 bg-background/80 backdrop-blur-lg border border-border/60 px-5 py-2.5 rounded-full text-sm font-medium text-foreground shadow-sm">
-                  <span className="flex h-2 w-2 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                  </span>
-                  <span className="text-muted-foreground">أكثر من</span>
-                  <span className="font-bold text-primary">5,000+</span>
-                  <span className="text-muted-foreground">عقار متاح الآن</span>
-                </span>
-              </motion.div>
-
-              {/* Main heading */}
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh]">
+            {/* ─── Right (RTL): Headline + chips ─────── */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+              className="text-center lg:text-right order-2 lg:order-1"
+            >
               <motion.h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.15] mb-6 tracking-tight"
                 variants={fadeInUp}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-primary-foreground leading-tight mb-5 tracking-tight"
               >
-                اعثر على سكنك
+                خليك أذكى في اختيار
                 <br />
-                <span className="relative inline-block">
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{
-                      backgroundImage: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 50%) 50%, hsl(var(--secondary)) 100%)",
-                    }}
-                  >
-                    المثالي
-                  </span>
-                  {/* Underline decoration */}
-                  <motion.svg
-                    className="absolute -bottom-2 right-0 w-full h-3"
-                    viewBox="0 0 200 12"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-                  >
-                    <motion.path
-                      d="M2 8 C50 2, 150 2, 198 8"
-                      stroke="hsl(var(--secondary))"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      fill="none"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: 1, delay: 0.8 }}
-                    />
-                  </motion.svg>
-                </span>
+                <span className="text-gold">مكان إقامتك</span>
               </motion.h1>
 
               <motion.p
-                className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10 leading-relaxed"
                 variants={fadeInUp}
+                className="text-sm sm:text-base md:text-lg text-primary-foreground/80 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed"
               >
-                آلاف الشقق والعقارات المتاحة للإيجار في أفضل مناطق الإسكندرية بأسعار مناسبة وخدمة موثوقة
+                ابحث عن شقة للطلبة والعائلات أو للحجز اليومي والأسبوعي
+                <br className="hidden sm:block" />
+                من خلال واجهة ذكية تعطيك نتائج سريعة وواضحة
               </motion.p>
 
-              {/* CTA Buttons */}
-              <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-14" variants={fadeInUp}>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="h-14 px-8 md:px-10 text-base rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/25 gap-3 w-full sm:w-auto"
-                  >
-                    <Link to="/properties">
-                      <Search className="h-5 w-5" />
-                      <span className="font-bold">تصفح العقارات</span>
-                      <ArrowLeft className="h-5 w-5" />
-                    </Link>
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    className="h-14 px-8 text-base rounded-2xl border-2 border-border hover:border-primary/40 hover:bg-primary/5 gap-2 w-full sm:w-auto"
-                  >
-                    <Link to="/contact">
-                      <Phone className="h-5 w-5 text-primary" />
-                      <span className="font-semibold">تواصل معنا</span>
-                    </Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-
-              {/* Stats bar */}
               <motion.div
-                className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto"
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
+                variants={fadeInUp}
+                className="flex flex-wrap items-center justify-center lg:justify-end gap-2.5"
               >
-                {stats.map((stat, index) => {
-                  const Icon = stat.icon;
+                {[
+                  { icon: Sparkles, label: "عروض حصرية" },
+                  { icon: CheckCircle2, label: "خيارات متعددة" },
+                  { icon: BadgeCheck, label: "نتائج موثوقة" },
+                ].map((chip, i) => {
+                  const Icon = chip.icon;
                   return (
-                    <motion.div
-                      key={index}
-                      className="group relative"
-                      variants={scaleIn}
-                      whileHover={{ y: -4 }}
+                    <span
+                      key={i}
+                      className="inline-flex items-center gap-1.5 bg-primary-foreground/10 backdrop-blur-md border border-gold/30 px-3.5 py-2 rounded-full text-xs font-semibold text-primary-foreground"
                     >
-                      <div className={`relative bg-background/90 backdrop-blur-md border border-border/50 rounded-2xl p-4 text-center shadow-sm hover:shadow-md hover:border-primary/30 transition-all overflow-hidden`}>
-                        <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                        <div className="relative z-10">
-                          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary mx-auto mb-2">
-                            <Icon className="h-4.5 w-4.5" />
-                          </div>
-                          <div className="text-xl sm:text-2xl font-black text-foreground">{stat.value}</div>
-                          <div className="text-[11px] sm:text-xs text-muted-foreground font-medium mt-0.5">{stat.label}</div>
-                        </div>
-                      </div>
-                    </motion.div>
+                      <Icon className="h-3.5 w-3.5 text-gold" />
+                      {chip.label}
+                    </span>
                   );
                 })}
               </motion.div>
             </motion.div>
+
+            {/* ─── Left (RTL): Search Card ──────────── */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="order-1 lg:order-2"
+            >
+              <div className="bg-card rounded-2xl shadow-2xl border border-border/40 overflow-hidden max-w-md mx-auto lg:mx-0">
+                <div className="flex p-2 gap-2 border-b border-border/60">
+                  <button className="flex-1 py-2.5 px-4 rounded-lg bg-primary text-primary-foreground text-sm font-bold">
+                    بحث متقدم
+                  </button>
+                  <button className="flex-1 py-2.5 px-4 rounded-lg bg-muted text-muted-foreground hover:text-foreground text-sm font-semibold transition-colors">
+                    بحث سريع
+                  </button>
+                </div>
+
+                <div className="p-4 sm:p-5 space-y-3">
+                  {[
+                    { icon: MapPin, label: "المنطقة", placeholder: "اختر المنطقة" },
+                    { icon: TrendingUp, label: "السعر", placeholder: "اختر السعر" },
+                    { icon: Home, label: "نوع العقار", placeholder: "اختر نوع العقار" },
+                  ].map((field, i) => {
+                    const Icon = field.icon;
+                    return (
+                      <div
+                        key={i}
+                        className="relative flex items-center justify-between gap-2 border border-border rounded-xl px-3.5 py-3 bg-background hover:border-primary/40 transition-colors cursor-pointer"
+                      >
+                        <ChevronLeft className="h-4 w-4 text-muted-foreground rotate-90" />
+                        <div className="flex-1 text-right">
+                          <div className="text-[10px] text-muted-foreground font-semibold leading-tight">
+                            {field.label}
+                          </div>
+                          <div className="text-sm text-foreground font-medium leading-tight">
+                            {field.placeholder}
+                          </div>
+                        </div>
+                        <Icon className="h-4 w-4 text-gold flex-shrink-0" />
+                      </div>
+                    );
+                  })}
+
+                  <Button
+                    asChild
+                    className="w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover font-bold text-sm shadow-lg shadow-primary/25 mt-2"
+                  >
+                    <Link to="/properties" className="flex items-center justify-center gap-2">
+                      <Search className="h-4 w-4" />
+                      <span>بحث الآن</span>
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-        >
-          <span className="text-xs text-muted-foreground font-medium">اكتشف المزيد</span>
-          <motion.div
-            className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-primary"
-              animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </motion.div>
-        </motion.div>
       </motion.section>
 
       {/* ═══════════════════════════════════════════════════════════
