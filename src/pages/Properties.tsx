@@ -127,124 +127,123 @@ const Properties = () => {
       <Navbar />
       
       <main className="flex-1 mt-16">
-        {/* Hero - Editorial Luxe */}
-        <section className="relative bg-primary overflow-hidden">
-          {/* Atmospheric layers */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold/[0.08] rounded-full blur-[140px]" />
-            <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gold/[0.06] rounded-full blur-[100px]" />
-            {/* Fine vertical lines pattern */}
-            <div
-              className="absolute inset-0 opacity-[0.05]"
-              style={{
-                backgroundImage: `linear-gradient(90deg, hsl(var(--gold)) 1px, transparent 1px)`,
-                backgroundSize: '80px 100%',
-              }}
-            />
-            {/* Top gold hairline */}
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
-          </div>
-
-          <div className="container mx-auto px-5 sm:px-6 relative z-10 pt-10 pb-8 sm:pt-16 sm:pb-12">
-            {/* Editorial label row */}
+        {/* Hero - Boutique Concierge Style */}
+        <section className="relative bg-background">
+          <div className="container mx-auto px-4 sm:px-6 pt-6 pb-4 sm:pt-10 sm:pb-8">
+            {/* Top meta bar */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-between mb-8 sm:mb-10"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-between mb-4 sm:mb-6 text-[11px] sm:text-xs"
             >
-              <div className="flex items-center gap-3">
-                <div className="h-px w-8 bg-gold" />
-                <span className="text-[10px] sm:text-xs tracking-[0.25em] text-gold font-semibold uppercase">
-                  Collection · 2026
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inset-0 rounded-full bg-gold animate-ping opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
                 </span>
+                <span className="tracking-wide">محدّث الآن</span>
+                <span className="text-border">·</span>
+                <span className="font-semibold text-foreground">{mockProperties.length} عقار</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/50 tracking-widest uppercase">
+              <div className="flex items-center gap-1.5 text-muted-foreground">
                 <MapPin className="h-3 w-3 text-gold" />
-                Alexandria
+                الإسكندرية
               </div>
             </motion.div>
 
-            {/* Editorial Title — large serif-like display */}
+            {/* Hero Card — image-driven, boutique-style */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="relative"
+              transition={{ duration: 0.6 }}
+              className="relative rounded-[28px] sm:rounded-[36px] overflow-hidden bg-primary shadow-2xl shadow-primary/20"
             >
-              <h1 className="font-display text-white font-bold tracking-tight leading-[0.95] text-[44px] sm:text-7xl lg:text-[84px]">
-                {initialArea ? (
-                  <>
-                    عقارات
-                    <br />
-                    <span className="text-gradient-gold italic font-light">{initialArea}</span>
-                  </>
-                ) : (
-                  <>
-                    عقارات
-                    <br />
-                    <span className="text-gradient-gold italic font-light">استثنائية</span>
-                  </>
-                )}
-              </h1>
+              {/* Background image */}
+              <div className="absolute inset-0">
+                <img
+                  src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80"
+                  alt="عقارات فاخرة في الإسكندرية"
+                  className="w-full h-full object-cover opacity-50"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/70 to-primary/30" />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-primary/60" />
+              </div>
 
-              {/* Side meta column - desktop */}
-              <div className="hidden lg:flex absolute top-2 left-0 flex-col items-start gap-2 max-w-[180px]">
-                <div className="text-[10px] tracking-[0.3em] text-white/40 uppercase">Featured</div>
-                <div className="h-px w-12 bg-gold/40" />
-                <p className="text-white/60 text-xs leading-relaxed">
-                  مجموعة منتقاة بعناية لأرقى العقارات في الإسكندرية بأسعار شفافة.
-                </p>
+              {/* Decorative gold corner */}
+              <div className="absolute top-5 left-5 sm:top-7 sm:left-7 flex items-center gap-2">
+                <div className="h-px w-6 sm:w-10 bg-gold" />
+                <span className="text-[9px] sm:text-[11px] tracking-[0.3em] text-gold font-semibold uppercase">
+                  Sakn · Curated
+                </span>
+              </div>
+
+              {/* Content */}
+              <div className="relative px-5 sm:px-10 lg:px-14 pt-20 pb-6 sm:pt-32 sm:pb-10 min-h-[340px] sm:min-h-[440px] flex flex-col justify-end">
+                <motion.h1
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                  className="font-display text-white font-bold leading-[1] tracking-tight text-[40px] sm:text-6xl lg:text-7xl max-w-2xl"
+                >
+                  {initialArea ? (
+                    <>
+                      <span className="block text-white/80 text-2xl sm:text-4xl font-light mb-2">عقارات في</span>
+                      <span className="text-gradient-gold italic">{initialArea}</span>
+                    </>
+                  ) : (
+                    <>
+                      عيش<span className="text-gradient-gold italic"> تجربة</span>
+                      <br />
+                      السكن الفاخر
+                    </>
+                  )}
+                </motion.h1>
+
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.25 }}
+                  className="text-white/70 text-sm sm:text-base mt-4 sm:mt-5 max-w-md leading-relaxed"
+                >
+                  مجموعة منتقاة بعناية لأرقى العقارات بأسعار شفافة ومواقع مميزة.
+                </motion.p>
               </div>
             </motion.div>
 
-            {/* Bottom row: counter + search */}
+            {/* Floating search bar — overlaps card on desktop, below on mobile */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mt-8 sm:mt-12 flex items-end gap-4 sm:gap-6"
+              transition={{ delay: 0.35 }}
+              className="relative z-20 -mt-6 sm:-mt-8 mx-2 sm:mx-8"
             >
-              {/* Big counter */}
-              <div className="shrink-0">
-                <div className="text-[10px] tracking-[0.25em] text-white/40 uppercase mb-1">Properties</div>
-                <div className="flex items-baseline gap-1">
-                  <span className="font-display text-gold text-4xl sm:text-6xl font-bold leading-none tabular-nums">
-                    {String(mockProperties.length).padStart(2, '0')}
-                  </span>
-                  <span className="text-gold/60 text-lg sm:text-2xl font-light">+</span>
-                </div>
-              </div>
-
-              {/* Vertical divider */}
-              <div className="self-stretch w-px bg-gradient-to-b from-transparent via-white/15 to-transparent" />
-
-              {/* Search trigger */}
               <button
                 onClick={() => setIsFilterOpen(true)}
-                className="flex-1 group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl px-4 py-3.5 sm:px-5 sm:py-4 text-right hover:border-gold/40 transition-all"
+                className="w-full group flex items-center gap-3 bg-card border border-border rounded-2xl p-2 pr-4 sm:pr-5 shadow-xl shadow-primary/10 hover:shadow-2xl hover:border-gold/40 transition-all"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-gold/0 via-gold/0 to-gold/[0.08] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative flex items-center gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[10px] tracking-[0.2em] text-gold/80 uppercase mb-0.5">بحث متقدم</div>
-                    <div className="text-white/70 text-xs sm:text-sm truncate">المنطقة · النوع · السعر</div>
+                <div className="flex-1 text-right min-w-0">
+                  <div className="text-[10px] sm:text-[11px] tracking-[0.2em] text-gold font-semibold uppercase mb-0.5">
+                    ابحث الآن
                   </div>
-                  <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-gold to-gold-deep flex items-center justify-center shrink-0 shadow-lg shadow-gold/20">
-                    <Search className="h-4 w-4 sm:h-4 sm:w-4 text-primary" strokeWidth={2.5} />
+                  <div className="text-foreground text-xs sm:text-sm font-medium truncate">
+                    المنطقة · النوع · السعر · عدد الغرف
                   </div>
+                </div>
+                <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shrink-0 shadow-lg">
+                  <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gold" strokeWidth={2.5} />
                 </div>
               </button>
             </motion.div>
 
-            {/* Quick Area Chips — refined */}
+            {/* Area chips — refined ticker style */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-6 sm:mt-8 -mx-5 px-5 sm:mx-0 sm:px-0"
+              transition={{ delay: 0.4 }}
+              className="mt-5 sm:mt-7 -mx-4 px-4 sm:mx-0 sm:px-0"
             >
               <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <span className="shrink-0 text-[10px] tracking-[0.2em] text-white/30 uppercase pr-1">المناطق</span>
                 {["الكل", "سموحة", "سيدي جابر", "ميامي", "المنتزه", "العجمي", "الإبراهيمية", "جليم"].map((area) => {
                   const isActive = (area === "الكل" && !initialArea) || area === initialArea;
                   return (
@@ -252,10 +251,10 @@ const Properties = () => {
                       key={area}
                       onClick={() => handleSearch(area === "الكل" ? {} : { area })}
                       className={cn(
-                        "shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all border",
+                        "shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all border",
                         isActive
-                          ? "bg-gold text-primary border-gold"
-                          : "bg-transparent text-white/60 border-white/10 hover:border-gold/40 hover:text-white"
+                          ? "bg-primary text-gold border-primary shadow-md"
+                          : "bg-card text-muted-foreground border-border hover:border-gold/60 hover:text-foreground"
                       )}
                     >
                       {area}
@@ -265,31 +264,29 @@ const Properties = () => {
               </div>
             </motion.div>
 
-            {/* Editorial stats — horizontal line */}
+            {/* Stats — premium inline strip */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mt-8 sm:mt-10 pt-6 border-t border-white/10 grid grid-cols-4 gap-3 sm:gap-6"
+              transition={{ delay: 0.45 }}
+              className="mt-5 sm:mt-7 grid grid-cols-4 divide-x divide-x-reverse divide-border rounded-2xl border border-border bg-card overflow-hidden"
             >
               {stats.map((stat, index) => (
-                <div key={index} className="flex flex-col items-start">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <stat.icon className="h-3 w-3 text-gold" />
-                    <span className="text-[9px] sm:text-[10px] tracking-[0.15em] text-white/40 uppercase leading-none">
-                      {stat.label}
-                    </span>
-                  </div>
-                  <div className="font-display text-white font-bold text-lg sm:text-2xl leading-tight">
+                <div
+                  key={index}
+                  className="px-2 py-3 sm:p-4 text-center flex flex-col items-center justify-center"
+                >
+                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-gold mb-1.5" />
+                  <div className="font-display font-bold text-foreground text-base sm:text-2xl leading-none">
                     {stat.value}
+                  </div>
+                  <div className="text-muted-foreground text-[10px] sm:text-xs mt-1 leading-tight">
+                    {stat.label}
                   </div>
                 </div>
               ))}
             </motion.div>
           </div>
-
-          {/* Smooth gradient transition */}
-          <div className="h-8 sm:h-12 bg-gradient-to-b from-transparent to-background" />
         </section>
 
         {/* Properties Section */}
