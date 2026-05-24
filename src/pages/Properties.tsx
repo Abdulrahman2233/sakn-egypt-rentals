@@ -127,115 +127,142 @@ const Properties = () => {
       <Navbar />
       
       <main className="flex-1 mt-16">
-        {/* Hero Section - Modern Glassmorphism Design */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-primary/90 py-16 sm:py-20 lg:py-24">
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-3xl" />
+        {/* Hero - Modern Minimal Luxe */}
+        <section className="relative bg-primary overflow-hidden">
+          {/* Subtle radial glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-32 -right-20 w-[420px] h-[420px] bg-gold/20 rounded-full blur-[120px]" />
+            <div className="absolute -bottom-32 -left-20 w-[420px] h-[420px] bg-gold/10 rounded-full blur-[120px]" />
+            <div
+              className="absolute inset-0 opacity-[0.04]"
+              style={{
+                backgroundImage: `linear-gradient(hsl(var(--gold)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold)) 1px, transparent 1px)`,
+                backgroundSize: '44px 44px',
+              }}
+            />
           </div>
-          
-          {/* Grid Pattern Overlay */}
-          <div 
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-          />
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
+
+          <div className="container mx-auto px-4 relative z-10 pt-8 pb-6 sm:pt-14 sm:pb-10">
+            {/* Eyebrow row */}
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto"
+              className="flex items-center justify-between mb-5 sm:mb-7"
             >
-              {/* Badge */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full mb-8 border border-white/20"
-              >
-                <Sparkles className="h-5 w-5 text-secondary" />
-                <span className="text-white/90 text-sm font-medium">أفضل العقارات في الإسكندرية</span>
-              </motion.div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                اعثر على{" "}
-                <span className="relative inline-block">
-                  <span className="text-secondary">منزل أحلامك</span>
-                  <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                    <path d="M2 10C50 4 150 4 198 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-secondary/50" />
-                  </svg>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-gold/20 backdrop-blur">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inset-0 rounded-full bg-gold animate-ping opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
                 </span>
-              </h1>
-              
-              <p className="text-white/80 text-lg sm:text-xl max-w-2xl mx-auto mb-10">
-                {initialArea 
-                  ? `استعرض أفضل العقارات المتاحة في ${initialArea} مع أسعار تنافسية ومواقع مميزة`
-                  : "نقدم لك مجموعة متنوعة من الشقق والعقارات الفاخرة بأفضل الأسعار في أرقى المناطق"
-                }
-              </p>
-
-              {/* Quick Search Bar */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="bg-white/10 backdrop-blur-lg rounded-2xl p-2 border border-white/20 max-w-2xl mx-auto mb-12"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3">
-                    <Search className="h-5 w-5 text-white/70" />
-                    <span className="text-white/70 text-sm">ابحث عن عقارك المثالي...</span>
-                  </div>
-                  <Button 
-                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground h-12 px-6 rounded-xl font-semibold shadow-lg"
-                    onClick={() => setIsFilterOpen(true)}
-                  >
-                    <SlidersHorizontal className="h-4 w-4 ml-2" />
-                    فلترة
-                  </Button>
-                </div>
-              </motion.div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                    className="group"
-                  >
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-white/30 transition-all duration-300 hover:bg-white/15">
-                      <div className={cn(
-                        "w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center mx-auto mb-3 shadow-lg",
-                        stat.color
-                      )}>
-                        <stat.icon className="h-6 w-6 text-white" />
-                      </div>
-                      <div className="text-3xl sm:text-4xl font-bold text-white mb-1">{stat.value}</div>
-                      <div className="text-white/60 text-sm">{stat.label}</div>
-                    </div>
-                  </motion.div>
-                ))}
+                <span className="text-[11px] sm:text-xs text-white/80 font-medium tracking-wide">
+                  محدّث الآن · {mockProperties.length} عقار
+                </span>
               </div>
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-white/60">
+                <MapPin className="h-3.5 w-3.5 text-gold" /> الإسكندرية
+              </span>
+            </motion.div>
+
+            {/* Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="max-w-3xl"
+            >
+              <h1 className="font-display text-white text-[28px] leading-[1.15] sm:text-5xl lg:text-6xl font-bold tracking-tight">
+                {initialArea ? (
+                  <>عقارات <span className="text-gradient-gold">{initialArea}</span></>
+                ) : (
+                  <>اكتشف <span className="text-gradient-gold">عقارك المثالي</span><br className="hidden sm:block" /> في الإسكندرية</>
+                )}
+              </h1>
+              <p className="text-white/60 text-sm sm:text-base mt-3 max-w-xl leading-relaxed">
+                تشكيلة منتقاة من أرقى العقارات بأسعار شفافة ومواقع مميزة.
+              </p>
+            </motion.div>
+
+            {/* Floating Search Pill */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 sm:mt-8"
+            >
+              <div className="group flex items-center gap-2 p-1.5 sm:p-2 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.5)] hover:border-gold/30 transition-colors">
+                <button
+                  onClick={() => setIsFilterOpen(true)}
+                  className="flex-1 flex items-center gap-3 px-3 sm:px-4 py-3 rounded-xl text-right"
+                >
+                  <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gold shrink-0" />
+                  <span className="text-white/70 text-[13px] sm:text-sm truncate">
+                    ابحث بالمنطقة، النوع، أو السعر...
+                  </span>
+                </button>
+                <Button
+                  onClick={() => setIsFilterOpen(true)}
+                  className="h-11 sm:h-12 px-4 sm:px-6 rounded-xl bg-gradient-to-b from-gold to-gold-deep text-primary font-bold shadow-lg hover:opacity-90 text-sm shrink-0"
+                >
+                  <SlidersHorizontal className="h-4 w-4 sm:ml-1.5" />
+                  <span className="hidden sm:inline">فلترة</span>
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Quick Area Chips - horizontal scroll on mobile */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="mt-5 -mx-4 px-4 sm:mx-0 sm:px-0"
+            >
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {["الكل", "سموحة", "سيدي جابر", "ميامي", "المنتزه", "العجمي", "الإبراهيمية", "جليم"].map((area, i) => {
+                  const isActive = (area === "الكل" && !initialArea) || area === initialArea;
+                  return (
+                    <button
+                      key={area}
+                      onClick={() => handleSearch(area === "الكل" ? {} : { area })}
+                      className={cn(
+                        "shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all border",
+                        isActive
+                          ? "bg-gold text-primary border-gold shadow-md shadow-gold/30"
+                          : "bg-white/[0.04] text-white/70 border-white/10 hover:border-gold/40 hover:text-white"
+                      )}
+                    >
+                      {area}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* Inline stats strip */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mt-6 sm:mt-8 grid grid-cols-4 gap-px rounded-2xl overflow-hidden bg-white/10 border border-white/10"
+            >
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className="bg-primary/80 backdrop-blur px-2 py-3 sm:p-4 text-center"
+                >
+                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-gold mx-auto mb-1.5" />
+                  <div className="text-white font-display font-bold text-base sm:text-2xl leading-none">
+                    {stat.value}
+                  </div>
+                  <div className="text-white/50 text-[10px] sm:text-xs mt-1 leading-tight">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
             </motion.div>
           </div>
 
-          {/* Wave Divider */}
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" preserveAspectRatio="none">
-              <path 
-                d="M0 120L60 110C120 100 240 80 360 75C480 70 600 80 720 85C840 90 960 90 1080 85C1200 80 1320 70 1380 65L1440 60V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" 
-                className="fill-background"
-              />
-            </svg>
-          </div>
+          {/* Smooth gradient transition */}
+          <div className="h-8 sm:h-12 bg-gradient-to-b from-transparent to-background" />
         </section>
 
         {/* Properties Section */}
