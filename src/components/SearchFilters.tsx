@@ -1,15 +1,22 @@
 import { useState } from "react";
-import { Card, CardContent } from "./ui/card";
-import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Slider } from "./ui/slider";
-import { Search, X, MapPin, Home, DoorOpen, Sofa, Coins, Filter, RotateCcw } from "lucide-react";
+import {
+  Search,
+  MapPin,
+  Home,
+  DoorOpen,
+  Sofa,
+  Coins,
+  SlidersHorizontal,
+  RotateCcw,
+  Sparkles,
+  Check,
+} from "lucide-react";
 import { alexandriaAreas } from "@/data/properties";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Badge } from "./ui/badge";
-import { Separator } from "./ui/separator";
 
 interface SearchFiltersProps {
   onSearch: (filters: any) => void;
@@ -24,13 +31,7 @@ export const SearchFilters = ({ onSearch, initialArea }: SearchFiltersProps) => 
   const [furnished, setFurnished] = useState("");
 
   const handleSearch = () => {
-    onSearch({
-      area,
-      priceRange,
-      rooms,
-      propertyType,
-      furnished
-    });
+    onSearch({ area, priceRange, rooms, propertyType, furnished });
   };
 
   const handleReset = () => {
@@ -47,225 +48,254 @@ export const SearchFilters = ({ onSearch, initialArea }: SearchFiltersProps) => 
     rooms,
     propertyType,
     furnished,
-    priceRange[0] > 0 || priceRange[1] < 20000
+    priceRange[0] > 0 || priceRange[1] < 20000,
   ].filter(Boolean).length;
 
   const hasActiveFilters = activeFiltersCount > 0;
 
   const filterItems = [
     {
+      key: "area",
       icon: MapPin,
       label: "المنطقة",
       value: area,
       onChange: setArea,
-      placeholder: "اختر المنطقة",
-      options: alexandriaAreas.map(a => ({ value: a, label: a }))
+      placeholder: "كل المناطق",
+      options: alexandriaAreas.map((a) => ({ value: a, label: a })),
     },
     {
+      key: "type",
       icon: Home,
       label: "نوع العقار",
       value: propertyType,
       onChange: setPropertyType,
-      placeholder: "اختر النوع",
+      placeholder: "كل الأنواع",
       options: [
         { value: "شقة", label: "شقة" },
         { value: "استوديو", label: "استوديو" },
         { value: "دوبلكس", label: "دوبلكس" },
         { value: "بنتهاوس", label: "بنتهاوس" },
-        { value: "فيلا", label: "فيلا" }
-      ]
+        { value: "فيلا", label: "فيلا" },
+      ],
     },
     {
+      key: "rooms",
       icon: DoorOpen,
       label: "عدد الغرف",
       value: rooms,
       onChange: setRooms,
-      placeholder: "اختر عدد الغرف",
+      placeholder: "أي عدد",
       options: [
-        { value: "1", label: "1 غرفة" },
-        { value: "2", label: "2 غرفة" },
+        { value: "1", label: "غرفة 1" },
+        { value: "2", label: "غرفتين" },
         { value: "3", label: "3 غرف" },
         { value: "4", label: "4 غرف" },
-        { value: "5+", label: "5+ غرف" }
-      ]
+        { value: "5+", label: "5+ غرف" },
+      ],
     },
     {
+      key: "furnished",
       icon: Sofa,
-      label: "حالة الأثاث",
+      label: "الأثاث",
       value: furnished,
       onChange: setFurnished,
-      placeholder: "اختر الحالة",
+      placeholder: "الكل",
       options: [
         { value: "true", label: "مفروشة" },
-        { value: "false", label: "غير مفروشة" }
-      ]
-    }
+        { value: "false", label: "غير مفروشة" },
+      ],
+    },
   ];
 
+  const priceActive = priceRange[0] > 0 || priceRange[1] < 20000;
+
   return (
-    <Card className="border-0 shadow-xl bg-card overflow-hidden">
+    <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-[0_8px_40px_-12px_hsl(var(--primary)/0.15)]">
+      {/* Decorative gold orb */}
+      <div className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -right-12 h-48 w-48 rounded-full bg-primary/5 blur-3xl" />
+
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-primary/90 p-4 sm:p-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm">
-              <Filter className="h-5 w-5 text-white" />
+      <div className="relative flex items-center justify-between gap-3 border-b border-border/60 px-5 pt-5 pb-4">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/20">
+              <SlidersHorizontal className="h-4 w-4 text-gold" />
             </div>
-            <div>
-              <h3 className="text-lg font-bold text-white">فلترة البحث</h3>
-              <p className="text-white/70 text-sm">خصص نتائج البحث</p>
-            </div>
+            {hasActiveFilters && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[10px] font-bold text-primary ring-2 ring-card">
+                {activeFiltersCount}
+              </span>
+            )}
           </div>
-          {hasActiveFilters && (
-            <Badge className="bg-white/20 text-white border-0 backdrop-blur-sm">
-              {activeFiltersCount} فلتر
-            </Badge>
-          )}
+          <div>
+            <h3 className="font-display text-base font-semibold text-foreground leading-none">
+              تخصيص البحث
+            </h3>
+            <p className="mt-1 text-[11px] tracking-wide text-muted-foreground">
+              اختر ما يناسب احتياجك بدقة
+            </p>
+          </div>
         </div>
+
+        <AnimatePresence>
+          {hasActiveFilters && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              onClick={handleReset}
+              className="group flex h-9 items-center gap-1.5 rounded-full border border-border/80 bg-background px-3 text-xs font-medium text-muted-foreground transition-all hover:border-destructive/40 hover:text-destructive"
+            >
+              <RotateCcw className="h-3 w-3 transition-transform group-hover:-rotate-180" />
+              مسح
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
 
-      <CardContent className="p-4 sm:p-5">
-        <div className="space-y-5">
-          {/* Filter Items */}
-          {filterItems.map((item, index) => (
-            <motion.div 
-              key={item.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className="space-y-2"
-            >
-              <Label className="flex items-center gap-2 text-sm font-semibold">
-                <div className={cn(
-                  "p-1.5 rounded-lg",
-                  item.value ? "bg-primary/10" : "bg-muted"
-                )}>
-                  <item.icon className={cn(
-                    "h-4 w-4",
-                    item.value ? "text-primary" : "text-muted-foreground"
-                  )} />
-                </div>
-                {item.label}
-                {item.value && (
-                  <Badge variant="secondary" className="mr-auto text-xs py-0">
-                    محدد
-                  </Badge>
-                )}
-              </Label>
-              <Select value={item.value} onValueChange={item.onChange}>
-                <SelectTrigger className={cn(
-                  "h-12 bg-background border-2 rounded-xl transition-all",
-                  item.value ? "border-primary/30 bg-primary/5" : "border-border hover:border-primary/20"
-                )}>
-                  <SelectValue placeholder={item.placeholder} />
-                </SelectTrigger>
-                <SelectContent>
-                  {item.options.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </motion.div>
-          ))}
-
-          <Separator className="my-4" />
-
-          {/* Price Range */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="space-y-3"
-          >
-            <Label className="flex items-center gap-2 text-sm font-semibold">
-              <div className={cn(
-                "p-1.5 rounded-lg",
-                (priceRange[0] > 0 || priceRange[1] < 20000) ? "bg-primary/10" : "bg-muted"
-              )}>
-                <Coins className={cn(
-                  "h-4 w-4",
-                  (priceRange[0] > 0 || priceRange[1] < 20000) ? "text-primary" : "text-muted-foreground"
-                )} />
-              </div>
-              نطاق السعر
-              {(priceRange[0] > 0 || priceRange[1] < 20000) && (
-                <Badge variant="secondary" className="mr-auto text-xs py-0">
-                  محدد
-                </Badge>
-              )}
-            </Label>
-            
-            <div className={cn(
-              "rounded-2xl p-4 border-2 transition-all",
-              (priceRange[0] > 0 || priceRange[1] < 20000) 
-                ? "border-primary/30 bg-primary/5" 
-                : "border-border bg-muted/30"
-            )}>
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-center">
-                  <span className="text-xs text-muted-foreground block mb-1">من</span>
-                  <span className="text-lg font-bold text-primary">
-                    {priceRange[0].toLocaleString()}
-                  </span>
-                  <span className="text-xs text-muted-foreground mr-1">جنيه</span>
-                </div>
-                <div className="h-8 w-px bg-border" />
-                <div className="text-center">
-                  <span className="text-xs text-muted-foreground block mb-1">إلى</span>
-                  <span className="text-lg font-bold text-primary">
-                    {priceRange[1].toLocaleString()}
-                  </span>
-                  <span className="text-xs text-muted-foreground mr-1">جنيه</span>
-                </div>
-              </div>
-              
-              <Slider
-                value={priceRange}
-                onValueChange={setPriceRange}
-                max={20000}
-                step={500}
-                className="mt-2"
-              />
-              
-              <p className="text-xs text-muted-foreground text-center mt-3">
-                الإيجار الشهري
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Actions */}
-          <div className="space-y-3 pt-2">
-            <Button 
-              onClick={handleSearch} 
-              className="w-full h-12 text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all gap-2"
-            >
-              <Search className="h-5 w-5" />
-              ابحث الآن
-            </Button>
-            
-            <AnimatePresence>
-              {hasActiveFilters && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                >
-                  <Button 
-                    variant="outline" 
-                    onClick={handleReset} 
-                    className="w-full h-10 text-sm rounded-xl border-2 gap-2 text-muted-foreground hover:text-destructive hover:border-destructive/30 hover:bg-destructive/5"
+      {/* Body */}
+      <div className="relative space-y-4 p-5">
+        {/* Filter pills grid: 2 cols on mobile, 1 col on desktop (sidebar) */}
+        <div className="grid grid-cols-2 gap-2.5 md:grid-cols-1">
+          {filterItems.map((item, index) => {
+            const isActive = !!item.value;
+            return (
+              <motion.div
+                key={item.key}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.04 }}
+              >
+                <Select value={item.value} onValueChange={item.onChange}>
+                  <SelectTrigger
+                    className={cn(
+                      "group relative h-auto w-full rounded-2xl border bg-background px-3.5 py-3 text-right transition-all hover:border-gold/40 hover:bg-gold/[0.02]",
+                      isActive
+                        ? "border-gold/60 bg-gold/[0.04] shadow-[0_2px_12px_-4px_hsl(var(--gold)/0.3)]"
+                        : "border-border/70"
+                    )}
                   >
-                    <RotateCcw className="h-4 w-4" />
-                    مسح جميع الفلاتر
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                    <div className="flex w-full items-center gap-3">
+                      <div
+                        className={cn(
+                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors",
+                          isActive
+                            ? "bg-gradient-to-br from-gold/20 to-gold/5 text-gold"
+                            : "bg-muted text-muted-foreground group-hover:text-gold"
+                        )}
+                      >
+                        <item.icon className="h-4 w-4" />
+                      </div>
+                      <div className="flex min-w-0 flex-1 flex-col items-start text-right">
+                        <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                          {item.label}
+                        </span>
+                        <SelectValue placeholder={item.placeholder}>
+                          <span
+                            className={cn(
+                              "block truncate text-sm font-semibold leading-tight",
+                              isActive ? "text-foreground" : "text-muted-foreground"
+                            )}
+                          >
+                            {item.options.find((o) => o.value === item.value)?.label ||
+                              item.placeholder}
+                          </span>
+                        </SelectValue>
+                      </div>
+                      {isActive && (
+                        <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold text-primary">
+                          <Check className="h-3 w-3" strokeWidth={3} />
+                        </div>
+                      )}
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    {item.options.map((option) => (
+                      <SelectItem key={option.value} value={option.value} className="rounded-lg">
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </motion.div>
+            );
+          })}
         </div>
-      </CardContent>
-    </Card>
+
+        {/* Price Range Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className={cn(
+            "relative overflow-hidden rounded-2xl border p-4 transition-all",
+            priceActive
+              ? "border-gold/60 bg-gradient-to-br from-gold/[0.06] to-transparent"
+              : "border-border/70 bg-background"
+          )}
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-lg",
+                  priceActive
+                    ? "bg-gradient-to-br from-gold/20 to-gold/5 text-gold"
+                    : "bg-muted text-muted-foreground"
+                )}
+              >
+                <Coins className="h-4 w-4" />
+              </div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                نطاق الإيجار الشهري
+              </span>
+            </div>
+            {priceActive && (
+              <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[10px] font-bold text-gold">
+                نشط
+              </span>
+            )}
+          </div>
+
+          <div className="mb-4 flex items-end justify-between gap-3 rounded-xl bg-card/60 px-3 py-2.5 backdrop-blur">
+            <div className="flex-1 text-right">
+              <div className="text-[10px] text-muted-foreground">من</div>
+              <div className="font-display text-lg font-bold leading-tight text-primary">
+                {priceRange[0].toLocaleString()}
+                <span className="mr-1 text-[10px] font-normal text-muted-foreground">ج.م</span>
+              </div>
+            </div>
+            <div className="mb-1 h-6 w-px bg-border" />
+            <div className="flex-1 text-right">
+              <div className="text-[10px] text-muted-foreground">إلى</div>
+              <div className="font-display text-lg font-bold leading-tight text-primary">
+                {priceRange[1].toLocaleString()}
+                <span className="mr-1 text-[10px] font-normal text-muted-foreground">ج.م</span>
+              </div>
+            </div>
+          </div>
+
+          <Slider
+            value={priceRange}
+            onValueChange={setPriceRange}
+            max={20000}
+            step={500}
+            className="mt-1"
+          />
+        </motion.div>
+
+        {/* Search Button */}
+        <Button
+          onClick={handleSearch}
+          className="group relative h-12 w-full overflow-hidden rounded-2xl bg-gradient-to-r from-primary via-primary to-primary/95 text-base font-semibold text-gold shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30"
+        >
+          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-gold/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+          <Sparkles className="h-4 w-4" />
+          <span>اعرض النتائج</span>
+          <Search className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
   );
 };
