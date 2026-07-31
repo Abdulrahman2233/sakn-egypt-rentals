@@ -195,7 +195,16 @@ const Index = () => {
   const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-  const stats = [
+  const featuredAreas = [
+    { name: "سموحة", tag: "وسط المدينة", count: 142 },
+    { name: "المنتزه", tag: "إطلالة بحرية", count: 89 },
+    { name: "جليم", tag: "كورنيش بحري", count: 64 },
+    { name: "ميامي", tag: "حيوي ومميز", count: 47 },
+    { name: "سيدي بشر", tag: "قرب الخدمات", count: 55 },
+    { name: "رشدي", tag: "أناقة كلاسيكية", count: 38 },
+    { name: "العجمي", tag: "مصيف وشاطئ", count: 71 },
+    { name: "سان ستيفانو", tag: "فخامة ساحلية", count: 43 },
+  ];
     { value: "5,000+", label: "عقار متاح", icon: Building2, color: "from-primary/20 to-primary/5" },
     { value: "40+", label: "منطقة مغطاة", icon: MapPin, color: "from-secondary/20 to-secondary/5" },
     { value: "1,000+", label: "عميل سعيد", icon: Users, color: "from-primary/20 to-primary/5" },
