@@ -27,7 +27,8 @@ import {
   ArrowUpRight,
   Sparkles,
 } from "lucide-react";
-import { mockProperties } from "@/data/properties";
+import { mockProperties, alexandriaAreas } from "@/data/properties";
+import { AreaCard } from "@/components/AreaCard";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
