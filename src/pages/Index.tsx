@@ -30,6 +30,7 @@ import {
 import { mockProperties, alexandriaAreas } from "@/data/properties";
 import { AreaCarouselCard } from "@/components/AreaCarouselCard";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Accordion,
