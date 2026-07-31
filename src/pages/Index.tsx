@@ -195,6 +195,13 @@ const Index = () => {
   const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
+  const stats = [
+    { value: "5,000+", label: "عقار متاح", icon: Building2, color: "from-primary/20 to-primary/5" },
+    { value: "40+", label: "منطقة مغطاة", icon: MapPin, color: "from-secondary/20 to-secondary/5" },
+    { value: "1,000+", label: "عميل سعيد", icon: Users, color: "from-primary/20 to-primary/5" },
+    { value: "200+", label: "وسيط معتمد", icon: BadgeCheck, color: "from-secondary/20 to-secondary/5" },
+  ];
+
   const featuredAreas = [
     { name: "سموحة", tag: "وسط المدينة", count: 142 },
     { name: "المنتزه", tag: "إطلالة بحرية", count: 89 },
@@ -204,11 +211,6 @@ const Index = () => {
     { name: "رشدي", tag: "أناقة كلاسيكية", count: 38 },
     { name: "العجمي", tag: "مصيف وشاطئ", count: 71 },
     { name: "سان ستيفانو", tag: "فخامة ساحلية", count: 43 },
-  ];
-    { value: "5,000+", label: "عقار متاح", icon: Building2, color: "from-primary/20 to-primary/5" },
-    { value: "40+", label: "منطقة مغطاة", icon: MapPin, color: "from-secondary/20 to-secondary/5" },
-    { value: "1,000+", label: "عميل سعيد", icon: Users, color: "from-primary/20 to-primary/5" },
-    { value: "200+", label: "وسيط معتمد", icon: BadgeCheck, color: "from-secondary/20 to-secondary/5" },
   ];
 
   const features = [
