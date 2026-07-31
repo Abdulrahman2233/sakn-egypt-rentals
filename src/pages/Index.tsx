@@ -28,7 +28,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { mockProperties, alexandriaAreas } from "@/data/properties";
-import { AreaCard } from "@/components/AreaCard";
+import { AreaCarouselCard } from "@/components/AreaCarouselCard";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
