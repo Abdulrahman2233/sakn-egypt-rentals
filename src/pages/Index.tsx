@@ -437,64 +437,99 @@ const Index = () => {
       {/* ═══════════════════════════════════════════════════════════
           EXPLORE AREAS SECTION
       ═══════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-accent/20 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-background relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-        
+
         {/* Decorative background elements */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-primary/[0.02] blur-3xl pointer-events-none" />
         <div className="absolute top-10 right-10 w-32 h-32 rounded-full bg-gold/5 blur-2xl pointer-events-none" />
         <div className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-primary/5 blur-2xl pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10">
-          <SectionHeader
-            badge="استكشف المناطق"
-            title="استكشف مناطق الإسكندرية"
-            subtitle="اختر المنطقة المفضلة لديك واكتشف أفضل العقارات المتاحة فيها"
-            badgeVariant="secondary"
-          />
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-12 mb-10 md:mb-12">
+            <motion.div
+              className="text-right"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <div className="flex items-center justify-end gap-3 mb-3">
+                <div className="h-px w-10 bg-gold" />
+                <span className="text-xs font-semibold tracking-wider text-gold uppercase">
+                  التميز السكني
+                </span>
+              </div>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-tight">
+                استكشف أرقى أحياء
+                <br />
+                <span className="text-gradient-gold">عروس البحر المتوسط</span>
+              </h2>
+            </motion.div>
 
-          {/* Featured area — first area highlighted */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 mb-4 md:mb-5">
-            <div className="lg:col-span-1">
-              <AreaCard
-                area={alexandriaAreas[0]}
-                propertyCount={24}
-                index={0}
-                featured
-              />
+            <motion.div
+              className="hidden lg:flex"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <Button asChild size="lg" className="h-12 px-7 rounded-2xl gap-2.5 text-sm shadow-md">
+                <Link to="/properties">
+                  عرض جميع المناطق
+                  <ArrowLeft className="h-5 w-5" />
+                </Link>
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Mobile: horizontal scroll carousel */}
+          <div className="lg:hidden -mx-4 px-4">
+            <div
+              className="flex gap-4 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {featuredAreas.map((area, index) => (
+                <AreaCarouselCard
+                  key={area.name}
+                  area={area.name}
+                  tag={area.tag}
+                  propertyCount={area.count}
+                  index={index}
+                  className="w-[260px]"
+                />
+              ))}
             </div>
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-              {alexandriaAreas.slice(1, 5).map((area, index) => (
-                <AreaCard
-                  key={area}
-                  area={area}
-                  propertyCount={Math.max(3, 18 - index * 3)}
-                  index={index + 1}
+
+            {/* Custom pagination dots */}
+            <div className="flex justify-center items-center gap-2 mt-2">
+              {featuredAreas.map((_, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "h-1.5 rounded-full transition-all duration-300",
+                    index === 0 ? "w-8 bg-gold" : "w-1.5 bg-primary/15"
+                  )}
                 />
               ))}
             </div>
           </div>
 
-          {/* More areas grid */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={staggerContainer}
-          >
-            {alexandriaAreas.slice(5, 13).map((area, index) => (
-              <AreaCard
-                key={area}
-                area={area}
-                propertyCount={Math.max(2, 12 - index * 1)}
-                index={index + 5}
+          {/* Desktop: grid */}
+          <div className="hidden lg:grid lg:grid-cols-4 gap-5">
+            {featuredAreas.map((area, index) => (
+              <AreaCarouselCard
+                key={area.name}
+                area={area.name}
+                tag={area.tag}
+                propertyCount={area.count}
+                index={index}
               />
             ))}
-          </motion.div>
+          </div>
 
           <motion.div
-            className="text-center mt-10 md:mt-12"
+            className="text-center mt-10 md:mt-12 lg:hidden"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
