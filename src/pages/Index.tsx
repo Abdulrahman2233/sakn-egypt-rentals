@@ -435,6 +435,84 @@ const Index = () => {
       </motion.section>
 
       {/* ═══════════════════════════════════════════════════════════
+          EXPLORE AREAS SECTION
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-accent/20 relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        
+        {/* Decorative background elements */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-primary/[0.02] blur-3xl pointer-events-none" />
+        <div className="absolute top-10 right-10 w-32 h-32 rounded-full bg-gold/5 blur-2xl pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-primary/5 blur-2xl pointer-events-none" />
+
+        <div className="container mx-auto px-4 relative z-10">
+          <SectionHeader
+            badge="استكشف المناطق"
+            title="استكشف مناطق الإسكندرية"
+            subtitle="اختر المنطقة المفضلة لديك واكتشف أفضل العقارات المتاحة فيها"
+            badgeVariant="secondary"
+          />
+
+          {/* Featured area — first area highlighted */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 mb-4 md:mb-5">
+            <div className="lg:col-span-1">
+              <AreaCard
+                area={alexandriaAreas[0]}
+                propertyCount={24}
+                index={0}
+                featured
+              />
+            </div>
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+              {alexandriaAreas.slice(1, 5).map((area, index) => (
+                <AreaCard
+                  key={area}
+                  area={area}
+                  propertyCount={Math.max(3, 18 - index * 3)}
+                  index={index + 1}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* More areas grid */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+          >
+            {alexandriaAreas.slice(5, 13).map((area, index) => (
+              <AreaCard
+                key={area}
+                area={area}
+                propertyCount={Math.max(2, 12 - index * 1)}
+                index={index + 5}
+              />
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="text-center mt-10 md:mt-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Button asChild size="lg" className="h-13 px-8 rounded-2xl gap-2.5 text-base shadow-md">
+                <Link to="/properties">
+                  استكشف جميع المناطق
+                  <ArrowLeft className="h-5 w-5" />
+                </Link>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
           FEATURES SECTION
       ═══════════════════════════════════════════════════════════ */}
       <section className="py-16 md:py-24 bg-background relative">
