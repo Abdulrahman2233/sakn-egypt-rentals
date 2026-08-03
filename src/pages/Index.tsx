@@ -203,15 +203,16 @@ const Index = () => {
   ];
 
   const featuredAreas = [
-    { name: "سموحة", tag: "وسط المدينة", count: 142 },
-    { name: "المنتزه", tag: "إطلالة بحرية", count: 89 },
-    { name: "جليم", tag: "كورنيش بحري", count: 64 },
-    { name: "ميامي", tag: "حيوي ومميز", count: 47 },
-    { name: "سيدي بشر", tag: "قرب الخدمات", count: 55 },
-    { name: "رشدي", tag: "أناقة كلاسيكية", count: 38 },
-    { name: "العجمي", tag: "مصيف وشاطئ", count: 71 },
-    { name: "سان ستيفانو", tag: "فخامة ساحلية", count: 43 },
+    { name: "سموحة", tag: "وسط المدينة", count: 142, icon: Building2 },
+    { name: "المنتزه", tag: "إطلالة بحرية", count: 89, icon: Waves },
+    { name: "جليم", tag: "كورنيش بحري", count: 64, icon: Sailboat },
+    { name: "ميامي", tag: "حيوي ومميز", count: 47, icon: Palmtree },
+    { name: "سيدي بشر", tag: "قرب الخدمات", count: 55, icon: MapPin },
+    { name: "رشدي", tag: "أناقة كلاسيكية", count: 38, icon: Landmark },
+    { name: "العجمي", tag: "مصيف وشاطئ", count: 71, icon: Anchor },
+    { name: "سان ستيفانو", tag: "فخامة ساحلية", count: 43, icon: Castle },
   ];
+
 
   const features = [
     {
