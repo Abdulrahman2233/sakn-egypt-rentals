@@ -495,50 +495,19 @@ const Index = () => {
             </motion.div>
           </div>
 
-          {/* Mobile: horizontal scroll carousel */}
-          <div className="lg:hidden -mx-4 px-4">
-            <div
-              className="flex gap-4 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {featuredAreas.map((area, index) => (
-                <AreaCarouselCard
-                  key={area.name}
-                  area={area.name}
-                  tag={area.tag}
-                  propertyCount={area.count}
-                  index={index}
-                  className="w-[260px]"
-                />
-              ))}
-            </div>
-
-            {/* Custom pagination dots */}
-            <div className="flex justify-center items-center gap-2 mt-2">
-              {featuredAreas.map((_, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all duration-300",
-                    index === 0 ? "w-8 bg-gold" : "w-1.5 bg-primary/15"
-                  )}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Desktop: grid */}
-          <div className="hidden lg:grid lg:grid-cols-4 gap-5">
+          {/* Areas grid — 3 columns on mobile, 4+ on desktop */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:grid-cols-6">
             {featuredAreas.map((area, index) => (
-              <AreaCarouselCard
+              <AreaTileCard
                 key={area.name}
                 area={area.name}
-                tag={area.tag}
                 propertyCount={area.count}
+                icon={area.icon}
                 index={index}
               />
             ))}
           </div>
+
 
           <motion.div
             className="text-center mt-10 md:mt-12 lg:hidden"
