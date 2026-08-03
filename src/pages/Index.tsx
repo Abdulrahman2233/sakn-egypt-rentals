@@ -222,6 +222,12 @@ const Index = () => {
     { name: "سان ستيفانو", tag: "فخامة ساحلية", count: 43, icon: Castle },
   ];
 
+  const visibleAreas = featuredAreas.filter((a) =>
+    a.name.includes(areaQuery.trim())
+  );
+
+
+
 
   const features = [
     {
