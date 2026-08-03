@@ -48,7 +48,7 @@ import {
 import img3dAgent from "@/assets/3d-agent.png";
 import img3dHouse from "@/assets/3d-house.png";
 import img3dSearch from "@/assets/3d-search.png";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // ─── Animation Variants ─────────────────────────────────────────
 const fadeInUp = {
