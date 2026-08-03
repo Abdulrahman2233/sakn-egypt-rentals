@@ -26,9 +26,16 @@ import {
   Quote,
   ArrowUpRight,
   Sparkles,
+  Waves,
+  Sailboat,
+  Palmtree,
+  Landmark,
+  Anchor,
+  Castle,
 } from "lucide-react";
 import { mockProperties, alexandriaAreas } from "@/data/properties";
-import { AreaCarouselCard } from "@/components/AreaCarouselCard";
+import { AreaTileCard } from "@/components/AreaTileCard";
+
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
