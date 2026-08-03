@@ -467,46 +467,52 @@ const Index = () => {
         <div className="absolute bottom-10 left-10 w-40 h-40 rounded-full bg-primary/5 blur-2xl pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-12 mb-10 md:mb-12">
-            <motion.div
-              className="text-right"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <div className="flex items-center justify-end gap-3 mb-3">
-                <div className="h-px w-10 bg-gold" />
-                <span className="text-xs font-semibold tracking-wider text-gold uppercase">
-                  التميز السكني
-                </span>
-              </div>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-tight">
-                استكشف أرقى أحياء
-                <br />
-                <span className="text-gradient-gold">عروس البحر المتوسط</span>
-              </h2>
-            </motion.div>
+          {/* Header — اكتشف الأماكن */}
+          <motion.div
+            className="text-center mb-6 md:mb-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary leading-tight">
+              اكتشف الأماكن
+            </h2>
+            <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+              اختر المنطقة التي تناسبك
+            </p>
 
-            <motion.div
-              className="hidden lg:flex"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <Button asChild size="lg" className="h-12 px-7 rounded-2xl gap-2.5 text-sm shadow-md">
-                <Link to="/properties">
-                  عرض جميع المناطق
-                  <ArrowLeft className="h-5 w-5" />
-                </Link>
-              </Button>
-            </motion.div>
-          </div>
+            {/* Dotted divider */}
+            <div className="mt-4 flex items-center justify-center gap-1.5">
+              <span className="h-[3px] w-10 rounded-full bg-primary" />
+              <span className="h-[5px] w-[5px] rounded-full bg-primary" />
+              <span className="h-[3px] w-2 rounded-full bg-primary/40" />
+              <span className="h-[3px] w-3 rounded-full bg-primary/25" />
+            </div>
+          </motion.div>
 
-          {/* Areas grid — 3 columns on mobile, 4+ on desktop */}
+          {/* Search pill */}
+          <motion.div
+            className="mx-auto mb-8 w-full max-w-xl"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <div className="flex items-center gap-3 rounded-full bg-card px-5 py-3.5 shadow-[0_8px_28px_-10px_hsl(var(--primary)/0.25)] ring-1 ring-primary/10 focus-within:ring-2 focus-within:ring-primary/30 transition-all">
+              <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
+              <input
+                value={areaQuery}
+                onChange={(e) => setAreaQuery(e.target.value)}
+                placeholder="ابحث عن منطقة أو مكان ..."
+                className="w-full bg-transparent text-right text-sm sm:text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
+              />
+            </div>
+          </motion.div>
+
+          {/* Areas grid — 3 columns on mobile, 6 on desktop */}
           <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:grid-cols-6">
-            {featuredAreas.map((area, index) => (
+            {visibleAreas.map((area, index) => (
               <AreaTileCard
                 key={area.name}
                 area={area.name}
@@ -517,24 +523,46 @@ const Index = () => {
             ))}
           </div>
 
+          {visibleAreas.length === 0 && (
+            <p className="text-center text-sm text-muted-foreground py-8">
+              لا توجد نتائج مطابقة لبحثك
+            </p>
+          )}
 
+          {/* Map banner */}
           <motion.div
-            className="text-center mt-10 md:mt-12 lg:hidden"
+            className="mt-8 md:mt-10"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button asChild size="lg" className="h-13 px-8 rounded-2xl gap-2.5 text-base shadow-md">
-                <Link to="/properties">
-                  استكشف جميع المناطق
-                  <ArrowLeft className="h-5 w-5" />
-                </Link>
-              </Button>
-            </motion.div>
+            <Link
+              to="/properties"
+              className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-[28px] bg-primary px-4 py-4 sm:px-8 sm:py-6 shadow-[0_16px_40px_-16px_hsl(var(--primary)/0.6)]"
+            >
+              <span className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-gold/10 blur-2xl" />
+
+              <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary-foreground shadow-lg sm:h-16 sm:w-16">
+                <MapIcon className="h-6 w-6 text-primary sm:h-7 sm:w-7" strokeWidth={1.75} />
+              </div>
+
+              <div className="relative flex-1 text-center">
+                <h3 className="font-display text-base font-bold text-primary-foreground sm:text-xl">
+                  عرض جميع الأماكن على الخريطة
+                </h3>
+                <p className="mt-1 text-[11px] text-primary-foreground/70 sm:text-sm">
+                  تصفح الخريطة واستكشف جميع المناطق بسهولة
+                </p>
+              </div>
+
+              <div className="relative hidden h-14 w-20 shrink-0 items-center justify-center rounded-2xl bg-primary-foreground/10 sm:flex">
+                <MapPin className="h-7 w-7 text-gold" />
+              </div>
+            </Link>
           </motion.div>
         </div>
+
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
