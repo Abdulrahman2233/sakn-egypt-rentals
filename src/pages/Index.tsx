@@ -32,6 +32,7 @@ import {
   Landmark,
   Anchor,
   Castle,
+  Map as MapIcon,
 } from "lucide-react";
 import { mockProperties, alexandriaAreas } from "@/data/properties";
 import { AreaTileCard } from "@/components/AreaTileCard";
